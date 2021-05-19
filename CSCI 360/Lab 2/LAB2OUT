@@ -7,7 +7,7 @@
  23.32.41 JOB06094  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
  23.32.41 JOB06094  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
  23.32.41 JOB06094  -KC03E59A                      00     45 ******    .00     .0    125   0      0      0      0     0
- 23.32.41 JOB06094  -KC03E59A ENDED.  NAME-Ryan Llam            TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 23.32.41 JOB06094  -KC03E59A ENDED.  NAME- Charles Alms          TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
  23.32.41 JOB06094  $HASP395 KC03E59A ENDED
 0------ JES2 JOB STATISTICS ------
 -  16 FEB 2019 JOB EXECUTION DATE
@@ -16,7 +16,7 @@
 -            0 SYSOUT PUNCH RECORDS
 -           14 SYSOUT SPOOL KBYTES
 -         0.00 MINUTES EXECUTION TIME
-         1 //KC03E59A JOB ,'Ryan Llam',MSGCLASS=H                                  JOB06094
+         1 //KC03E59A JOB ,'Charles Alms',MSGCLASS=H                               JOB06094
          2 //STEP1    EXEC  PGM=ASSIST                                             00020000
          3 //STEPLIB    DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                    00030000
          4 //SYSPRINT   DD  SYSOUT=*                                               00040000
@@ -52,7 +52,7 @@
                                        1 ************************************************************            00050000         
                                        2 *                                                                       00060000         
                                        3 *  Program:     LAB2                                                    00070000         
-                                       4 *  Programmer:  Ryan Llamas                                             00080000         
+                                       4 *  Programmer:  Charles Alms                                            00080000         
                                        5 *                                                                       00090000         
                                        6 *  Register usage:  R2 - W NUM                                          00100099         
                                        7 *                   R3 - X NUM                                          00110099         
