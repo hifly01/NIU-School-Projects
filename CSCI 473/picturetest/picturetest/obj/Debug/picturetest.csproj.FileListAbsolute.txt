@@ -1,0 +1,10 @@
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\bin\Debug\picturetest.exe.config
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\bin\Debug\picturetest.exe
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\bin\Debug\picturetest.pdb
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\obj\Debug\picturetest.csprojAssemblyReference.cache
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\obj\Debug\picturetest.Form1.resources
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\obj\Debug\picturetest.Properties.Resources.resources
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\obj\Debug\picturetest.csproj.GenerateResource.cache
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\obj\Debug\picturetest.csproj.CoreCompileInputs.cache
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\obj\Debug\picturetest.exe
+C:\Users\hifly\Documents\CSCI 473\picturetest\picturetest\obj\Debug\picturetest.pdb

@@ -1,0 +1,23 @@
+﻿<?PHP
+
+$host = 'courses';
+
+$user = 'z1815330';
+
+$password='1995Feb03';
+
+$db = 'z1815330';
+
+$conn = new PDO("mysql:host=$host;dbname=$db",$user,$password);
+try
+{
+
+}
+catch(PDOException $e)
+{
+  echo 'ERROR: ' . $e->getMessage();
+}
+?>
+
+
+

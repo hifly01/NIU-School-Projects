@@ -1,0 +1,179 @@
+MariaDB [z1797837]> use znnnnnnn;
+ERROR 1044 (42000): Access denied for user 'z1797837'@'192.168.8.%' to database 'znnnnnnn'
+MariaDB [z1797837]> create table Fall(pk int primary key, data char(15));
+Query OK, 0 rows affected (0.47 sec)
+
+MariaDB [z1797837]> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [z1797837]> insert into Fall values(1, 'dataA');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1797837]> insert into Fall values(2, 'dataB');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1797837]> insert into Fall values(3, 'dataC');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1797837]> use znnnnnnn;
+ERROR 1044 (42000): Access denied for user 'z1797837'@'192.168.8.%' to database 'znnnnnnn'
+MariaDB [z1797837]> select * from Fall;
+Empty set (0.00 sec)
+
+/*************************************
+It did not do anything because it needs
+to have the set saved first. Since it 
+did not save, nothing was changed
+*************************************/
+
+MariaDB [z1797837]> insert into Fall values(4, 'dataD');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [z1797837]> insert into Fall values(5, 'dataE');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [z1797837]> commit;
+Query OK, 0 rows affected (0.09 sec)
+
+MariaDB [z1797837]> select * from Fall;
++----+-------+
+| pk | data  |
++----+-------+
+|  1 | dataA |
+|  2 | dataB |
+|  3 | dataC |
+|  4 | dataD |
+|  5 | dataE |
++----+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1797837]> \t
+MariaDB [z1797837]> select * from Fall;
++----+-------+
+| pk | data  |
++----+-------+
+|  1 | dataA |
+|  2 | dataB |
+|  3 | dataC |
+|  4 | dataD |
+|  5 | dataE |
++----+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1797837]> \t
+
+/***********************************
+It now prints off the whole data 
+table since the command commit was
+used
+***********************************/
+
+
+/**************PART 2************/
+
+MariaDB [z1797837]> use znnnnnnn;
+ERROR 1044 (42000): Access denied for user 'z1797837'@'192.168.8.%' to database 'znnnnnnn'
+MariaDB [z1797837]> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [z1797837]> delete from Fall where pk = 3;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1797837]> select * from Fall;
++----+-------+
+| pk | data  |
++----+-------+
+|  1 | dataA |
+|  2 | dataB |
+|  4 | dataD |
+|  5 | dataE |
++----+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [z1797837]> update Fall set data = 'changed' where pk = 2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> update Fall set data = 'changed 2' where pk = 4;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1797837]> insert into Fall values(6, 'dataF');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [z1797837]> select * from Spring;
+ERROR 1146 (42S02): Table 'z1797837.Spring' doesn't exist
+MariaDB [z1797837]> select * from Fall;
++----+-----------+
+| pk | data      |
++----+-----------+
+|  1 | dataA     |
+|  2 | changed   |
+|  4 | changed 2 |
+|  5 | dataE     |
+|  6 | dataF     |
++----+-----------+
+5 rows in set (0.00 sec)
+
+MariaDB [z1797837]> rollback;
+Query OK, 0 rows affected (0.04 sec)
+
+/**************************************
+we deleted and changed some of the values
+in the table
+**************************************/
+
+MariaDB [z1797837]> select * from Fall;
++----+-------+
+| pk | data  |
++----+-------+
+|  1 | dataA |
+|  2 | dataB |
+|  3 | dataC |
+|  4 | dataD |
+|  5 | dataE |
++----+-------+
+5 rows in set (0.01 sec)
+
+/**********************************
+since we did a rollback call, the
+table goes back to the orignal 
+state it was at whenn you did commit
+**********************************/
+MariaDB [z1797837]> \t
+
+
+/***********PART 3*************/
+
+MariaDB [z1797837]> use znnnnnn;
+ERROR 1044 (42000): Access denied for user 'z1797837'@'192.168.8.%' to database 'znnnnnn'
+MariaDB [z1797837]> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [z1797837]> use znnnnnnn;
+ERROR 1044 (42000): Access denied for user 'z1797837'@'192.168.8.%' to database 'znnnnnnn'
+MariaDB [z1797837]> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [z1797837]> update Fall set data = 'data1A' where pk=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> update Fall set data= 'data2B' where pk=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> update Fall set data = 'data5E' where pk = 5;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> update Fall set data = 'data12B' where pk =1;
+ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
+MariaDB [z1797837]> 
+MariaDB [z1797837]> MariaDB [z1797837]> \t
+
+/************************************
+you need to save your changes if you
+try to change the same thing in 2 
+different sessions otherwise it will
+not know which one to change it to
+************************************/

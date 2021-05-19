@@ -1,0 +1,29 @@
+﻿What is an interface?#An abstract class containing exactly one method to be defined by other classes
+What is a SortedSet?#A doubly-linked list Collection, which (1) preserves sorted order as elements are added and (2) prohibits duplicate elements.
+What is a List?#An automatically re-sizing array
+What is a LinkedList?#A doubly-linked list Collection of Nodes
+What is a Stack?#Your run-of-the-mill, LIFO stack container
+What is a Queue?#Your run-of-the-mill, FIFO stack container
+What is a Dictionary?#An oversized array where a "key" is used to generate an index where a "value" will be stored
+What is a SortedList?#A memory-efficient Dictionary, which orders elements by their "key"
+What is a SortedDictionary?#An insert/remove-efficient Dictionary, which orders elements by their "key"
+What is a HashSet?#A high-performance, mathematical-set container, useful for leveraging set operations such as "unior" and "intersection"
+Which interface allows for Collections to be iterated through by foreach loops?#IEnumerable
+Which interface allows for arrays/collections of objects from a class, to be sorted?#IComparable
+Give two examples of reference type variables.#strings, Collections, objects from a class, delegates, or pointers to dynamically allocated memory
+How are relational comparisons of strings done?#By checking the return value of "CompareTo(string alpha)"
+"int slacker[2, 2]" is an example of which type of array?#Conventional, multi-dimensional arrays
+"int slacker[2][2]" is an example of which type of array?#Jagged arrays
+How do you define variables to possibly contain the value null?#Placing a ? after the date type or Nullable<T>
+What does the ?? notation represent?#The conditional assignment if a nullable type is being used
+What is a Property?#A public facing attribute, typically controlling read/write access to private attributes
+What is an indexer?#A definition for how the subscript notation [] is used in relation to a class
+How do you define an indexer?#public <returnType> this[int index]
+What is a delegate?#A hard-coded reference to methods that share a method signature, which can call any number of them by calling the delegate method
+What is a predicate?#A single-purpose delegate, used to generate a true/false value, based on programmer-defined logic
+What is an exception?#Objects that are created if a specific (typically negative) event occurs during program execution
+Give two examples of possible exceptions?#IndexOutOfRangeException, DivideByZeroException, NullPointerException, IOException, EndOfStreamException
+What is an event?#A representation of an action taken by a user
+What are the two types of events we've worked with the most so far?#Mouse events and keyboard events
+What terms do we use to describe the two actors involved with events?#Publishers and subscribers
+What are the two arguments we've typically used for event handlers?#object Alpha, EventArgs Beta

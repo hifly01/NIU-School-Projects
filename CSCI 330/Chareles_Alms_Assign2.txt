@@ -1,0 +1,21 @@
+Charles Alms
+z1797837
+Assignment 2
+Due: 9/9/20
+Section 1
+
+1. root directory and the absolute path is /
+2. /a/e/p/q
+3. ls command will show "j" and "k" files with "i" directory 
+4. mv ~/a/c/j ~/a/e
+5. mkdir -p ~/a/c/i/v/queso
+6. cp -r ~/a/c/i/v ~/a/e/p/r/queso
+7. cp -r ~/a/c ~/b/
+8. rm -r ~/a ~/b
+9. ls ~/a/c/k ~/a/c/i/v
+10. ln -s ~/a/e/p ~/b   this will create a link from the "p" directory to the "b" directory.
+    ~/a/b/p/r 
+    ~/a/b/p/q
+    ~/a/b/p/r/s 
+     
+    

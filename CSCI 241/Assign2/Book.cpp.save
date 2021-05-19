@@ -1,0 +1,176 @@
+
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+#include <string>
+#include <cstdlib>
+#include "Book.h"
+
+using std::cout;
+using std::endl;
+using std::fixed;
+using std::setprecision;
+using std::string;
+using std::setw;
+using std::strcpy;
+using std::right;
+using std::left;
+
+int main()
+{
+      char isbn1[11] = "1111111111";
+      char title1[41] = "Learn C++ Now";
+      char isbn2[11] = "2222222222";
+      char title2[41] = "Learn Java Later";
+      int numShipped;
+
+      // Test default constructor
+      Book book1;
+
+	 // Test alternate constructor
+      Book book2(isbn1, title1, 39.99, 5);
+
+	// Test data validation
+      Book book3(isbn2, title2, -22.99, -6);
+
+      // Test print() method and whether constructors
+      // properly initialized objects
+      cout << "Printing book1\n\n";
+      book1.print();
+      cout << endl << endl;
+
+      cout << "Printing book2\n\n";
+      book2.print();
+      cout << endl << endl;
+
+      cout << "Printing book3\n\n";
+      book3.print();
+      cout << endl << endl;
+
+      // Test accessor methods
+      cout << book2.getISBN() << endl;
+      cout << book2.getTitle() << endl;
+      cout << book2.getPrice() << endl;
+      cout << book2.getQuantity() << endl;
+
+      // Test the fulfillOrder() method
+      numShipped = book2.fulfillOrder(-5);
+      cout << "\nShipped " << numShipped << endl;
+      cout << "Quantity now " << book2.getQuantity() << endl;
+
+      numShipped = book2.fulfillOrder(3);
+      cout << "Shipped " << numShipped << endl;
+      cout << "Quantity now " << book2.getQuantity() << endl;
+
+      numShipped = book2.fulfillOrder(4);
+      cout << "Shipped " << numShipped << endl;
+      cout << "Quantity now " << book2.getQuantity() << endl;
+
+	return 0;
+}
+
+Book::Book()
+{
+	strcpy(isbn,"\0");
+	strcpy(title, "\0");
+	setPrice(0);
+	setQuantity(0);
+}
+
+Book::Book(const char nISBN[11],const char nTitle[41], double nPrice, int nStock)
+{
+	strcpy(isbn, nISBN);
+        strcpy(title, nTitle);
+
+	setPrice(nPrice);
+	setQuantity(nStock);
+
+}
+
+const char* Book::getISBN()
+{
+	return isbn;
+}
+
+const char* Book::getTitle()
+{
+	return title;
+}
+
+double Book::getPrice()
+{
+	return price;
+}
+
+int Book::getQuantity()
+{
+	return stock;
+}
+
+void Book::setPrice(double nPrice)
+{
+	if(nPrice>=0)
+	{
+		price=nPrice;
+	}
+	else
+	{
+		nPrice=0;
+	}
+}
+
+void Book::setQuantity(int nStock)
+{
+	if(nStock>=0)
+	{
+		stock=nStock;
+	}
+	else
+	{
+		stock=0;
+	}
+}
+
+int Book::fulfillOrder(int nStock)
+{
+	int total=getQuantity();
+	setQuantity(stock);
+	if(nStock<=0)
+	{
+		return 0;
+	}
+
+	if(nStock<=stock)
+	{
+		total=stock-nStock;
+		setQuantity(total);
+		return nStock;
+	}
+
+	if(nStock>=stock)
+	{
+		setQuantity(nStock);
+		return stock;
+	}
+}
+
+void Book::print()
+{
+	        std::cout<<"ISBN"<<std::setw(14);
+        std::cout<<"Title"<<std::setw(44);
+        std::cout<<"Price"<<std::setw(10);
+        std::cout<<"Qty"<<std::setw(6)<<endl;
+
+        std::cout<<title<<std::setw(44);
+        std::cout<<price<<std::setw(10);
+        std::cout<<stock<<endl;
+        std::cout<<"ISBN"<<std::setw(14);
+        std::cout<<"Title"<<std::setw(44);
+        std::cout<<"Price"<<std::setw(10);
+        std::cout<<"Qty"<<std::setw(6)<<endl;
+
+        std::cout<<title<<std::setw(44);
+        std::cout<<price<<std::setw(10);
+        std::cout<<stock<<endl;
+
+}

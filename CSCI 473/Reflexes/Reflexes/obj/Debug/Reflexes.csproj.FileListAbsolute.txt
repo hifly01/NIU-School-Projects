@@ -1,0 +1,20 @@
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\bin\Debug\Reflexes.exe.config
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\bin\Debug\Reflexes.exe
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\bin\Debug\Reflexes.pdb
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\obj\Debug\Reflexes.csprojAssemblyReference.cache
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\obj\Debug\Reflexes.Form1.resources
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\obj\Debug\Reflexes.Properties.Resources.resources
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\obj\Debug\Reflexes.csproj.GenerateResource.cache
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\obj\Debug\Reflexes.csproj.CoreCompileInputs.cache
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\obj\Debug\Reflexes.exe
+C:\Users\Spherical\Desktop\Reflexes\Reflexes\obj\Debug\Reflexes.pdb
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\bin\Debug\Reflexes.exe.config
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\bin\Debug\Reflexes.exe
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\bin\Debug\Reflexes.pdb
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\obj\Debug\Reflexes.csprojAssemblyReference.cache
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\obj\Debug\Reflexes.Form1.resources
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\obj\Debug\Reflexes.Properties.Resources.resources
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\obj\Debug\Reflexes.csproj.GenerateResource.cache
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\obj\Debug\Reflexes.csproj.CoreCompileInputs.cache
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\obj\Debug\Reflexes.exe
+C:\Users\hifly\Documents\CSCI 473\Reflexes\Reflexes\obj\Debug\Reflexes.pdb

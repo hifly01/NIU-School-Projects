@@ -1,0 +1,624 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2
+0
+ 14.31.20 JOB01072 ---- THURSDAY,  24 SEP 2020 ----
+ 14.31.20 JOB01072  IRR010I  USERID KC03I4C  IS ASSIGNED TO THIS JOB.
+ 14.31.22 JOB01072  ICH70001I KC03I4C  LAST ACCESS AT 14:30:28 ON THURSDAY, SEPTEMBER 24, 2020
+ 14.31.22 JOB01072  $HASP373 KC03I4CA STARTED - INIT 2    - CLASS A        - SYS 2964
+ 14.31.26 JOB01072  $HASP395 KC03I4CA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  24 SEP 2020 JOB EXECUTION DATE
+-          190 CARDS READ
+-          632 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           36 SYSOUT SPOOL KBYTES
+-         0.09 MINUTES EXECUTION TIME
+         1 //KC03I4CA JOB ,'CHARLES ALMS',MSGCLASS=H                               JOB01072
+           //********************************************************************
+           //* CSCI 465               ASSIGNMENT 3               FALL 2020      *
+           //*                                                                  *
+           //* DEVELOPER NAME: CHARELES ALMS                                    *
+           //* DATE DUE: 9/25/2020                                              *
+           //*                                                                  *
+           //* Purpose: Assignment 3 will be in 2 parts, A and B. Part A will be*
+           //* adding JCL to assembler code and part B will be adding JCL to    *
+           //* COBOL code, both written by the teacher, Decker.                 *
+           //********************************************************************
+           //*
+           //********************************************************************
+           //* JSTEP01 - the forst step that calls the COBOL compiler           *
+           //*                                                                  *
+           //* SYSIN - the input for the COBOL program that was provided to us  *
+           //*                                                                  *
+           //* SYSLIN - Output will be in a temp labeled &&TEMP                 *
+           //*                                                                  *
+           //* SYSPRINT - Output messages for the binder                        *
+           //*                                                                  *
+           //* SYSUT1-15 - Data pads/scratch work used by the compiler          *
+           //*                                                                  *
+           //* SYSUDECK - Part of the SYSUT1-15 for the COBOL compiler          *
+           //*                                                                  *
+           //* SYSDUMP -  Output messages for abends                            *
+           //********************************************************************
+         2 //JSTEP01 EXEC PGM=IGYCRCTL,PARM=APOST,REGION=0M
+           //*
+         3 //SYSIN   DD *
+           //*
+         4 //SYSLIN   DD DSN=&&TEMP,SPACE=(TRK,(5,10)),
+           //            DISP=(MOD,PASS)
+           //*
+         5 //SYSPRINT DD SYSOUT=*
+           //*
+         6 //SYSUT1   DD SPACE=(CYL,(1,1))
+         7 //SYSUT2   DD SPACE=(CYL,(1,1))
+         8 //SYSUT3   DD SPACE=(CYL,(1,1))
+         9 //SYSUT4   DD SPACE=(CYL,(1,1))
+        10 //SYSUT5   DD SPACE=(CYL,(1,1))
+        11 //SYSUT6   DD SPACE=(CYL,(1,1))
+        12 //SYSUT7   DD SPACE=(CYL,(1,1))
+        13 //SYSUT8   DD SPACE=(CYL,(1,1))
+        14 //SYSUT9   DD SPACE=(CYL,(1,1))
+        15 //SYSUT10  DD SPACE=(CYL,(1,1))
+        16 //SYSUT11  DD SPACE=(CYL,(1,1))
+        17 //SYSUT12  DD SPACE=(CYL,(1,1))
+        18 //SYSUT13  DD SPACE=(CYL,(1,1))
+        19 //SYSUT14  DD SPACE=(CYL,(1,1))
+        20 //SYSUT15  DD SPACE=(CYL,(1,1))
+        21 //SYSMDECK DD SPACE=(CYL,(1,1))
+           //*
+        22 //SYSUDUMP DD SYSOUT=*
+           //*
+           //*******************************************************************
+           //* JSTEP02 - Executes the program 'HEWL' and will be the binder    *
+           //* step. only works if the condition code is 0 meaning no abends   *
+           //*                                                                 *
+           //* SYSLIB - required for the compiler                              *
+           //*                                                                 *
+           //* SYSLIN - grabs the TEMP from JSTEP01                            *
+           //*                                                                 *
+           //* SYSLMOD - Load module/program object stored in PDSE             *
+           //*                                                                 *
+           //* SYSPRINT - Output of the registers for abend                    *
+           //*******************************************************************
+           //*
+        23 //JSTEP02  EXEC PGM=HEWL,COND=(0,LT)
+           //*
+        24 //SYSLIB   DD DSN=CEE.SCEELKED,DISP=SHR
+           //*
+        25 //SYSLIN   DD DSN=&&TEMP,DISP=(OLD,DELETE,DELETE)
+           //*
+        26 //SYSLMOD  DD DSN=KC03I4C.CSCI465.LOADLIB(COBPGM3),
+           //            SPACE=(1024,(50,20,1)),DSNTYPE=LIBRARY,
+           //            DISP=(MOD,KEEP,KEEP)
+           //*
+        27 //SYSPRINT DD SYSOUT=*
+           //*
+           //*******************************************************************
+           //* JSTEP03 - Fetches the program object/load module stored in my   *
+           //* PDSE. Only works when less than 0, (no abends or errors)        *
+           //*                                                                 *
+           //* STEPLIN input will be used for accessing the data set from my   *
+           //* loadlib                                                         *
+           //*                                                                 *
+           //* COBIN3 input will grab the temp object from setep one and use   *
+           //* it for output                                                   *
+           //*                                                                 *
+           //* COBOUT3 output will print the data from                         *
+           //* KC02322.CSCI465.DATAFA20(DATA3)                                 *
+           //*                                                                 *
+           //* SYSUDUMP output will provide a dump of registers and PSW        *
+           //* incase of abend                                                 *
+           //*******************************************************************
+        28 //JSTEP03  EXEC PGM=COBPGM3,COND=(0,LT)
+           //*
+        29 //STEPLIB  DD DSN=KC03I4C.CSCI465.LOADLIB,DISP=SHR
+           //*
+        30 //COBIN3   DD DSN=KC02322.CSCI465.DATAFA20(DATA3),
+           //            DISP=SHR
+           //*
+        31 //COBOUT3  DD SYSOUT=*
+           //*
+        32 //SYSUDUMP DD SYSOUT=*
+ ICH70001I KC03I4C  LAST ACCESS AT 14:30:28 ON THURSDAY, SEPTEMBER 24, 2020
+ IEFA111I KC03I4CA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03I4CA JSTEP01
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD101I SMS ALLOCATED TO DDNAME (SYSLIN  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.TEMP.H01    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT1  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134000    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT2  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134001    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT3  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134002    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT4  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134003    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT5  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134004    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT6  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134005    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT7  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134006    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT8  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134007    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT9  )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134008    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT10 )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134009    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT11 )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134010    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT12 )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134011    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT13 )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134012    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT14 )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134013    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT15 )
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134014    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSMDECK)
+         DSN (SYS20268.T143120.RA000.KC03I4CA.R0134015    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF142I KC03I4CA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   KC03I4C.KC03I4CA.JOB01072.D0000101.?         SYSIN
+ IGD106I SYS20268.T143120.RA000.KC03I4CA.TEMP.H01     PASSED,    DDNAME=SYSLIN
+ IEF285I   KC03I4C.KC03I4CA.JOB01072.D0000102.?         SYSOUT
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134000     DELETED,   DDNAME=SYSUT1
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134001     DELETED,   DDNAME=SYSUT2
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134002     DELETED,   DDNAME=SYSUT3
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134003     DELETED,   DDNAME=SYSUT4
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134004     DELETED,   DDNAME=SYSUT5
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134005     DELETED,   DDNAME=SYSUT6
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134006     DELETED,   DDNAME=SYSUT7
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134007     DELETED,   DDNAME=SYSUT8
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134008     DELETED,   DDNAME=SYSUT9
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134009     DELETED,   DDNAME=SYSUT10
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134010     DELETED,   DDNAME=SYSUT11
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134011     DELETED,   DDNAME=SYSUT12
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134012     DELETED,   DDNAME=SYSUT13
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134013     DELETED,   DDNAME=SYSUT14
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134014     DELETED,   DDNAME=SYSUT15
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.R0134015     DELETED,   DDNAME=SYSMDECK
+ IEF285I   KC03I4C.KC03I4CA.JOB01072.D0000103.?         SYSOUT
+ IEF373I STEP/JSTEP01 /START 2020268.1431
+ IEF032I STEP/JSTEP01 /STOP  2020268.1431
+         CPU:     0 HR  00 MIN  00.05 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:   500K  SYS:  4272K  EXT:   135888K  SYS:    14572K
+         ATB- REAL:                  8928K  SLOTS:                     0K
+              VIRT- ALLOC:     529M SHRD:       0M
+ IEF236I ALLOC. FOR KC03I4CA JSTEP02
+ IEF237I 1001 ALLOCATED TO SYSLIB
+ IGD103I SMS ALLOCATED TO DDNAME SYSLIN
+ IGD103I SMS ALLOCATED TO DDNAME SYSLMOD
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF142I KC03I4CA JSTEP02 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   CEE.SCEELKED                                 KEPT
+ IEF285I   VOL SER NOS= VTMVSC.
+ IGD105I SYS20268.T143120.RA000.KC03I4CA.TEMP.H01     DELETED,   DDNAME=SYSLIN
+ IGD104I KC03I4C.CSCI465.LOADLIB                      RETAINED,  DDNAME=SYSLMOD
+ IEF285I   KC03I4C.KC03I4CA.JOB01072.D0000104.?         SYSOUT
+ IEF373I STEP/JSTEP02 /START 2020268.1431
+ IEF032I STEP/JSTEP02 /STOP  2020268.1431
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:    88K  SYS:   260K  EXT:     1768K  SYS:    12588K
+         ATB- REAL:                  4140K  SLOTS:                     0K
+              VIRT- ALLOC:      15M SHRD:       0M
+ IEF236I ALLOC. FOR KC03I4CA JSTEP03
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IGD103I SMS ALLOCATED TO DDNAME COBIN3
+ IEF237I JES2 ALLOCATED TO COBOUT3
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF142I KC03I4CA JSTEP03 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC03I4C.CSCI465.LOADLIB                      RETAINED,  DDNAME=STEPLIB
+ IGD104I KC02322.CSCI465.DATAFA20                     RETAINED,  DDNAME=COBIN3
+ IEF285I   KC03I4C.KC03I4CA.JOB01072.D0000105.?         SYSOUT
+ IEF285I   KC03I4C.KC03I4CA.JOB01072.D0000106.?         SYSOUT
+ IEF373I STEP/JSTEP03 /START 2020268.1431
+ IEF032I STEP/JSTEP03 /STOP  2020268.1431
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:    92K  SYS:   260K  EXT:     2588K  SYS:    12592K
+         ATB- REAL:                  4140K  SLOTS:                     0K
+              VIRT- ALLOC:      15M SHRD:       0M
+ IEF375I  JOB/KC03I4CA/START 2020268.1431
+ IEF033I  JOB/KC03I4CA/STOP  2020268.1431
+         CPU:     0 HR  00 MIN  00.06 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107                 Date 09/24/2020  Time 14:31:23   Page     1
+0Invocation parameters:
+  APOST
+0Options in effect:
+  NOADATA
+    ADV
+    AFP(NOVOLATILE)
+    APOST
+    ARCH(7)
+    ARITH(COMPAT)
+  NOAWO
+  NOBLOCK0
+    BUFSIZE(4096)
+  NOCICS
+    CODEPAGE(1140)
+  NOCOMPILE(S)
+  NOCOPYLOC
+  NOCOPYRIGHT
+  NOCURRENCY
+    DATA(31)
+    DBCS
+  NODECK
+  NODEFINE
+  NODIAGTRUNC
+    DISPSIGN(COMPAT)
+  NODLL
+  NODUMP
+  NODYNAM
+  NOEXIT
+  NOEXPORTALL
+  NOFASTSRT
+    FLAG(I,I)
+  NOFLAGSTD
+    HGPR(PRESERVE)
+  NOINITCHECK
+    INLINE
+    INTDATE(ANSI)
+    LANGUAGE(EN)
+    LINECOUNT(60)
+  NOLIST
+  NOMAP
+    MAXPCF(100000)
+  NOMDECK
+  NONAME
+    NSYMBOL(NATIONAL)
+  NONUMBER
+  NONUMCHECK
+    NUMPROC(NOPFD)
+    OBJECT
+  NOOFFSET
+    OPTIMIZE(0)
+    OUTDD(SYSOUT)
+  NOPARMCHECK
+    PGMNAME(COMPAT)
+    QUALIFY(COMPAT)
+    RENT
+    RMODE(AUTO)
+  NORULES
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107                 Date 09/24/2020  Time 14:31:23   Page     2
+0 NOSERVICE
+    SEQUENCE
+    SOURCE
+    SPACE(1)
+  NOSQL
+    SQLCCSID
+  NOSQLIMS
+  NOSSRANGE
+  NOSTGOPT
+    SUPPRESS
+  NOTERM
+  NOTEST(NODWARF,NOSOURCE,NOSEPARATE)
+  NOTHREAD
+    TRUNC(STD)
+  NOVBREF
+    VLR(STANDARD)
+    VSAMOPENFS(COMPAT)
+  NOWORD
+    XMLPARSE(XMLSS)
+    XREF(FULL)
+    ZONEDATA(PFD)
+    ZWB
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       COBPGM3   Date 09/24/2020  Time 14:31:23   Page     3
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000001               ****************************************************************
+   000002               *                                                              *
+   000003               * PROGRAM NAME:  COBPGM3                                       *
+   000004               *                                                              *
+   000005               * FUNCTION:  THIS PROGRAM READS INPUT DATA RECORDS AND THEN    *
+   000006               *            WRITES THEM TO STANDARD OUTPUT.                   *
+   000007               *                                                              *
+   000008               * INPUT:     INFILE - THE INPUT DATA RECORDS READ IN.          *
+   000009               *                                                              *
+   000010               * OUTPUT:    OUTFILE - THE INPUT DATA RECORDS WRITTEN OUT.     *
+   000011               *                                                              *
+   000012               ****************************************************************
+   000013
+   000014                IDENTIFICATION DIVISION.
+   000015
+   000016                PROGRAM-ID.    COBPGM3.
+   000017                AUTHOR.        GEOFFREY D DECKER.
+   000018                DATE-WRITTEN.  01/31/2020.
+   000019                DATE-COMPILED. 09/24/20.
+   000020
+   000021                ENVIRONMENT DIVISION.
+   000022
+   000023                INPUT-OUTPUT SECTION.
+   000024
+   000025                FILE-CONTROL.
+   000026
+   000027                    SELECT INPUT-FILE ASSIGN TO COBIN3.                                   34
+   000028                    SELECT REPORT-FILE ASSIGN TO COBOUT3.                                 39
+   000029
+   000030                DATA DIVISION.
+   000031
+   000032                FILE SECTION.
+   000033
+   000034                FD  INPUT-FILE
+   000035                    RECORDING MODE IS F.
+   000036
+   000037                01  INPUT-RECORD                        PIC X(80).
+   000038
+   000039                FD  REPORT-FILE
+   000040                    RECORDING MODE IS F.
+   000041
+   000042                01  REPORT-RECORD                       PIC X(132).
+   000043
+   000044                WORKING-STORAGE SECTION.
+   000045
+   000046                01  EOF-FLAG                            PIC X VALUE 'N'.
+   000047
+   000048                01  OUTPUT-LINE.
+   000049                    05  OUTPUT-RECORD                   PIC X(80).
+   000050                    05  FILLER                          PIC X(52)  VALUE SPACES.          IMP
+   000051
+   000052                PROCEDURE DIVISION.
+   000053
+   000054                0000-MAIN.
+   000055
+   000056                    OPEN INPUT  INPUT-FILE                                                34
+   000057                         OUTPUT REPORT-FILE.                                              39
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       COBPGM3   Date 09/24/2020  Time 14:31:23   Page     4
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000058
+   000059                    READ INPUT-FILE                                                       34
+   000060      1               AT END MOVE 'Y' TO EOF-FLAG                                         46
+   000061                    END-READ.
+   000062
+   000063                    PERFORM 0100-PROCESS-RECORD                                           73
+   000064                      UNTIL EOF-FLAG = 'Y'.                                               46
+   000065
+   000066                    CLOSE INPUT-FILE                                                      34
+   000067                          REPORT-FILE.                                                    39
+   000068
+   000069                    GOBACK.
+   000070
+   000071                0000-EXIT. EXIT.
+   000072
+   000073                0100-PROCESS-RECORD.
+   000074
+   000075                    MOVE INPUT-RECORD TO OUTPUT-RECORD.                                   37 49
+   000076
+   000077                    WRITE REPORT-RECORD FROM OUTPUT-LINE AFTER 1.                         42 48
+   000078
+   000079                    READ INPUT-FILE                                                       34
+   000080      1               AT END MOVE 'Y' TO EOF-FLAG                                         46
+   000081                    END-READ.
+   000082
+   000083                0100-EXIT. EXIT.
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       COBPGM3   Date 09/24/2020  Time 14:31:23   Page     5
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+  Defined   Cross-reference of data names   References
+
+       46   EOF-FLAG . . . . . . . . . . .  M60 64 M80
+       34   INPUT-FILE . . . . . . . . . .  27 56 59 66 79
+       37   INPUT-RECORD . . . . . . . . .  75
+       48   OUTPUT-LINE. . . . . . . . . .  77
+       49   OUTPUT-RECORD. . . . . . . . .  M75
+       39   REPORT-FILE. . . . . . . . . .  28 57 67
+       42   REPORT-RECORD. . . . . . . . .  M77
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       COBPGM3   Date 09/24/2020  Time 14:31:23   Page     6
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+
+  Defined   Cross-reference of procedures   References
+
+       71   0000-EXIT
+       54   0000-MAIN
+       83   0100-EXIT
+       73   0100-PROCESS-RECORD. . . . . .  P63
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       COBPGM3   Date 09/24/2020  Time 14:31:23   Page     7
+0 Defined   Cross-reference of programs     References
+
+       16   COBPGM3
+-* Statistics for COBOL program COBPGM3:
+ *    Source records = 83
+ *    Data Division statements = 5
+ *    Procedure Division statements = 12
+ *    Generated COBOL statements = 0
+ *    Program complexity factor = 12
+0End of compilation 1,  program COBPGM3,  no statements flagged.
+0Return code 0
+1z/OS V2 R3 BINDER     14:31:25 THURSDAY SEPTEMBER 24, 2020
+ BATCH EMULATOR  JOB(KC03I4CA) STEP(JSTEP02 ) PGM= HEWL
+
+
+
+                                 *** O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+1PROCESSING OPTIONS:
+
+    ALIASES             NO
+    ALIGN2              NO
+    AMODE               UNSPECIFIED
+    CALL                YES
+    CASE                UPPER
+    COMPAT              UNSPECIFIED
+    COMPRESS            AUTO
+    DCBS                NO
+    DYNAM               NO
+    EXTATTR             UNSPECIFIED
+    EXITS:              NONE
+    FILL                NONE
+    GID                 UNSPECIFIED
+    HOBSET              NO
+    INFO                NO
+    LET                 04
+    LINECT              060
+    LIST                SUMMARY
+    LISTPRIV            NO
+    LONGPARM            NO
+    MAP                 NO
+    MAXBLK              032760
+    MODMAP              NO
+    MSGLEVEL            00
+    OVLY                NO
+    PRINT               YES
+    RES                 NO
+    REUSABILITY         UNSPECIFIED
+    RMODE               UNSPECIFIED
+    RMODEX              NO
+    SIGN                NO
+    STORENX             NOREPLACE
+    STRIPCL             NO
+    STRIPSEC            NO
+    SYMTRACE
+    TERM                NO
+    TRAP                ON
+    UID                 UNSPECIFIED
+    UPCASE              NO
+    WKSPACE             000000K,000000K
+    XCAL                NO
+    XREF                NO
+    ***END OF OPTIONS***
+
+
+
+
+1SAVE OPERATION SUMMARY:
+
+    MEMBER NAME         COBPGM3
+    LOAD LIBRARY        KC03I4C.CSCI465.LOADLIB
+    PROGRAM TYPE        PROGRAM OBJECT(FORMAT 3)
+    VOLUME SERIAL       KCTR00
+    DISPOSITION         REPLACED
+    TIME OF SAVE        14.31.25  SEP 24, 2020
+
+
+1SAVE MODULE ATTRIBUTES:
+
+    AC                  000
+    AMODE                31
+    COMPRESSION         NONE
+    DC                  NO
+    EDITABLE            YES
+    EXCEEDS 16MB        NO
+    EXECUTABLE          YES
+    LONGPARM            NO
+    MIGRATABLE          NO
+    OL                  NO
+    OVLY                NO
+    PACK,PRIME          NO,NO
+    PAGE ALIGN          NO
+    REFR                NO
+    RENT                NO
+    REUS                NO
+    RMODE               ANY
+    SCTR                NO
+    SIGN                NO
+    SSI
+    SYM GENERATED       NO
+    TEST                NO
+    XPLINK              NO
+    MODULE SIZE (HEX)   00002130
+    DASD SIZE (HEX)     0000B000
+
+
+1 ENTRY POINT AND ALIAS SUMMARY:
+
+  NAME:            ENTRY TYPE AMODE C_OFFSET CLASS NAME        STATUS
+
+  COBPGM3           MAIN_EP      31 00000000 C_CODE
+
+                          *** E N D   O F   O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+
+
+
+1z/OS V2 R3 BINDER     14:31:25 THURSDAY SEPTEMBER 24, 2020
+ BATCH EMULATOR  JOB(KC03I4CA) STEP(JSTEP02 ) PGM= HEWL
+ IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.
+
+
+
+1----------------------
+ MESSAGE SUMMARY REPORT
+ ----------------------
+  TERMINAL MESSAGES      (SEVERITY = 16)
+  NONE
+
+  SEVERE MESSAGES        (SEVERITY = 12)
+  NONE
+
+  ERROR MESSAGES         (SEVERITY = 08)
+  NONE
+
+  WARNING MESSAGES       (SEVERITY = 04)
+  NONE
+
+  INFORMATIONAL MESSAGES (SEVERITY = 00)
+  2008
+
+
+  **** END OF MESSAGE SUMMARY REPORT ****
+
+ Fondly do we hope -- fervently do we pray --
+ that this mighty scourge of war may speedily
+ pass away. Yet, if God wills that it
+ continue, until all the wealth piled by the
+ bond-man's two hundred and fifty years of
+ unrequited toil shall be sunk, and until
+ every drop of blood drawn with the lash,
+ shall be paid by another drawn with the
+ sword, as was said three thousand years ago,
+ so still it must be said "the judgments of
+ the Lord, are true and righteous altogether".
+
+ With malice toward none; With charity for
+ all; With firmness in the right, as God gives
+ us to see the right, let us strive on to
+ finish the work we are in; to bind up the
+ nation's wounds; to care for him who shall
+ have borne the battle, and for his widow,
+ and his orphan -- to do all which may
+ achieve and cherish a just, and a lasting
+ peace, among ourselves, and with all nations.
+
+ Excerpt from President Abraham Lincoln's
+ Second Inaugural Address, March 4, 1865.

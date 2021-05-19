@@ -1,0 +1,22 @@
+C:\Users\Spherical\Desktop\Singularity\Singularity\bin\Debug\Singularity.exe.config
+C:\Users\Spherical\Desktop\Singularity\Singularity\bin\Debug\Singularity.exe
+C:\Users\Spherical\Desktop\Singularity\Singularity\bin\Debug\Singularity.pdb
+C:\Users\Spherical\Desktop\Singularity\Singularity\obj\Debug\Singularity.csprojAssemblyReference.cache
+C:\Users\Spherical\Desktop\Singularity\Singularity\obj\Debug\Singularity.Form1.resources
+C:\Users\Spherical\Desktop\Singularity\Singularity\obj\Debug\Singularity.Properties.Resources.resources
+C:\Users\Spherical\Desktop\Singularity\Singularity\obj\Debug\Singularity.csproj.GenerateResource.cache
+C:\Users\Spherical\Desktop\Singularity\Singularity\obj\Debug\Singularity.csproj.CoreCompileInputs.cache
+C:\Users\Spherical\Desktop\Singularity\Singularity\obj\Debug\Singularity.exe
+C:\Users\Spherical\Desktop\Singularity\Singularity\obj\Debug\Singularity.pdb
+C:\Users\Spherical\Desktop\Singularity\Singularity\obj\Debug\Singularity.Form2.resources
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\bin\Debug\Singularity.exe.config
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\bin\Debug\Singularity.exe
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\bin\Debug\Singularity.pdb
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\obj\Debug\Singularity.csprojAssemblyReference.cache
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\obj\Debug\Singularity.Form1.resources
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\obj\Debug\Singularity.Form2.resources
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\obj\Debug\Singularity.Properties.Resources.resources
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\obj\Debug\Singularity.csproj.GenerateResource.cache
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\obj\Debug\Singularity.csproj.CoreCompileInputs.cache
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\obj\Debug\Singularity.exe
+C:\Users\hifly\Documents\CSCI 473\Singularity\Singularity\obj\Debug\Singularity.pdb

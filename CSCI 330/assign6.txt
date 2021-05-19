@@ -1,0 +1,183 @@
+add()
+{
+	if [ -f $dbnme -a -w $dbnme ] 			#check to see if the file exists and can be written to
+	  then 
+		if [ "$caryear" -lt 1870 -a "$caryear" -gt 2025 ] 
+		   then
+			echo "Car year is out of bounds. Please make sure it is between 1870 and 2025"
+		else
+			echo "added"
+		fi
+	else
+		echo "Could not find that database or file is not writable"
+	fi
+}
+
+show()
+{
+	if [ -f $dbnme -a -r $dbnme ] 			#make sure the database is a file and readable
+	   then
+		if [ "$#" -eq 2 ] 			#show all if there are 2 parameters passed in
+		   then
+			cat $dbnme
+		elif [ "$#" -eq 3 ] 			#show 1 if there are 3 parameters passed in. Param3 will be the number in the dbnme to show
+		   then 
+			sed -n $((showpar1+1))p $dbnme	#needs +1 so it does not show the title
+		elif [ "$#" -eq 4 ] 			#show range with param 3 being the lower range and param4 being the upper
+		   then 
+			sed -n "$3,$4 p" $dbnme
+		fi
+	else
+		echo "Can not read file"
+	fi
+}
+
+delete()
+{
+	if [ -f $dbnme -a -r $dbnme -a -w $dbnme ] 	#make sure the database is a file and readable and writable
+	   then
+		if [ "$#" -eq 2 ] 			#delete all if there are 2 parameters passed in
+		   then
+					#delete the whole database here
+
+		elif [ "$#" -eq 3 ] 			#delete 1 if there are 3 parameters passed in. Param3 will be the number in the dbnme to show
+		   then 
+					#Delete single here
+
+		elif [ "$#" -eq 4 ] 			#delete range with param 3 being the lower range and param4 being the upper
+		   then 
+					#delete range here
+
+		fi
+	else
+		echo "Can not read or write to file"
+	fi
+}
+
+#if the user does not enter command 1 or command 2, it will show some options 
+blank()
+{
+	print f "# dbname  ­ filename of database file to use"
+	print f "# command ­ which of the functions to call: \"new\", \"add\", \"show\", \"delete\""
+	print f "# param1  ­ first non­dbname parameter to whichever command function chosen"
+	print f "# ...­ placeholder for parameters between 1 and N"
+	print f "# paramN  ­ Nth parameter to whichever command function chosen"
+	print f "Example % ./z1797837dbnme.sh dbnmename command param1 param2 ... paramN"
+}
+#--------------------------------------------------------------------------------------------------------------------------------
+
+
+#main loop of the program. command1 will be for the dbnme, command2 will be for what action they want
+until [ "$command1" = "quit" ] 
+  do
+	if [ "$command1" = "" ] 		#if the command is blank
+	   then 
+		blank
+
+	elif [ "$command1" = "quit" ] 	#may not need this 
+	   then
+		exit
+
+	else				#start going through all the options
+	
+#-------------------------------------------------------------------------------------------------------------------
+	if [ "$2" = "new" ] 		#if the second parameter is new, call the new
+	  then
+		$dbnme=$1
+		$nameofdb=$3		#name of the database is the third parameter
+
+		new dbnme nameofdb	#call new with database name and the name of the data itself
+
+#-------------------------------------------------------------------------------------------------------------------
+	elif [ "$2" = "add" ] 				#if user types DB add ...
+          then
+		$dbnme=$1
+		$carmake=$3				#car maker is the fourth param
+		$carmodel=$4				#car model is the 5th
+		$caryear=$5				#car year is the 6th
+		$carcolor=$6				#car color is 7th
+
+		if [ -z "$3" -o -z "6" ]		#if the user missed at least 1 parameter, quit
+		  then
+			ehco "Some parameters are missing. Quiting"
+			exit
+		else
+			add dbnme carmake carmodel caryear carcolor	#call the add function to add the details of the car
+		fi
+
+#-------------------------------------------------------------------------------------------------------------------
+	elif [ "$2" = "show" ] 					#if user types DB show ...
+  	  then
+		$dbnme=$1
+		if [ "$3" = "all" ]
+		  then 
+			$showpar1=$3				#holds all
+			show dbnme showpar1			#call show with the database name and all
+
+		elif [ "$3" = "single" -a "$#" -eq 4 ]		#you need to have exactly 4 parameters for show single
+		  then
+			$showpar1=$3				#holds "single"
+			$showpar2=$4				#show the amount of the single (number value)
+			if [ -z "$4" ] 				#if param 4 is missing
+		   	  then
+				echo "You are missing 1 parameter (show which record you want to see)"
+				exit
+			else
+				show dbnme showpar1 showpar2		#call show with the database name, show, single, number to see
+			fi
+
+		elif [ "$3" = "range" -a "$#" -eq 5 ]		#you need to have exactly 5 parameters for show range
+		  then
+			$showpar1=$3				#holds "range"
+			$showlower=$4				#lower limit
+			$showupper=$5				#upper limit
+			if [ -z "$5" ] 				#if param 5 is missing
+		   	  then
+				echo "You are missing at least 1 parameter (range requires a low number and high number)"
+				exit
+			else
+				show dbname showpar1 showlower showupper		#call show with the name, range, lower limit and uper limit
+			fi
+		fi
+
+#-----------------------------------------------------------------------------------------------------------------------------
+	elif [ "$2" = "delete" ] 
+  	  then
+		$dbnme=$1
+		if [ "$3" = "all" ]				#if the user wants to delete all
+		  then 
+			$showpar1=$3				#holds all
+			delete dbnme delpar1			#call show with the database name and all
+
+		elif [ "$3" = "single" -a "$#" -eq 4 ]		#you need to have exactly 4 parameters for show single
+		  then
+			$delpar1=$3				#holds "single"
+			$delpar2=$4				#show the amount of the single (number value)
+			if [ -z "$4" ] 				#if param 4 is missing
+		   	  then
+				echo "You are missing at least 1 parameter (show which record you want to see)"
+				exit
+			else
+				delete dbnme delpar1 delpar2		#call show with the database name, show, single, number to see
+			fi
+
+		elif [ "$3" = "range" -a "$#" -eq 5 ]		#you need to have exactly 5 parameters for show range
+		  then
+			$delpar1=$3				#holds "range"
+			$dellower=$4				#lower limit
+			$delupper=$5				#upper limit
+			if [ -z "$5" ] 				#if param 5 is missing
+		   	  then
+				echo "You are missing at least 1 parameter (range requires a low number and high number)"
+				exit
+			else
+				delete dbname delpar1 dellower delupper 		#call show with the name, range, lower limit and uper limit
+			fi
+		fi
+
+#-----------------------------------------------------------------------------------------------------------------------
+	else
+		echo "There is something wrong with the option you are trying to do"
+		echo "Either it is not a vaild option or is spelled wrong"
+	fi
+done

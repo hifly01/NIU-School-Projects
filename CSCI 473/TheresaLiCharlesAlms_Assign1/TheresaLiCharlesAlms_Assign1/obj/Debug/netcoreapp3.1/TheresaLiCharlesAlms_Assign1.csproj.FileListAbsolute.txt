@@ -1,0 +1,11 @@
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\bin\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.exe
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\bin\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.deps.json
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\bin\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.runtimeconfig.json
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\bin\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.runtimeconfig.dev.json
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\bin\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.dll
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\bin\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.pdb
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\obj\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.AssemblyInfoInputs.cache
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\obj\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.AssemblyInfo.cs
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\obj\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.dll
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\obj\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.pdb
+C:\Users\hifly\Documents\CSCI 473\TheresaLiCharlesAlms_Assign1\TheresaLiCharlesAlms_Assign1\obj\Debug\netcoreapp3.1\TheresaLiCharlesAlms_Assign1.csprojAssemblyReference.cache

@@ -1,0 +1,32 @@
+/*
+Assignment: 5
+Section: 1
+Name: Charles Alms z1797837
+TA: Revanth Reddy Dadi
+Due date: 10/12/18
+inputs without outputs
+*/
+
+MariaDB [BabyName]> describe BabyName; #show the tables and the structure of the tables in the BabyName 
+database
+
+MariaDB [BabyName]> select year from BabyName where name = 'Charles' limit 20;#list all the years where your name is on the list
+
+MariaDB [BabyName]> select distinct name from BabyName where year =1998 limit 20;#list all the names for your birth year
+
+MariaDB [BabyName]> select * from BabyName where name like 'Charles' order by count, year limit 20;#list all the information about name similar to your name in 
+alphabetic order of the name and within that of the count and 
+then year
+
+MariaDB [BabyName]> select count rows from BabyName limit 20;#tell how many rows are in the table
+
+MariaDB [BabyName]> select count name from BabyName where year =1998 limit 20;#tell how many names are from your birth year
+
+MariaDB [BabyName]> select distinct name from BabyName where year = 1998 && name like 'C%' limit 20;#list all the names from your birth year that start with the same
+letter as your name
+
+MariaDB [BabyName]> select count(name) from BabyName where gender ='F' && year =1963 limit 20;#list the number of names for each sex from your mother's birth 
+year females
+
+MariaDB [BabyName]> select count(name) from BabyName where gender ='M' && year =1963 limit 20;#list the number of names for each sex from your mother's birth 
+year Males

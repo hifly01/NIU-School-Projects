@@ -1,0 +1,168 @@
+
+                    J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2
+
+ 
+ 22.56.22 JOB07979 ---- THURSDAY,  10 SEP 2020 ----
+ 22.56.22 JOB07979  IRR010I  USERID KC03I4C  IS ASSIGNED TO THIS JOB.
+ 22.56.22 JOB07979  ICH70001I KC03I4C  LAST ACCESS AT 22:55:28 ON THURSDAY, SEPTEMBER 10, 2020
+ 22.56.22 JOB07979  $HASP373 KC03I4CA STARTED - INIT 1    - CLASS A        - SYS 2964
+ 22.56.23 JOB07979  $HASP395 KC03I4CA ENDED - RC=0000
+
+ ------ JES2 JOB STATISTICS ------
+
+
+   10 SEP 2020 JOB EXECUTION DATE
+
+
+            73 CARDS READ
+
+
+           148 SYSOUT PRINT RECORDS
+
+
+             0 SYSOUT PUNCH RECORDS
+
+
+            15 SYSOUT SPOOL KBYTES
+
+
+          0.01 MINUTES EXECUTION TIME
+         1 //KC03I4CA JOB ,'C ALMS ASSIGN2',MSGCLASS=H                             JOB07979
+           //*
+           //******************************************* *********************
+           //*                                                               *
+           //* CSCI 465               ASSIGNMENT 2               FALL 2020   *
+           //*                                                               *
+           //*  DEVELOPER NAME: CHARELES ALMS                                *
+           //*  DATE DUE: 09/11/2020                                         *
+           //*                                                               *
+           //* PURPOSE: We will be creating a program that will fetch 2      *
+           //* programs provided by Mr. Decker that were already wreitten,   *
+           //* compiled, ran through the binder and stored in a load library *
+           //* so we may fetch and execute at any point. The output will be  *
+           //* the same as it is in Mr. Deckers load library.                *
+           //*****************************************************************
+         2 //JSTEP01  EXEC PGM=READRECS,COND=(0,LT)
+           //*****************************************************************
+           //* The first step which will fetch and execute the program object*
+           //* "READRECS" stored in KC02322.CSCI465.LOADLIB.                 *
+           //* COND=(0,LT) is only to run the program if there are no errors *
+           //* There will be 4 DD statements for this step:                  *
+           //*                                                               *
+           //* STEPLIN input will be used for accessing the data set         *
+           //*                                                               *
+           //* RECSIN input will be used for input from the file,            *
+           //* KC02322.CSCI465.DATAFA20(DATA2).                              *
+           //* we will want to share it since it is the teacher's data set   *
+           //*                                                               *
+           //* RECSOUT output will be used for the output and will use a temp*
+           //* &&TEMP is the name of the temp, size 133 bytes                *
+           //*                                                               *
+           //* SYSUDUMP output will provide a dump of registers and PSW      *
+           //* incase of abend                                               *
+           //*****************************************************************
+         3 //STEPLIB  DD DSN=KC02322.CSCI465.LOADLIB,DISP=SHR
+           //*
+         4 //RECSIN   DD DSN=KC02322.CSCI465.DATAFA20(DATA2),
+           //            DISP=SHR,
+           //            SPACE=(80,(1,1))
+           //*
+         5 //RECSOUT  DD DSN=&&TEMP,
+           //            SPACE=(133,(1,1)),
+           //            DISP=(NEW,PASS,DELETE)
+           //*
+         6 //SYSUDUMP DD SYSOUT=*
+           //*
+           //*****************************************************************
+         7 //JSTEP02  EXEC PGM=WRTERECS,COND=(0,LT)
+           //*****************************************************************
+           //* second step wil execute the program "WRTERECS" from           *
+           //* KC02322.CSCI465.LOADLIB.                                      *
+           //* COND=(0,LT) is only to run the program if there are no errors *
+           //* There will be 4 DD statements for this step:                  *
+           //*                                                               *
+           //* STEPLIN input will be used for accessing the data set         *
+           //*                                                               *
+           //* RECSIN input will grab the temp object from setep one and use *
+           //* it for output                                                 *
+           //*                                                               *
+           //* RECSOUT output will print the data from                       *
+           //* KC02322.CSCI465.DATAFA20(DATA2)                               *
+           //*                                                               *
+           //* SYSUDUMP output will provide a dump of registers and PSW      *
+           //* incase of abend                                               *
+           //*****************************************************************
+         8 //STEPLIB  DD DSN=KC02322.CSCI465.LOADLIB,DISP=SHR
+           //*
+         9 //RECSIN   DD DSN=KC02322.CSCI465.DATAFA20(DATA2),
+           //            DISP=SHR
+           //*
+        10 //RECSOUT  DD SYSOUT=*
+           //*
+        11 //SYSUDUMP DD SYSOUT=*
+ ICH70001I KC03I4C  LAST ACCESS AT 22:55:28 ON THURSDAY, SEPTEMBER 10, 2020
+ IEFA111I KC03I4CA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03I4CA JSTEP01
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IGD103I SMS ALLOCATED TO DDNAME RECSIN
+ IGD101I SMS ALLOCATED TO DDNAME (RECSOUT )
+         DSN (SYS20254.T225622.RA000.KC03I4CA.TEMP.H01    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF142I KC03I4CA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02322.CSCI465.LOADLIB                      RETAINED,  DDNAME=STEPLIB
+ IGD104I KC02322.CSCI465.DATAFA20                     RETAINED,  DDNAME=RECSIN
+ IGD106I SYS20254.T225622.RA000.KC03I4CA.TEMP.H01     PASSED,    DDNAME=RECSOUT
+ IEF285I   KC03I4C.KC03I4CA.JOB07979.D0000101.?         SYSOUT
+ IEF373I STEP/JSTEP01 /START 2020254.2256
+ IEF032I STEP/JSTEP01 /STOP  2020254.2256
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:    88K  SYS:   256K  EXT:     2588K  SYS:    12124K
+         ATB- REAL:                  1044K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IEF236I ALLOC. FOR KC03I4CA JSTEP02
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IGD103I SMS ALLOCATED TO DDNAME RECSIN
+ IEF237I JES2 ALLOCATED TO RECSOUT
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF142I KC03I4CA JSTEP02 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02322.CSCI465.LOADLIB                      RETAINED,  DDNAME=STEPLIB
+ IGD104I KC02322.CSCI465.DATAFA20                     RETAINED,  DDNAME=RECSIN
+ IEF285I   KC03I4C.KC03I4CA.JOB07979.D0000102.?         SYSOUT
+ IEF285I   KC03I4C.KC03I4CA.JOB07979.D0000103.?         SYSOUT
+ IEF373I STEP/JSTEP02 /START 2020254.2256
+ IEF032I STEP/JSTEP02 /STOP  2020254.2256
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:    92K  SYS:   252K  EXT:     2588K  SYS:    12124K
+         ATB- REAL:                  1044K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IGD103I SMS ALLOCATED TO DDNAME SYS00001
+ IGD104I SYS20254.T225623.RA000.KC03I4CA.R0163473     RETAINED,  DDNAME=SYS00001
+ IGD105I SYS20254.T225622.RA000.KC03I4CA.TEMP.H01     DELETED,   DDNAME=RECSOUT
+ IEF375I  JOB/KC03I4CA/START 2020254.2256
+ IEF033I  JOB/KC03I4CA/STOP  2020254.2256
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+
+ QUOTATIONS FROM TWO IMPORTANT AMERICAN HISTORICAL DOCUMENTS            FALL 2020                                                    
+
+ "We hold these truths to be self-evident, that all men are created                                                                  
+
+ equal, that they are endowed by their Creator with certain unalienable                                                              
+
+ Rights, that among these are Life, Liberty and the pursuit of                                                                       
+
+ Happiness." -- Declaration of Independence, 1776                                                                                    
+
+ "We the People of the United States, in Order to form a more perfect                                                                
+
+ Union, establish Justice, insure domestic Tranquility, provide for the                                                              
+
+ common defence, promote the general Welfare, and secure the Blessings                                                               
+
+ of Liberty to ourselves and our Posterity, do ordain and establish this                                                             
+
+ Constitution of the United States of America." -- Preamble to the U.S.                                                              
+
+ Constitution, 1789                                                                                                                  

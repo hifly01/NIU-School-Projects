@@ -1,0 +1,109 @@
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+#include <string>
+#include <cstdlib>
+#include "BookStore.h"
+
+using std::ifstream;
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::fixed;
+using std::setprecision;
+using std::string;
+using std::setw;
+using std::ios;
+
+BookStore::BookStore()
+{
+	books=0;
+}
+
+BookStore::BookStore(const string& bookStuff)
+{
+	ifstream inFile(bookStuff,ios::in|ios::binary);
+
+	if (!inFile)
+	{
+	cerr << "Error - unable to open input file\n";
+	exit(1);
+	}
+
+	inFile.read((char*) this, sizeof(BookStore));
+}
+
+void BookStore::print()
+{
+	cout<<"Book Inventory Listing"<<endl;
+	cout<<"ISBN"<<setw(14)<<"Title"<<setw(44)<<"Price"<<setw(10)<<"Qty"<<setw(6)<<endl;
+	for(int i=0; i<books; i++)
+	{
+		bookArr[i].print();
+		cout<<endl;
+	}
+}
+void BookStore::sortByISBN()
+{
+	int i, j;
+	int Book;
+
+	for (i = 1; i < books; i++)
+	{
+		Book = bookArr[i];
+
+		for (j = i; (j > 0) && (strcmp(bookArr[j-1].getISBN(), Book.getISBN()) > 0); j--)
+		{
+			bookArr[j] = bookArr[j-1];
+		}
+		bookArr[j] = Book;
+	}
+}
+int BookStore::searchForISBN(char isnb)
+{
+	int low = 0;
+	int high = bookArr[]- 1;
+	int mid;
+
+	while (low <= high)
+	{
+		mid = (low + high) / 2;
+
+		if (strcmp(searchISBN, bookArr[mid].getISBN()==0))
+		{
+			return mid;
+		}
+
+		if (strcmp(searchISBN, bookArr[mid].getISBN()<0))
+		{
+			high = mid - 1;
+		}
+		else
+		{
+			low = mid + 1;
+		}
+	}
+
+	return -1;
+}
+
+void BookStore::processOrder(const string& order)
+{
+	ifstream inFile;
+	char orderNumber[7];
+	char isbn[11];
+	int orderQuantity;
+	int numShipped;
+
+	inFile.open();
+
+        if (!inFile)
+        {
+        cerr << "Error - unable to open input file\n";
+        exit(1);
+        }
+	inFile >> orderNumber;
+        inFile.read((char*) this, sizeof(BookStore));
+
+}

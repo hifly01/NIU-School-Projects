@@ -1,0 +1,26 @@
+*********************************************************************
+   PROGRAM:    CSCI 241 Assignment 1
+   PROGRAMMER: your name
+   LOGON ID:   your z-ID
+   DUE DATE:   2/1/2018
+
+   FUNCTION:   This program tests functions for manipulating C
+               strings.
+*********************************************************************/
+
+#include <iostream>
+#include <cstring>
+#include <cctype>
+
+using std::cin;
+using std::cout;
+using std::endl;
+
+// Add your function prototypes here
+
+int main()
+   {
+   int index;
+
+   // Tests 1a - 1d: Test the equals() function
+

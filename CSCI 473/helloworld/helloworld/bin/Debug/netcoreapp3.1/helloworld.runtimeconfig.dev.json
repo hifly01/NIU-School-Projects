@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\hifly\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\hifly\\.nuget\\packages"
+    ]
+  }
+}

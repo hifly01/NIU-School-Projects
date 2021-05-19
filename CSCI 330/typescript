@@ -1,0 +1,18 @@
+Script started on 2020-08-24 11:19:01-05:00 [TERM="xterm" TTY="/dev/pts/2" COLUMNS="173" LINES="48"]
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ whoami
+z1797837
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ ls
+typescript
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ echo Hello, Dave
+Hello, Dave
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ echo I am sorry, I cannor[Kt D[Kdo that, Dave >hal hal
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ ls
+hal  typescript
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ cat hal
+I am sorry, I cannot do that, Dave
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ rm hal
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ ls
+typescript
+]0;z1797837@turing: ~/330/Assign1z1797837@turing:~/330/Assign1$ exit
+
+Script done on 2020-08-24 11:20:14-05:00 [COMMAND_EXIT_CODE="0"]

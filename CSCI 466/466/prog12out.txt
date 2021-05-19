@@ -1,0 +1,44 @@
+/*
+Charles Alms
+Revanth Reddy Dadi
+Prog12 output
+due 12/5
+*/
+
+A Deepness in the Sky  7.19  Vernor  Vintage
+Magic Terror  7.99  Peter  Straub
+The Stranger  8.00  Albert  Camus
+Venice  24.50  Gary  Wills
+Second Wind  24.95  Dick  Francis
+The Edge  6.99  Dick  Francis
+Dreamcatcher: A Novel  19.60  Stephen  King
+Treasure Chests  24.46  Randy  O'Rourke
+Treasure Chests  24.46  Lon  Schleining
+Beloved  12.95  Toni  Morrison
+Harry Potter and the Prisoner of Azkaban  13.96  J.K.  Rowling
+Van Gogh and Gauguin  21.00  Bradley  Collins
+Van Gogh and Gauguin  21.00  Bradley  Collins, Jr.
+Of Mice and Men  6.95  John  Steinbeck
+Electric Light  14.00  Seamus  Heaney
+Group: Six People in Search of a Life  10.40  Paul  Solotaroff
+Nine Stories  5.99  J.D.  Salinger
+The Soul of a New Machine  11.16  Tracy  Kidder
+Travels with Charley  7.95  John  Steinbeck
+Catch-22  12.00  Joseph  Heller
+Jazz  12.95  Toni  Morrison
+Band of Brothers  9.60  Stephen E.  Ambrose
+A Guide to SQL  37.95  Philip  Pratt
+Franny and Zooey  5.99  J.D.  Salinger
+East of Eden  12.95  John  Steinbeck
+Harry Potter and the Goblet of Fire  18.16  J.K.  Rowling
+The Fall  8.00  Albert  Camus
+Godel, Escher, Bach  14.00  Douglas R.  Hofstadter
+When Rabbit Howls  6.29  Truddi  Chase
+Black House  18.81  Peter  Straub
+Black House  18.81  Stephen  King
+Song of Solomon  14.00  Toni  Morrison
+The Grapes of Wrath  13.00  John  Steinbeck
+Slay Ride  6.99  Dick  Francis
+The Catcher in the Rye  5.99  J.D.  Salinger
+To Kill a Mockingbird  18.00  Harper  Lee
+

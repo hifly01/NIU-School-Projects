@@ -1,0 +1,797 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2
+0
+ 17.52.18 JOB05454 ---- WEDNESDAY, 07 OCT 2020 ----
+ 17.52.18 JOB05454  IRR010I  USERID KC03I4C  IS ASSIGNED TO THIS JOB.
+ 17.52.20 JOB05454  ICH70001I KC03I4C  LAST ACCESS AT 17:47:04 ON WEDNESDAY, OCTOBER 7, 2020
+ 17.52.20 JOB05454  $HASP373 KC03I4CA STARTED - INIT 2    - CLASS A        - SYS 2964
+ 17.52.24 JOB05454  $HASP395 KC03I4CA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  07 OCT 2020 JOB EXECUTION DATE
+-          302 CARDS READ
+-          805 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           51 SYSOUT SPOOL KBYTES
+-         0.09 MINUTES EXECUTION TIME
+         1 //KC03I4CA JOB ,'CHARLES ALMS',MSGCLASS=H                               JOB05454
+           //********************************************************************
+           //* CSCI 465               ASSIGNMENT 4               FALL 2020      *
+           //*                                                                  *
+           //* DEVELOPER NAME: CHARELES ALMS                                    *
+           //* DATE DUE: 10/9/2020                                              *
+           //*                                                                  *
+           //* Purpose: create a program to print out a single report based on  *
+           //* information contained in a file with unknown number of records   *
+           //********************************************************************
+           //*
+           //********************************************************************
+           //* JSTEP01 - the forst step that calls the COBOL compiler           *
+           //*                                                                  *
+           //* SYSIN - the input for the COBOL program that was provided to us  *
+           //*                                                                  *
+           //* SYSLIN - Output will be in a temp labeled &&TEMP                 *
+           //*                                                                  *
+           //* SYSPRINT - Output messages for the binder                        *
+           //*                                                                  *
+           //* SYSUT1-15 - Data pads/scratch work used by the compiler          *
+           //*                                                                  *
+           //* SYSUDECK - Part of the SYSUT1-15 for the COBOL compiler          *
+           //*                                                                  *
+           //* SYSDUMP -  Output messages for abends                            *
+           //********************************************************************
+         2 //JSTEP01 EXEC PGM=IGYCRCTL,PARM=APOST,REGION=0M
+           //*
+         3 //SYSIN   DD *
+           //*
+         4 //SYSLIN   DD DSN=&&TEMP,SPACE=(TRK,(5,10)),
+           //            DISP=(MOD,PASS)
+           //*
+         5 //SYSPRINT DD SYSOUT=*
+           //*
+         6 //SYSUT1   DD SPACE=(CYL,(1,1))
+         7 //SYSUT2   DD SPACE=(CYL,(1,1))
+         8 //SYSUT3   DD SPACE=(CYL,(1,1))
+         9 //SYSUT4   DD SPACE=(CYL,(1,1))
+        10 //SYSUT5   DD SPACE=(CYL,(1,1))
+        11 //SYSUT6   DD SPACE=(CYL,(1,1))
+        12 //SYSUT7   DD SPACE=(CYL,(1,1))
+        13 //SYSUT8   DD SPACE=(CYL,(1,1))
+        14 //SYSUT9   DD SPACE=(CYL,(1,1))
+        15 //SYSUT10  DD SPACE=(CYL,(1,1))
+        16 //SYSUT11  DD SPACE=(CYL,(1,1))
+        17 //SYSUT12  DD SPACE=(CYL,(1,1))
+        18 //SYSUT13  DD SPACE=(CYL,(1,1))
+        19 //SYSUT14  DD SPACE=(CYL,(1,1))
+        20 //SYSUT15  DD SPACE=(CYL,(1,1))
+        21 //SYSMDECK DD SPACE=(CYL,(1,1))
+           //*
+        22 //SYSUDUMP DD SYSOUT=*
+           //*
+           //*******************************************************************
+           //* JSTEP02 - Executes the program 'HEWL' and will be the binder    *
+           //* step. only works if the condition code is 0 meaning no abends   *
+           //*                                                                 *
+           //* SYSLIB - required for the compiler                              *
+           //*                                                                 *
+           //* SYSLIN - grabs the TEMP from JSTEP01                            *
+           //*                                                                 *
+           //* SYSLMOD - Load module/program object stored in PDSE             *
+           //*                                                                 *
+           //* SYSPRINT - Output of the registers for abend                    *
+           //*******************************************************************
+           //*
+        23 //JSTEP02  EXEC PGM=HEWL,COND=(0,LT)
+           //*
+        24 //SYSLIB   DD DSN=CEE.SCEELKED,DISP=SHR
+           //*
+        25 //SYSLIN   DD DSN=&&TEMP,DISP=(OLD,DELETE,DELETE)
+           //*
+        26 //SYSLMOD  DD DSN=KC03I4C.CSCI465.LOADLIB(ENDOWMT1),
+           //            SPACE=(1024,(50,20,1)),DSNTYPE=LIBRARY,
+           //            DISP=(MOD,KEEP,KEEP)
+           //*
+        27 //SYSPRINT DD SYSOUT=*
+           //*
+           //*******************************************************************
+           //* JSTEP03 - Fetches the program object/load module stored in my   *
+           //* PDSE. Only works when less than 0, (no abends or errors)        *
+           //*                                                                 *
+           //* STEPLIN input will be used for accessing the data set from my   *
+           //* loadlib                                                         *
+           //*                                                                 *
+           //* COBIN3 input will grab the temp object from setep one and use   *
+           //* it for output                                                   *
+           //*                                                                 *
+           //* COBOUT3 output will print the data from                         *
+           //* KC02322.CSCI465.DATAFA20(DATA3)                                 *
+           //*                                                                 *
+           //* SYSUDUMP output will provide a dump of registers and PSW        *
+           //* incase of abend                                                 *
+           //*******************************************************************
+        28 //JSTEP03  EXEC PGM=ENDOWMT1,COND=(0,LT)
+           //*
+        29 //STEPLIB  DD DSN=KC03I4C.CSCI465.LOADLIB,DISP=SHR
+           //*
+        30 //ENDIN4   DD DSN=KC02322.CSCI465.DATAFA20(DATA4),
+           //            DISP=SHR
+           //*
+        31 //ENDOUT4  DD SYSOUT=*
+           //*
+        32 //SYSUDUMP DD SYSOUT=*
+ ICH70001I KC03I4C  LAST ACCESS AT 17:47:04 ON WEDNESDAY, OCTOBER 7, 2020
+ IEFA111I KC03I4CA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03I4CA JSTEP01
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD101I SMS ALLOCATED TO DDNAME (SYSLIN  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.TEMP.H01    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT1  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146294    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT2  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146295    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT3  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146296    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT4  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146297    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT5  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146298    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT6  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146299    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT7  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146300    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT8  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146301    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT9  )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146302    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT10 )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146303    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT11 )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146304    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT12 )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146305    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT13 )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146306    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT14 )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146307    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT15 )
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146308    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSMDECK)
+         DSN (SYS20281.T175218.RA000.KC03I4CA.R0146309    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF142I KC03I4CA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   KC03I4C.KC03I4CA.JOB05454.D0000101.?         SYSIN
+ IGD106I SYS20281.T175218.RA000.KC03I4CA.TEMP.H01     PASSED,    DDNAME=SYSLIN
+ IEF285I   KC03I4C.KC03I4CA.JOB05454.D0000102.?         SYSOUT
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146294     DELETED,   DDNAME=SYSUT1
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146295     DELETED,   DDNAME=SYSUT2
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146296     DELETED,   DDNAME=SYSUT3
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146297     DELETED,   DDNAME=SYSUT4
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146298     DELETED,   DDNAME=SYSUT5
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146299     DELETED,   DDNAME=SYSUT6
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146300     DELETED,   DDNAME=SYSUT7
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146301     DELETED,   DDNAME=SYSUT8
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146302     DELETED,   DDNAME=SYSUT9
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146303     DELETED,   DDNAME=SYSUT10
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146304     DELETED,   DDNAME=SYSUT11
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146305     DELETED,   DDNAME=SYSUT12
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146306     DELETED,   DDNAME=SYSUT13
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146307     DELETED,   DDNAME=SYSUT14
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146308     DELETED,   DDNAME=SYSUT15
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.R0146309     DELETED,   DDNAME=SYSMDECK
+ IEF285I   KC03I4C.KC03I4CA.JOB05454.D0000103.?         SYSOUT
+ IEF373I STEP/JSTEP01 /START 2020281.1752
+ IEF032I STEP/JSTEP01 /STOP  2020281.1752
+         CPU:     0 HR  00 MIN  00.05 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:   500K  SYS:  4252K  EXT:   135888K  SYS:    13672K
+         ATB- REAL:                  6024K  SLOTS:                     0K
+              VIRT- ALLOC:     529M SHRD:       0M
+ IEF236I ALLOC. FOR KC03I4CA JSTEP02
+ IEF237I 1001 ALLOCATED TO SYSLIB
+ IGD103I SMS ALLOCATED TO DDNAME SYSLIN
+ IGD103I SMS ALLOCATED TO DDNAME SYSLMOD
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF142I KC03I4CA JSTEP02 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   CEE.SCEELKED                                 KEPT
+ IEF285I   VOL SER NOS= VTMVSC.
+ IGD105I SYS20281.T175218.RA000.KC03I4CA.TEMP.H01     DELETED,   DDNAME=SYSLIN
+ IGD104I KC03I4C.CSCI465.LOADLIB                      RETAINED,  DDNAME=SYSLMOD
+ IEF285I   KC03I4C.KC03I4CA.JOB05454.D0000104.?         SYSOUT
+ IEF373I STEP/JSTEP02 /START 2020281.1752
+ IEF032I STEP/JSTEP02 /STOP  2020281.1752
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:    88K  SYS:   252K  EXT:     1768K  SYS:    11684K
+         ATB- REAL:                  1068K  SLOTS:                     0K
+              VIRT- ALLOC:      15M SHRD:       0M
+ IEF236I ALLOC. FOR KC03I4CA JSTEP03
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IGD103I SMS ALLOCATED TO DDNAME ENDIN4
+ IEF237I JES2 ALLOCATED TO ENDOUT4
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF142I KC03I4CA JSTEP03 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC03I4C.CSCI465.LOADLIB                      RETAINED,  DDNAME=STEPLIB
+ IGD104I KC02322.CSCI465.DATAFA20                     RETAINED,  DDNAME=ENDIN4
+ IEF285I   KC03I4C.KC03I4CA.JOB05454.D0000105.?         SYSOUT
+ IEF285I   KC03I4C.KC03I4CA.JOB05454.D0000106.?         SYSOUT
+ IEF373I STEP/JSTEP03 /START 2020281.1752
+ IEF032I STEP/JSTEP03 /STOP  2020281.1752
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:    92K  SYS:   260K  EXT:     2588K  SYS:    11684K
+         ATB- REAL:                  1068K  SLOTS:                     0K
+              VIRT- ALLOC:      15M SHRD:       0M
+ IEF375I  JOB/KC03I4CA/START 2020281.1752
+ IEF033I  JOB/KC03I4CA/STOP  2020281.1752
+         CPU:     0 HR  00 MIN  00.06 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107                 Date 10/07/2020  Time 17:52:22   Page     1
+0Invocation parameters:
+  APOST
+0Options in effect:
+  NOADATA
+    ADV
+    AFP(NOVOLATILE)
+    APOST
+    ARCH(7)
+    ARITH(COMPAT)
+  NOAWO
+  NOBLOCK0
+    BUFSIZE(4096)
+  NOCICS
+    CODEPAGE(1140)
+  NOCOMPILE(S)
+  NOCOPYLOC
+  NOCOPYRIGHT
+  NOCURRENCY
+    DATA(31)
+    DBCS
+  NODECK
+  NODEFINE
+  NODIAGTRUNC
+    DISPSIGN(COMPAT)
+  NODLL
+  NODUMP
+  NODYNAM
+  NOEXIT
+  NOEXPORTALL
+  NOFASTSRT
+    FLAG(I,I)
+  NOFLAGSTD
+    HGPR(PRESERVE)
+  NOINITCHECK
+    INLINE
+    INTDATE(ANSI)
+    LANGUAGE(EN)
+    LINECOUNT(60)
+  NOLIST
+  NOMAP
+    MAXPCF(100000)
+  NOMDECK
+  NONAME
+    NSYMBOL(NATIONAL)
+  NONUMBER
+  NONUMCHECK
+    NUMPROC(NOPFD)
+    OBJECT
+  NOOFFSET
+    OPTIMIZE(0)
+    OUTDD(SYSOUT)
+  NOPARMCHECK
+    PGMNAME(COMPAT)
+    QUALIFY(COMPAT)
+    RENT
+    RMODE(AUTO)
+  NORULES
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107                 Date 10/07/2020  Time 17:52:22   Page     2
+0 NOSERVICE
+    SEQUENCE
+    SOURCE
+    SPACE(1)
+  NOSQL
+    SQLCCSID
+  NOSQLIMS
+  NOSSRANGE
+  NOSTGOPT
+    SUPPRESS
+  NOTERM
+  NOTEST(NODWARF,NOSOURCE,NOSEPARATE)
+  NOTHREAD
+    TRUNC(STD)
+  NOVBREF
+    VLR(STANDARD)
+    VSAMOPENFS(COMPAT)
+  NOWORD
+    XMLPARSE(XMLSS)
+    XREF(FULL)
+    ZONEDATA(PFD)
+    ZWB
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT1  Date 10/07/2020  Time 17:52:22   Page     3
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000001               ****************************************************************
+   000002               *                                                              *
+   000003               * PROGRAM NAME:  ENDOWMT1                                      *
+   000004               *                                                              *
+   000005               * FUNCTION:  THIS PROGRAM READS INPUT DATA RECORDS AND THEN    *
+   000006               *            WRITES THEM TO STANDARD OUTPUT.                   *
+   000007               *                                                              *
+   000008               * INPUT:     INORCH - THE INPUT DATA RECORDS READ IN.          *
+   000009               *                                                              *
+   000010               * OUTPUT:    REPORT - THE INPUT DATA RECORDS WRITTEN OUT.      *
+   000011               *                                                              *
+   000012               ****************************************************************
+   000013
+   000014                IDENTIFICATION DIVISION.
+   000015
+   000016                PROGRAM-ID.    ENDOWMT1.
+   000017                AUTHOR.        CHARLES ALMS.
+   000018                DATE-WRITTEN.  09/28/2020.
+   000019                DATE-COMPILED. 10/07/20.
+   000020
+   000021                ENVIRONMENT DIVISION.
+   000022
+   000023                INPUT-OUTPUT SECTION.
+   000024               ***************************************************************
+   000025               * IN/OUTPUT FILE IS ASSIGNED TO THE SAME NAME AS IN JSPET03   *
+   000026               ***************************************************************
+   000027                FILE-CONTROL.
+   000028                    SELECT INORCH-FILE ASSIGN TO ENDIN4.                                  35
+   000029                    SELECT REPORT-FILE ASSIGN TO ENDOUT4.                                 50
+   000030
+   000031                DATA DIVISION.
+   000032
+   000033                FILE SECTION.
+   000034
+   000035                FD  INORCH-FILE
+   000036                    RECORDING MODE IS F.
+   000037               ***************************************************************
+   000038               * S9(9)V99: S MEANS IT CAN BE NEGATIVE, 9 MEANS NUMEBRS, (9)  *
+   000039               * MEANS IT IS 9 CHARACTERS LONG, V99 MEANS 2 DECIMAL PLACES   *
+   000040               ***************************************************************
+   000041                01  INORCH-RECORD.
+   000042                    05  IN-INORCH-NME                    PIC X(45).
+   000043                    05  FILLER                           PIC X(5) VALUE SPACES.           IMP
+   000044                    05  IN-INORCH-END                    PIC S9(9)V99.
+   000045                    05  FILLER                           PIC X(3) VALUE SPACES.           IMP
+   000046                    05  IN-INORCH-FLG                    PIC 9(1).
+   000047                    05  IN-INORCH-ULMT                   PIC S9(9)V99.
+   000048                    05  FILLER                           PIC X(4) VALUE SPACES.           IMP
+   000049
+   000050                FD  REPORT-FILE
+   000051                    RECORDING MODE IS F.
+   000052
+   000053                01  REPORT-RECORD                       PIC X(132).
+   000054
+   000055
+   000056
+   000057                WORKING-STORAGE SECTION.
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT1  Date 10/07/2020  Time 17:52:22   Page     4
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000058
+   000059                01  EOF-FLAG                            PIC X VALUE 'N'.
+   000060               ***************************************************************
+   000061               * AREA FOR CODING THE SPACE FOR THE RECORD OUTPUT             *
+   000062               ***************************************************************
+   000063                01  OUTPUT-LINE.
+   000064                    05  OUT-RPT-NME                     PIC X(45).
+   000065                    05  FILLER                          PIC X(5) VALUE SPACES.            IMP
+   000066                    05  OUT-RPT-END                     PIC $$$,$$$,$$9.99.
+   000067                    05  FILLER                          PIC X(5) VALUE SPACES.            IMP
+   000068                    05  OUT-RPT-FLG                     PIC 9.
+   000069                    05  FILLER                          PIC X(9).
+   000070                    05  OUT-RPT-ULMT                    PIC $$$,$$$,$$9.99.
+   000071                    05  FILLER                          PIC X(39).
+   000072
+   000073               ***************************************************************
+   000074               * AREA FOR CODING THE DATE HEADER EVERY 15 LINES              *
+   000075               ***************************************************************
+   000076                01  DATE-HEAD.
+   000077                    05  OUT-CURRENT-DATE.
+   000078                        10  CURRENT-MONTH              PIC 99.
+   000079                        10  FILLER                     PIC X VALUE '/'.
+   000080                        10  CURRENT-DAY                PIC 99.
+   000081                        10  FILLER                     PIC X VALUE '/'.
+   000082                        10  CURRENT-YEAR               PIC 9(4).
+   000083                    05  FILLER                         PIC X(122) VALUE SPACES.           IMP
+   000084
+   000085               ***************************************************************
+   000086               * MISC. HAS THE TOTAL AMOUNT                                  *
+   000087               ***************************************************************
+   000088                01  MISC.
+   000089                    05  TOTAL-FUND-END    PIC S9(11)V99 PACKED-DECIMAL VALUE 0.
+   000090
+   000091               ***************************************************************
+   000092               * TOTAL PRINT LINE OF ALL ENDOW. BALANCES                     *
+   000093               ***************************************************************
+   000094                01  TOTAL-LINE.
+   000095                    05  FILLER              PIC X(46) VALUE SPACES.                       IMP
+   000096                    05  OUT-TOTAL-FUND-END  PIC $$$,$$$,$$$,$$9.99.
+   000097                    05  FILLER              PIC X(68) VALUE SPACES.                       IMP
+   000098
+   000099               ***************************************************************
+   000100               * LINE COUNTER FOR DISPLAYING THE DATE                        *
+   000101               ***************************************************************
+   000102                01  COUNTER.
+   000103                    05  LINE-CTR            PIC S9(2) BINARY SYNC VALUE 99.
+   000104
+   000105               ***************************************************************
+   000106               * DATE FUNCTION FROM THE NOTES                                *
+   000107               ***************************************************************
+   000108                01  CURRENT-DATE-FIELDS.
+   000109                    05  CURRENT-DATE.
+   000110                        10  CURRENT-YEAR                   PIC 9(4).
+   000111                        10  CURRENT-MONTH                  PIC 9(2).
+   000112                        10  CURRENT-DAY                    PIC 9(2).
+   000113                    05  CURRENT-TIME.
+   000114                        10  CURRENT-HOUR                   PIC 9(2).
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT1  Date 10/07/2020  Time 17:52:22   Page     5
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000115                        10  CURRENT-MINUTE                 PIC 9(2).
+   000116                        10  CURRENT-SECOND                 PIC 9(2).
+   000117                        10  CURRENT-MS                     PIC 9(2).
+   000118                    05  DIFF-FROM-GMT                      PIC S9(4).
+   000119
+   000120
+   000121                PROCEDURE DIVISION.
+   000122
+   000123                0000-MAIN.
+   000124
+   000125                    PERFORM 0100-DATE-AND-TIME.                                           155
+   000126
+   000127                    OPEN INPUT  INORCH-FILE                                               35
+   000128                         OUTPUT REPORT-FILE.                                              50
+   000129
+   000130                    READ INORCH-FILE                                                      35
+   000131      1               AT END MOVE 'Y' TO EOF-FLAG                                         59
+   000132                    END-READ.
+   000133
+   000134                    PERFORM 0200-ORCHPRO-RECORD                                           166
+   000135                      UNTIL EOF-FLAG = 'Y'.                                               59
+   000136
+   000137
+   000138
+   000139                    MOVE TOTAL-FUND-END TO OUT-TOTAL-FUND-END.                            89 96
+   000140                    WRITE REPORT-RECORD FROM TOTAL-LINE AFTER 2.                          53 94
+   000141
+   000142
+   000143
+   000144
+   000145                    CLOSE INORCH-FILE                                                     35
+   000146                          REPORT-FILE.                                                    50
+   000147
+   000148                    GOBACK.
+   000149
+   000150                0000-EXIT. EXIT.
+   000151
+   000152               ***************************************************************
+   000153               * SUB. FOR THE DATE                                           *
+   000154               ***************************************************************
+   000155                0100-DATE-AND-TIME.
+   000156
+   000157                    MOVE FUNCTION CURRENT-DATE TO CURRENT-DATE-FIELDS.                    IFN 108
+   000158
+   000159                    MOVE CORRESPONDING CURRENT-DATE TO OUT-CURRENT-DATE.                  109 77
+   000160
+   000161                0100-EXIT. EXIT.
+   000162
+   000163               ***************************************************************
+   000164               * PRINTS OUT THE INPUT FILE DATA IN THE CORRECT FORMAT        *
+   000165               ***************************************************************
+   000166                0200-ORCHPRO-RECORD.
+   000167
+   000168                    MOVE IN-INORCH-NME TO OUT-RPT-NME.                                    42 64
+   000169                    MOVE IN-INORCH-END TO OUT-RPT-END.                                    44 66
+   000170                    MOVE IN-INORCH-FLG TO OUT-RPT-FLG.                                    46 68
+   000171                    MOVE IN-INORCH-ULMT TO OUT-RPT-ULMT.                                  47 70
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT1  Date 10/07/2020  Time 17:52:22   Page     6
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000172
+   000173               ***************************************************************
+   000174               * CALCULATES THE TOTAL OF THE END. AMOUNT                     *
+   000175               ***************************************************************
+   000176                    COMPUTE TOTAL-FUND-END ROUNDED =                                      89
+   000177                      TOTAL-FUND-END + IN-INORCH-END.                                     89 44
+   000178
+   000179               ***************************************************************
+   000180               * IF STATEMENT FOR PRINTING THE DATE EVERY 15 LINES           *
+   000181               ***************************************************************
+   000182                    IF LINE-CTR > 15                                                      103
+   000183      1               WRITE REPORT-RECORD FROM DATE-HEAD AFTER PAGE                       53 76
+   000184      1               MOVE 0 TO LINE-CTR                                                  103
+   000185                    END-IF.
+   000186
+   000187
+   000188                    WRITE REPORT-RECORD FROM OUTPUT-LINE AFTER 2.                         53 63
+   000189                    ADD 1 TO LINE-CTR.                                                    103
+   000190
+   000191                    READ INORCH-FILE                                                      35
+   000192      1               AT END MOVE 'Y' TO EOF-FLAG                                         59
+   000193                    END-READ.
+   000194
+   000195                0200-EXIT. EXIT.
+   000196
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT1  Date 10/07/2020  Time 17:52:22   Page     7
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+  Defined   Cross-reference of data names   References
+
+      102   COUNTER
+      109   CURRENT-DATE . . . . . . . . .  159
+      108   CURRENT-DATE-FIELDS. . . . . .  M157
+       80   CURRENT-DAY. . . . . . . . . .  M159
+      112   CURRENT-DAY. . . . . . . . . .  159
+      114   CURRENT-HOUR
+      115   CURRENT-MINUTE
+       78   CURRENT-MONTH. . . . . . . . .  M159
+      111   CURRENT-MONTH. . . . . . . . .  159
+      117   CURRENT-MS
+      116   CURRENT-SECOND
+      113   CURRENT-TIME
+       82   CURRENT-YEAR . . . . . . . . .  M159
+      110   CURRENT-YEAR . . . . . . . . .  159
+       76   DATE-HEAD. . . . . . . . . . .  183
+      118   DIFF-FROM-GMT
+       59   EOF-FLAG . . . . . . . . . . .  M131 135 M192
+       44   IN-INORCH-END. . . . . . . . .  169 177
+       46   IN-INORCH-FLG. . . . . . . . .  170
+       42   IN-INORCH-NME. . . . . . . . .  168
+       47   IN-INORCH-ULMT . . . . . . . .  171
+       35   INORCH-FILE. . . . . . . . . .  28 127 130 145 191
+       41   INORCH-RECORD
+      103   LINE-CTR . . . . . . . . . . .  182 M184 M189
+       88   MISC
+       77   OUT-CURRENT-DATE . . . . . . .  M159
+       66   OUT-RPT-END. . . . . . . . . .  M169
+       68   OUT-RPT-FLG. . . . . . . . . .  M170
+       64   OUT-RPT-NME. . . . . . . . . .  M168
+       70   OUT-RPT-ULMT . . . . . . . . .  M171
+       96   OUT-TOTAL-FUND-END . . . . . .  M139
+       63   OUTPUT-LINE. . . . . . . . . .  188
+       50   REPORT-FILE. . . . . . . . . .  29 128 146
+       53   REPORT-RECORD. . . . . . . . .  M140 M183 M188
+       89   TOTAL-FUND-END . . . . . . . .  139 M176 177
+       94   TOTAL-LINE . . . . . . . . . .  140
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT1  Date 10/07/2020  Time 17:52:22   Page     8
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+
+  Defined   Cross-reference of procedures   References
+
+      150   0000-EXIT
+      123   0000-MAIN
+      155   0100-DATE-AND-TIME . . . . . .  P125
+      161   0100-EXIT
+      195   0200-EXIT
+      166   0200-ORCHPRO-RECORD. . . . . .  P134
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT1  Date 10/07/2020  Time 17:52:22   Page     9
+0 Defined   Cross-reference of programs     References
+
+       16   ENDOWMT1
+-* Statistics for COBOL program ENDOWMT1:
+ *    Source records = 196
+ *    Data Division statements = 34
+ *    Procedure Division statements = 26
+ *    Generated COBOL statements = 0
+ *    Program complexity factor = 27
+0End of compilation 1,  program ENDOWMT1,  no statements flagged.
+0Return code 0
+1z/OS V2 R3 BINDER     17:52:23 WEDNESDAY OCTOBER  7, 2020
+ BATCH EMULATOR  JOB(KC03I4CA) STEP(JSTEP02 ) PGM= HEWL
+
+
+
+                                 *** O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+1PROCESSING OPTIONS:
+
+    ALIASES             NO
+    ALIGN2              NO
+    AMODE               UNSPECIFIED
+    CALL                YES
+    CASE                UPPER
+    COMPAT              UNSPECIFIED
+    COMPRESS            AUTO
+    DCBS                NO
+    DYNAM               NO
+    EXTATTR             UNSPECIFIED
+    EXITS:              NONE
+    FILL                NONE
+    GID                 UNSPECIFIED
+    HOBSET              NO
+    INFO                NO
+    LET                 04
+    LINECT              060
+    LIST                SUMMARY
+    LISTPRIV            NO
+    LONGPARM            NO
+    MAP                 NO
+    MAXBLK              032760
+    MODMAP              NO
+    MSGLEVEL            00
+    OVLY                NO
+    PRINT               YES
+    RES                 NO
+    REUSABILITY         UNSPECIFIED
+    RMODE               UNSPECIFIED
+    RMODEX              NO
+    SIGN                NO
+    STORENX             NOREPLACE
+    STRIPCL             NO
+    STRIPSEC            NO
+    SYMTRACE
+    TERM                NO
+    TRAP                ON
+    UID                 UNSPECIFIED
+    UPCASE              NO
+    WKSPACE             000000K,000000K
+    XCAL                NO
+    XREF                NO
+    ***END OF OPTIONS***
+
+
+
+
+1SAVE OPERATION SUMMARY:
+
+    MEMBER NAME         ENDOWMT1
+    LOAD LIBRARY        KC03I4C.CSCI465.LOADLIB
+    PROGRAM TYPE        PROGRAM OBJECT(FORMAT 3)
+    VOLUME SERIAL       KCTR00
+    DISPOSITION         REPLACED
+    TIME OF SAVE        17.52.24  OCT  7, 2020
+
+
+1SAVE MODULE ATTRIBUTES:
+
+    AC                  000
+    AMODE                31
+    COMPRESSION         NONE
+    DC                  NO
+    EDITABLE            YES
+    EXCEEDS 16MB        NO
+    EXECUTABLE          YES
+    LONGPARM            NO
+    MIGRATABLE          NO
+    OL                  NO
+    OVLY                NO
+    PACK,PRIME          NO,NO
+    PAGE ALIGN          NO
+    REFR                NO
+    RENT                NO
+    REUS                NO
+    RMODE               ANY
+    SCTR                NO
+    SIGN                NO
+    SSI
+    SYM GENERATED       NO
+    TEST                NO
+    XPLINK              NO
+    MODULE SIZE (HEX)   00002424
+    DASD SIZE (HEX)     0000B000
+
+
+1 ENTRY POINT AND ALIAS SUMMARY:
+
+  NAME:            ENTRY TYPE AMODE C_OFFSET CLASS NAME        STATUS
+
+  ENDOWMT1          MAIN_EP      31 00000000 C_CODE
+
+                          *** E N D   O F   O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+
+
+
+1z/OS V2 R3 BINDER     17:52:23 WEDNESDAY OCTOBER  7, 2020
+ BATCH EMULATOR  JOB(KC03I4CA) STEP(JSTEP02 ) PGM= HEWL
+ IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.
+
+
+
+1----------------------
+ MESSAGE SUMMARY REPORT
+ ----------------------
+  TERMINAL MESSAGES      (SEVERITY = 16)
+  NONE
+
+  SEVERE MESSAGES        (SEVERITY = 12)
+  NONE
+
+  ERROR MESSAGES         (SEVERITY = 08)
+  NONE
+
+  WARNING MESSAGES       (SEVERITY = 04)
+  NONE
+
+  INFORMATIONAL MESSAGES (SEVERITY = 00)
+  2008
+
+
+  **** END OF MESSAGE SUMMARY REPORT ****
+
+110/07/2020
+0Berlin Philharmonic                                  $936,184.80     2            $136,184.80                                       
+0Vienna Philharmonic                                $7,166,149.40     4          $1,124,644.49                                       
+0Chicago Symphony Orchestra                         $1,808,213.50     1            $999,999.99                                       
+0Boston Symphony Orchestra                          $4,008,702.00     2          $1,238,533.02                                       
+0Kansas City Symphony                               $2,242,199.90     3          $1,112,233.90                                       
+0New York Philharmonic                              $2,340,612.10     1          $1,111,122.14                                       
+0Grand Rapids Symphony Orchestra                    $2,074,303.90     1          $1,114,424.90                                       
+0Seattle Symphony Orchestra                         $4,228,415.20     4            $928,415.70                                       
+0Symphony Orchestra of the Bavarian Radio           $3,108,140.21     1          $1,108,140.21                                       
+0Orchestra of the German Opera Berlin               $2,110,810.27     3             $99,999.27                                       
+0Orchestra of Paris                                 $4,310,810.06     2          $2,222,644.39                                       
+0National Orchestra of France                       $2,410,012.15     4            $226,468.95                                       
+0London Philharmonic Orchestra                        $140,812.24     4             $99,999.98                                       
+0London Symphony Orchestra                          $3,104,812.33     2          $1,104,812.33                                       
+0Philharmonia Orchestra                               $102,312.42     1             $99,912.42                                       
+0San Francisco Symphony                             $2,101,142.56     2          $1,000,000.00                                       
+110/07/2020
+0Scottish National Orchestra                        $3,104,124.67     2          $1,500,000.00                                       
+0National Orchestra of Ireland                      $3,108,214.26     1          $1,500,000.00                                       
+0Czech Philharmonic                                 $3,310,831.45     1            $999,999.99                                       
+0Munich Philharmonic                                $2,512,234.10     1          $1,750,000.00                                       
+0Orchestra of the Vienna State Opera                $3,300,005.24     1          $1,890,000.99                                       
+0Detroit Symphony                                      $31,116.05     1            $999,999.99                                       
+0Cleveland Orchestra                                $3,103,817.26     4            $103,817.26                                       
+0St. Louis Symphony Orchestra                       $3,108,311.27     4            $108,311.27                                       
+0Kishwaukee Symphony Orchestra                      $3,108,131.24     4            $999,999.99                                       
+0Hong Kong Symphony Orchestra                       $3,108,113.23     4          $1,950,000.00                                       
+0NHK Symphony Orchestra Tokyo                       $4,606,410.52     1          $2,500,000.00                                       
+0Beijing Philharmonic                               $2,807,640.81     1          $1,809,500.99                                       
+0Philharmonic Hamburg                               $9,068,254.17     4          $6,000,000.00                                       
+0Symphony Orchestra of the North German Radio       $6,086,271.26     4          $2,500,000.00                                       
+0Sao Paulo Symphony Orchestra                       $6,082,661.25     2          $4,500,000.00                                       
+0Florida Philharmonic                               $6,982,761.24     1          $2,982,761.24                                       
+110/07/2020
+0Lucerne Festival Orchestra                        $26,182,816.24     4         $11,112,816.24                                       
+0Beethoven Orchestra Bonn                             $608,291.23     1            $238,291.23                                       
+0Royal Philharmonic Orchestra                       $4,608,212.33     2          $1,500,000.00                                       
+0Orchestra of Opera Lyon                            $6,408,212.32     1          $2,507,900.00                                       
+0Metropolitan Opera Orchestra                       $6,048,214.21     2          $2,048,214.21                                       
+0MET Orchestra                                     $27,144,923.58     4         $25,025,025.00                                       
+0Orpheus Chamber Orchestra                          $2,179,162.07     4            $999,999.99                                       
+0Los Angeles Philharmonic                           $6,611,022.46     2          $5,000,000.00                                       
+0Berlin Radio Symphony Orchestra                   $10,663,622.50     2          $9,500,000.00                                       
+0Prague Philharmonic                                $3,166,416.19     1            $966,416.19                                       
+0Bayreuth Festival Orchestra                        $2,216,617.29     4          $1,100,000.00                                       
+0Camerata Academica Salzburg                        $6,119,667.89     3          $3,500,000.00                                       
+0La Scala Orchestra Milan                           $1,821,144.25     4            $821,144.35                                       
+0NBC Symphony Orchestra                             $2,332,677.84     1            $150,000.00                                       
+0                                                 $311,733,531.46

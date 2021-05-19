@@ -1,0 +1,1833 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R
+0
+ 16.37.53 JOB00816 ---- MONDAY,    04 MAY 2015 ----
+ 16.37.53 JOB00816  IRR010I  USERID KC03F68  IS ASSIGNED TO THIS JOB.
+ 16.37.53 JOB00816  ICH70001I KC03F68  LAST ACCESS AT 16:35:57 ON MONDAY, MAY 4, 2015
+ 16.37.53 JOB00816  $HASP373 ASSIGN7  STARTED - INIT 3    - CLASS A - SYS S0W1
+ 16.37.56 JOB00816  -                                      -----TIMINGS (MINS.)------                          -----PAGING COUNTS----
+ 16.37.56 JOB00816  -STEPNAME PROCSTEP    RC   EXCP   CONN       TCB       SRB  CLOCK          SERV  WORKLOAD  PAGE  SWAP   VIO SWAPS
+ 16.37.56 JOB00816  -COB                  04    954    806       .00       .00     .0           143  BATCH        0     0     0     0
+ 16.37.57 JOB00816  -LKED                 00    255    137       .00       .00     .0            50  BATCH        0     0     0     0
+ 16.37.57 JOB00816  -BIND                 04    172     25       .00       .00     .0            19  BATCH        0     0     0     0
+ 16.37.57 JOB00816  -RUNPGM               00    261     31       .00       .00     .0            36  BATCH        0     0     0     0
+ 16.37.57 JOB00816  -ASSIGN7  ENDED.  NAME-                     TOTAL TCB CPU TIME=      .00 TOTAL ELAPSED TIME=    .0
+ 16.37.57 JOB00816  $HASP395 ASSIGN7  ENDED
+0------ JES2 JOB STATISTICS ------
+-  04 MAY 2015 JOB EXECUTION DATE
+-           77 CARDS READ
+-        1,833 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-          140 SYSOUT SPOOL KBYTES
+-         0.07 MINUTES EXECUTION TIME
+         1 //ASSIGN7  JOB ,MSGCLASS=H,REGION=4M,                                   JOB00816
+           //        MSGLEVEL=(1,1),CLASS=A,NOTIFY=&SYSUID                         00020000
+           //*                                                                     00030000
+           IEFC653I SUBSTITUTION JCL - ,MSGCLASS=H,REGION=4M,MSGLEVEL=(1,1),CLASS=A,NOTIFY=KC03F68
+         2 //JOBLIB    DD DSN=DSNA10.DBAG.SDSNEXIT,DISP=SHR                        00040001
+         3 //          DD DSN=DSNA10.SDSNLOAD,DISP=SHR                             00050001
+           //*****************************************************************     00060000
+           //* SQL PREPROC AND COBOL COMPILATION:                                  00070000
+           //*****************************************************************     00080000
+           //*-NB SQL PREPROC NOW IS NOW DONE BY THE COBOL COMPILER:               00090000
+           //*****************************************************************     00100000
+         4 //COB     EXEC  PGM=IGYCRCTL,                                           00110000
+           //            PARM=(SQL,LIB,NOTERM,NOSEQUENCE,LIB,XREF,DYN)             00120000
+         5 //STEPLIB   DD DSN=DSNA10.SDSNLOAD,DISP=SHR                             00130001
+         6 //DBRMLIB   DD DSN=&SYSUID..CSCI465.DBRMLIB(ASSIGN7),DISP=SHR           00140000
+           IEFC653I SUBSTITUTION JCL - DSN=KC03F68.CSCI465.DBRMLIB(ASSIGN7),DISP=SHR
+         7 //SYSIN     DD DSN=&SYSUID..CSCI465.SRCLIB(ASSIGN7),DISP=SHR            00150000
+           IEFC653I SUBSTITUTION JCL - DSN=KC03F68.CSCI465.SRCLIB(ASSIGN7),DISP=SHR
+         8 //SYSLIB    DD DSN=KC02322.DB2.DCLLIB,DISP=SHR                          00160000
+         9 //          DD DSN=KC02322.CSCI465.COPYLIB,DISP=SHR                     00161000
+        10 //SYSLIN    DD DSN=&&LOADSET,DISP=(MOD,PASS),UNIT=SYSDA,                00162000
+           //             SPACE=(800,(500,500))                                    00163000
+        11 //SYSPRINT  DD SYSOUT=*                                                 00164000
+        12 //SYSUDUMP  DD SYSOUT=*                                                 00165000
+        13 //SYSUT1    DD SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                 00166000
+        14 //SYSUT2    DD SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                 00167000
+        15 //SYSUT3    DD SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                 00168000
+        16 //SYSUT4    DD SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                 00169000
+        17 //SYSUT5    DD SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                 00170000
+        18 //SYSUT6    DD SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                 00180000
+        19 //SYSUT7    DD SPACE=(800,(500,500),,,ROUND),UNIT=SYSDA                 00190000
+           //*****************************************************************     00200000
+           //*            LINKEDIT                                                 00210000
+           //*****************************************************************     00220000
+        20 //LKED    EXEC PGM=IEWL,PARM='XREF',COND=(4,LT,COB)                     00230000
+        21 //SYSLIB   DD  DISP=SHR,DSN=CEE.SCEELKED                                00240000
+        22 //         DD  DISP=SHR,DSN=DSNA10.SDSNLOAD                             00250001
+        23 //         DD  DISP=SHR,DSN=DFH320.CICS.SDFHLOAD                        00260000
+        24 //         DD  DISP=SHR,DSN=ISP.SISPLOAD                                00270000
+        25 //         DD  DISP=SHR,DSN=GDDM.SADMMOD                                00280000
+        26 //SYSLIN    DD DSN=&&LOADSET,DISP=(OLD,DELETE)                          00290000
+        27 //          DD DDNAME=SYSIN                                             00300000
+        28 //SYSLMOD   DD DSN=&SYSUID..CSCI465.LOAD,DISP=SHR                       00310000
+           IEFC653I SUBSTITUTION JCL - DSN=KC03F68.CSCI465.LOAD,DISP=SHR
+        29 //SYSPRINT  DD  SYSOUT=*                                                00320000
+        30 //SYSUDUMP  DD  SYSOUT=*                                                00330000
+        31 //SYSUT1    DD  SPACE=(1024,(50,50)),UNIT=SYSDA                         00340000
+        32 //SYSIN     DD *                                                        00350000
+           //*****************************************************************     00380000
+           //* BIND                                                                00390000
+           //*****************************************************************     00400000
+        33 //BIND    EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=(4,LT)                     00410000
+        34 //DBRMLIB   DD DSN=&SYSUID..CSCI465.DBRMLIB,DISP=SHR                    00420000
+           IEFC653I SUBSTITUTION JCL - DSN=KC03F68.CSCI465.DBRMLIB,DISP=SHR
+        35 //SYSTSPRT  DD SYSOUT=*                                                 00430000
+        36 //SYSPRINT  DD SYSOUT=*                                                 00440000
+        37 //SYSUDUMP  DD SYSOUT=*                                                 00450000
+        38 //SYSOUT    DD SYSOUT=*                                                 00460000
+        39 //SYSTSIN   DD *                                                        00470000
+           //*****************************************************************     00530000
+           //* RUN PGM                                                             00540000
+           //*****************************************************************     00550000
+        40 //RUNPGM   EXEC PGM=IKJEFT01,DYNAMNBR=20 COND=(4,LT)                    00560000
+        41 //STEPLIB  DD DSN=DSNA10.SDSNLOAD,DISP=SHR                              00570001
+        42 //SYSTSPRT DD SYSOUT=*                                                  00580000
+        43 //SYSPRINT DD SYSOUT=*                                                  00590000
+        44 //SYSUDUMP DD SYSOUT=*                                                  00600000
+        45 //SYSOUT   DD SYSOUT=*                                                  00610000
+        46 //INFILE3  DD DSN=KC02322.CSCI465.DATASP15(DATA5C),DISP=SHR             00620000
+        47 //PRINTER  DD SYSOUT=*                                                  00630000
+        48 //SYSTSIN DD *                                                          00640000
+           //*                                                                     00680000
+ ICH70001I KC03F68  LAST ACCESS AT 16:35:57 ON MONDAY, MAY 4, 2015
+ IEF236I ALLOC. FOR ASSIGN7 COB
+ IEF237I A013 ALLOCATED TO JOBLIB
+ IEF237I A013 ALLOCATED TO
+ IEF237I A013 ALLOCATED TO STEPLIB
+ IGD103I SMS ALLOCATED TO DDNAME DBRMLIB
+ IGD103I SMS ALLOCATED TO DDNAME SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME SYSLIB
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD101I SMS ALLOCATED TO DDNAME (SYSLIN  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.LOADSET.H01  )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT1  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.R0128344     )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT2  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.R0128345     )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT3  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.R0128346     )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT4  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.R0128347     )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT5  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.R0128348     )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT6  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.R0128349     )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT7  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.R0128350     )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF142I ASSIGN7 COB - STEP WAS EXECUTED - COND CODE 0004
+ IEF285I   DSNA10.DBAG.SDSNEXIT                         PASSED
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   DSNA10.SDSNLOAD                              PASSED
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   DSNA10.SDSNLOAD                              KEPT
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IGD104I KC03F68.CSCI465.DBRMLIB                      RETAINED,  DDNAME=DBRMLIB
+ IGD104I KC03F68.CSCI465.SRCLIB                       RETAINED,  DDNAME=SYSIN
+ IGD104I KC02322.DB2.DCLLIB                           RETAINED,  DDNAME=SYSLIB
+ IGD104I KC02322.CSCI465.COPYLIB                      RETAINED,  DDNAME=
+ IGD106I SYS15124.T163753.RA000.ASSIGN7.LOADSET.H01   PASSED,    DDNAME=SYSLIN
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000104.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000105.?          SYSOUT
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.R0128344      DELETED,   DDNAME=SYSUT1
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.R0128345      DELETED,   DDNAME=SYSUT2
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.R0128346      DELETED,   DDNAME=SYSUT3
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.R0128347      DELETED,   DDNAME=SYSUT4
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.R0128348      DELETED,   DDNAME=SYSUT5
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.R0128349      DELETED,   DDNAME=SYSUT6
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.R0128350      DELETED,   DDNAME=SYSUT7
+ IEF373I STEP/COB     /START 2015124.1637
+ IEF032I STEP/COB     /STOP  2015124.1637
+         CPU:     0 HR  00 MIN  00.06 SEC    SRB:     0 HR  00 MIN  00.01 SEC
+         VIRT:  4092K  SYS:   336K  EXT:    32724K  SYS:    10668K
+ IEF236I ALLOC. FOR ASSIGN7 LKED
+ IEF237I A013 ALLOCATED TO JOBLIB
+ IEF237I A013 ALLOCATED TO
+ IEF237I 1001 ALLOCATED TO SYSLIB
+ IEF237I A013 ALLOCATED TO
+ IEF237I 0BEF ALLOCATED TO
+ IEF237I 1001 ALLOCATED TO
+ IEF237I 1001 ALLOCATED TO
+ IGD103I SMS ALLOCATED TO DDNAME SYSLIN
+ IEF237I JES2 ALLOCATED TO
+ IGD103I SMS ALLOCATED TO DDNAME SYSLMOD
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT1  )
+         DSN (SYS15124.T163753.RA000.ASSIGN7.R0128351     )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF142I ASSIGN7 LKED - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   DSNA10.DBAG.SDSNEXIT                         PASSED
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   DSNA10.SDSNLOAD                              PASSED
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   CEE.SCEELKED                                 KEPT
+ IEF285I   VOL SER NOS= VTMVSC.
+ IEF285I   DSNA10.SDSNLOAD                              KEPT
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   DFH320.CICS.SDFHLOAD                         KEPT
+ IEF285I   VOL SER NOS= VTDFHC.
+ IEF285I   ISP.SISPLOAD                                 KEPT
+ IEF285I   VOL SER NOS= VTMVSC.
+ IEF285I   GDDM.SADMMOD                                 KEPT
+ IEF285I   VOL SER NOS= VTMVSC.
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.LOADSET.H01   DELETED,   DDNAME=SYSLIN
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000101.?          SYSIN
+ IGD104I KC03F68.CSCI465.LOAD                         RETAINED,  DDNAME=SYSLMOD
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000106.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000107.?          SYSOUT
+ IGD105I SYS15124.T163753.RA000.ASSIGN7.R0128351      DELETED,   DDNAME=SYSUT1
+ IEF373I STEP/LKED    /START 2015124.1637
+ IEF032I STEP/LKED    /STOP  2015124.1637
+         CPU:     0 HR  00 MIN  00.02 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:   108K  SYS:   324K  EXT:     1640K  SYS:    10708K
+ IEF236I ALLOC. FOR ASSIGN7 BIND
+ IEF237I A013 ALLOCATED TO JOBLIB
+ IEF237I A013 ALLOCATED TO
+ IGD103I SMS ALLOCATED TO DDNAME DBRMLIB
+ IEF237I JES2 ALLOCATED TO SYSTSPRT
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IEF237I JES2 ALLOCATED TO SYSTSIN
+ IEF142I ASSIGN7 BIND - STEP WAS EXECUTED - COND CODE 0004
+ IEF285I   DSNA10.DBAG.SDSNEXIT                         PASSED
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   DSNA10.SDSNLOAD                              PASSED
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000108.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000109.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000110.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000111.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000102.?          SYSIN
+ IGD104I KC03F68.CSCI465.DBRMLIB                      RETAINED,  DDNAME=DBRMLIB
+ IEF373I STEP/BIND    /START 2015124.1637
+ IEF032I STEP/BIND    /STOP  2015124.1637
+         CPU:     0 HR  00 MIN  00.04 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:   412K  SYS:   404K  EXT:      316K  SYS:    11120K
+ IEF236I ALLOC. FOR ASSIGN7 RUNPGM
+ IEF237I A013 ALLOCATED TO JOBLIB
+ IEF237I A013 ALLOCATED TO
+ IEF237I A013 ALLOCATED TO STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSTSPRT
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IGD103I SMS ALLOCATED TO DDNAME INFILE3
+ IEF237I JES2 ALLOCATED TO PRINTER
+ IEF237I JES2 ALLOCATED TO SYSTSIN
+ IGD103I SMS ALLOCATED TO DDNAME SYS00001
+ IGD104I KC03F68.CSCI465.LOAD                         RETAINED,  DDNAME=SYS00001
+ IEF142I ASSIGN7 RUNPGM - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   DSNA10.SDSNLOAD                              KEPT
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000112.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000113.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000114.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000115.?          SYSOUT
+ IGD104I KC02322.CSCI465.DATASP15                     RETAINED,  DDNAME=INFILE3
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000116.?          SYSOUT
+ IEF285I   KC03F68.ASSIGN7.JOB00816.D0000103.?          SYSIN
+ IEF373I STEP/RUNPGM  /START 2015124.1637
+ IEF032I STEP/RUNPGM  /STOP  2015124.1637
+         CPU:     0 HR  00 MIN  00.04 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:   520K  SYS:   420K  EXT:     1080K  SYS:    11144K
+ IEF285I   DSNA10.DBAG.SDSNEXIT                         KEPT
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF285I   DSNA10.SDSNLOAD                              KEPT
+ IEF285I   VOL SER NOS= Z1DBA1.
+ IEF375I  JOB/ASSIGN7 /START 2015124.1637
+ IEF033I  JOB/ASSIGN7 /STOP  2015124.1637
+         CPU:     0 HR  00 MIN  00.16 SEC    SRB:     0 HR  00 MIN  00.01 SEC
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0                         Date 05/04/2015  Time 16:37:55   Page     1
+0Invocation parameters:
+  SQL,LIB,NOTERM,NOSEQUENCE,LIB,XREF,DYN
+
+         IGYOS4013-W   The SIZE(MAX) option was specified together with the SQL or CICS option.  SIZE(nnnnn) option is recommended,
+                       where nnnnn is an explicit size value (not MAX) that leaves enough storage in the user region for the DB2
+                       coprocessor or CICS integrated translator services.
+
+0Options in effect:
+  NOADATA
+    ADV
+    QUOTE
+    ARITH(COMPAT)
+  NOAWO
+  NOBLOCK0
+    BUFSIZE(4096)
+  NOCICS
+    CODEPAGE(1140)
+  NOCOMPILE(S)
+  NOCURRENCY
+    DATA(31)
+  NODATEPROC
+    DBCS
+  NODECK
+  NODIAGTRUNC
+  NODLL
+  NODUMP
+    DYNAM
+  NOEXIT
+  NOEXPORTALL
+  NOFASTSRT
+    FLAG(I,I)
+  NOFLAGSTD
+    INTDATE(ANSI)
+    LANGUAGE(EN)
+    LIB
+    LINECOUNT(60)
+  NOLIST
+  NOMAP
+  NOMDECK
+  NONAME
+    NSYMBOL(NATIONAL)
+  NONUMBER
+    NUMPROC(NOPFD)
+    OBJECT
+  NOOFFSET
+  NOOPTIMIZE
+    OUTDD(SYSOUT)
+    PGMNAME(COMPAT)
+    RENT
+    RMODE(AUTO)
+  NOSEQUENCE
+    SIZE(MAX)
+    SOURCE
+    SPACE(1)
+    SQL
+    SQLCCSID
+  NOSSRANGE
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0                         Date 05/04/2015  Time 16:37:55   Page     2
+0 NOTERM
+  NOTEST
+  NOTHREAD
+    TRUNC(STD)
+  NOVBREF
+  NOWORD
+    XMLPARSE(XMLSS)
+    XREF(FULL)
+    YEARWINDOW(1900)
+    ZWB
+
+         IGYOS4078-W   DSNH527I DSNHOPTS  THE PRECOMPILER OR DB2 COPROCESSOR ATTEMPTED TO USE THE DB2-SUPPLIED DSNHDECP MODULE.
+
+
+         IGYOS4077-I   DSNH4760I DSNHPSRV  THE DB2 SQL COPROCESSOR IS USING THE LEVEL 2 INTERFACE UNDER DB2 V10
+
+-SQL Options in effect:
+  ATTACH(TSO)
+  CCSID(1140)
+  CONNECT(2)
+  DEC(15)
+  DECP(DSNHDECP)
+  NEWFUN(V10)
+  ONEPASS
+  PERIOD
+  QUOTESQL
+  STDSQL(NO)
+  SQL(DB2)
+  NOXREF
+  NO SOURCE
+  DSNHDECP LOADED FROM - (DSNA10.SDSNLOAD(DSNHDECP))
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page     3
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000001               *********************************************************
+   000002               *                                                       *
+   000003               *  PROGRAM NAME: ASSIGN7                                *
+   000004               *  DUE DATE: MAY 4TH                                    *
+   000005               *  DUE TIME: 3:50 PM                                    *
+   000006               *                                                       *
+   000007               *  FUNCTION: TAKES VALUES FROM A GIVEN FILE AND SQL     *
+   000008               *            AND CREATES A PRINT LINE AFTER CALCULATING *
+   000009               *            SHARES FOR EACH MUTUAL FUND                *
+   000010               *                                                       *
+   000011               *  INPUT:    INFILE3:  BRINGS IN RECORDS BRKR RECORDS   *
+   000012               *            SQL TABLES BROUGHT IN VIA EXEC CALLS       *
+   000013               *                                                       *
+   000014               *  OUTPUT:   PRINTER: SHOWS RECORDS AFTER CALCULATIONS  *
+   000015               *                                                       *
+   000016               *                                                       *
+   000017               *********************************************************
+   000018                IDENTIFICATION DIVISION.
+   000019
+   000020                PROGRAM-ID.     ASSIGN7.
+   000021                AUTHOR.         GEOFFREY DECKER.
+   000022                DATE-WRITTEN.   4/29/2015.
+   000023
+   000024                ENVIRONMENT DIVISION.
+   000025
+   000026                INPUT-OUTPUT SECTION.
+   000027
+   000028                FILE-CONTROL.
+   000029
+   000030                    SELECT BRKR-FILE ASSIGN TO INFILE3.                                   37
+   000031                    SELECT PRINT-FILE ASSIGN TO PRINTER.                                  49
+   000032
+   000033                DATA DIVISION.
+   000034
+   000035                FILE SECTION.
+   000036
+   000037                FD   BRKR-FILE
+   000038                     RECORDING MODE IS F.
+   000039
+   000040                     COPY SALESREC.
+   000041C               01  SALES-RECORD.
+   000042C                   05  IN-CITY-NAME           PIC X(20).
+   000043C                   05  IN-BROKER-NAME         PIC X(20).
+   000044C                   05  IN-MF-SALE             OCCURS 4.
+   000045C                       10  IN-FUND-NBR        PIC 9(2).
+   000046C                       10  IN-PRICE-FLAG      PIC 9.
+   000047C                       10  IN-DEPOSIT-AMT     PIC 9(5)V99.
+   000048
+   000049                FD   PRINT-FILE
+   000050                     RECORDING MODE IS F.
+   000051
+   000052                01   PRINT-RECORD                        PIC X(133).
+   000053
+   000054                WORKING-STORAGE SECTION.
+   000055
+   000056                EXEC SQL
+   000057                    INCLUDE SQLCA
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page     4
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000058                END-EXEC.
+   000059C               01 SQLCA GLOBAL.                                                          * *
+   000060C                   05 SQLCAID PIC X(8).
+   000061C                   05 SQLCABC PIC S9(9) COMP-5.
+   000062C                   05 SQLCODE PIC S9(9) COMP-5.
+   000063C                   05 SQLERRM.
+   000064C                     49 SQLERRML PIC S9(4) COMP-5.
+   000065C                     49 SQLERRMC PIC X(70).
+   000066C                   05 SQLERRP PIC X(8).
+   000067C                   05 SQLERRD PIC s9(9) comp-5
+   000068C                              OCCURS 6 TIMES.
+   000069C                   05 SQLWARN.
+   000070C                     10 SQLWARN0 PIC X.
+   000071C                     10 SQLWARN1 PIC X.
+   000072C                     10 SQLWARN2 PIC X.
+   000073C                     10 SQLWARN3 PIC X.
+   000074C                     10 SQLWARN4 PIC X.
+   000075C                     10 SQLWARN5 PIC X.
+   000076C                     10 SQLWARN6 PIC X.
+   000077C                     10 SQLWARN7 PIC X.
+   000078C                   05 SQLEXT.
+   000079C                     10 SQLWARN8 PIC X.
+   000080C                     10 SQLWARN9 PIC X.
+   000081C                     10 SQLWARNA PIC X.
+   000082C                     10 SQLSTATE PIC X(5).
+   000083
+   000084                EXEC SQL
+   000085                    INCLUDE FUND
+   000086                END-EXEC.
+   000087C              ******************************************************************
+   000088C              * DCLGEN TABLE(KC02322.FUND)                                     *
+   000089C              *        LIBRARY(KC03FAA.DB2.DCLLIB(FUND))                       *
+   000090C              *        ACTION(REPLACE)                                         *
+   000091C              *        LANGUAGE(COBOL)                                         *
+   000092C              *        NAMES(FND-)                                             *
+   000093C              *        QUOTE                                                   *
+   000094C              *        COLSUFFIX(YES)                                          *
+   000095C              * ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   *
+   000096C              ******************************************************************
+   000097C                   EXEC SQL DECLARE KC02322.FUND TABLE
+   000098C                   ( FUND_NBR                       INTEGER NOT NULL,
+   000099C                     FUND_NAME                      VARCHAR(25)
+   000100C                   ) END-EXEC.
+   000101C              ******************************************************************
+   000102C              * COBOL DECLARATION FOR TABLE KC02322.FUND                       *
+   000103C              ******************************************************************
+   000104C               01  DCLFUND.
+   000105C              *                       FUND_NBR
+   000106C                   10 FND-FUND-NBR         PIC S9(9) USAGE COMP.
+   000107C                   10 FND-FUND-NAME.
+   000108C              *                       FUND_NAME LENGTH
+   000109C                      49 FND-FUND-NAME-LEN
+   000110C                         PIC S9(4) USAGE COMP.
+   000111C              *                       FUND_NAME
+   000112C                      49 FND-FUND-NAME-TEXT
+   000113C                         PIC X(25).
+   000114C              ******************************************************************
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page     5
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000115C              * THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 2       *
+   000116C              ******************************************************************
+   000117
+   000118                EXEC SQL
+   000119                    INCLUDE FUNDPRC
+   000120                END-EXEC.
+   000121C              ******************************************************************
+   000122C              * DCLGEN TABLE(KC02322.FUND_PRICE)                               *
+   000123C              *        LIBRARY(KC03FAA.DB2.DCLLIB(FUNDPRC))                    *
+   000124C              *        ACTION(REPLACE)                                         *
+   000125C              *        LANGUAGE(COBOL)                                         *
+   000126C              *        NAMES(PRC-)                                             *
+   000127C              *        QUOTE                                                   *
+   000128C              *        COLSUFFIX(YES)                                          *
+   000129C              * ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   *
+   000130C              ******************************************************************
+   000131C                   EXEC SQL DECLARE KC02322.FUND_PRICE TABLE
+   000132C                   ( FUND_NBR                       INTEGER NOT NULL,
+   000133C                     FUND_FLAG                      INTEGER NOT NULL,
+   000134C                     FUND_PRC                       DECIMAL(5, 2)
+   000135C                   ) END-EXEC.
+   000136C              ******************************************************************
+   000137C              * COBOL DECLARATION FOR TABLE KC02322.FUND_PRICE                 *
+   000138C              ******************************************************************
+   000139C               01  DCLFUND-PRICE.
+   000140C              *                       FUND_NBR
+   000141C                   10 PRC-FUND-NBR         PIC S9(9) USAGE COMP.
+   000142C              *                       FUND_FLAG
+   000143C                   10 PRC-FUND-FLAG        PIC S9(9) USAGE COMP.
+   000144C              *                       FUND_PRC
+   000145C                   10 PRC-FUND-PRC         PIC S9(3)V9(2) USAGE COMP-3.
+   000146C              ******************************************************************
+   000147C              * THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 3       *
+   000148C              ******************************************************************
+   000149
+   000150                01   WS-CURRENT-DATE-FIELDS.
+   000151                     05 WS-CURRENT-DATE.
+   000152                        10 WS-CURRENT-YEAR            PIC 9(4).
+   000153                        10 WS-CURRENT-MONTH           PIC 9(2).
+   000154                        10 WS-CURRENT-DAY             PIC 9(2).
+   000155                     05 WS-CURRENT-TIME.
+   000156                        10 WS-CURRENT-HOUR            PIC 9(2).
+   000157                        10 WS-CURRENT-MINUTE          PIC 9(2).
+   000158                        10 WS-CURRENT-SECOND          PIC 9(2).
+   000159                        10 WS-CURRENT-MILLISECOND     PIC 9(2).
+   000160                     05 WS-DIFF-FROM-GMT              PIC S9(4).
+   000161
+   000162                01   RECORD-HEADER.
+   000163                     05 MONTH                         PIC 9(2).
+   000164                     05 SEPERATOR                     PIC X(1) VALUE SPACES.              IMP
+   000165                     05 DAY-PRINT                     PIC 9(2).
+   000166                     05 SEPERATOR                     PIC X(1) VALUE SPACES.              IMP
+   000167                     05 YEAR                          PIC 9(4).
+   000168                     05 FILLER                        PIC X(47) VALUE SPACES.             IMP
+   000169                     05 FIRM-TITLE                    PIC X(20)
+   000170                        VALUE 'FEELINGS MUTUAL FUND'.
+   000171                     05 FILLER                        PIC X(45) VALUE SPACES.             IMP
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page     6
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000172                     05 PAGE-TEXT                     PIC X(6)
+   000173                        VALUE 'PAGE: '.
+   000174                     05 PAGENUM                       PIC ZZ9.
+   000175
+   000176                01   REPORT-HEADER.
+   000177                     05 HOUR                          PIC 9(2).
+   000178                     05 SEPERATOR                     PIC X(1) VALUE SPACES.              IMP
+   000179                     05 MINUTE                        PIC 9(2).
+   000180                     05 FILLER                        PIC X(45) VALUE SPACES.             IMP
+   000181                     05 REPORT-TITLE                  PIC X(36)
+   000182                        VALUE 'MUTUAL FUND DEPOSIT AND SALES RECORD'.
+   000183                     05 FILLER                        PIC X(46) VALUE SPACES.             IMP
+   000184
+   000185                01   RECORD-LABELS.
+   000186                     05 BROKER-CITY                   PIC X(4)
+   000187                        VALUE 'CITY'.
+   000188                     05 FILLER                        PIC X(22) VALUE SPACES.             IMP
+   000189                     05 BRPLER-NAME                   PIC X(11)
+   000190                        VALUE 'BROKER NAME'.
+   000191                     05 FILLER                        PIC X(10) VALUE SPACES.             IMP
+   000192                     05 FUND-NAME                     PIC X(9)
+   000193                        VALUE 'FUND NAME'.
+   000194                     05 FILLER                        PIC X(15) VALUE SPACES.             IMP
+   000195                     05 FUND-NBR                      PIC X(11)
+   000196                        VALUE 'FUND NUMBER'.
+   000197                     05 FILLER                        PIC X(1) VALUE SPACES.              IMP
+   000198                     05 FUND-FLAG                     PIC X(9)
+   000199                        VALUE 'FUND FLAG'.
+   000200                     05 FILLER                        PIC X(2)  VALUE SPACES.             IMP
+   000201                     05 DEP-TITLE                     PIC X(14)
+   000202                        VALUE 'DEPOSIT AMOUNT'.
+   000203                     05 FILLER                        PIC X(3)  VALUE SPACES.             IMP
+   000204                     05 SHARES-TITLE                  PIC X(16)
+   000205                        VALUE 'NUMBER OF SHARES'.
+   000206
+   000207                01   TOTAL-TITLE.
+   000208                     05 FILLER                        PIC X(54) VALUE SPACES.             IMP
+   000209                     05 TOTALS                        PIC X(25)
+   000210                        VALUE 'TOTAL SHARES AND DEPOSITS'.
+   000211                     05 FILLER                        PIC X(53) VALUE SPACES.             IMP
+   000212
+   000213                01   TOTAL-LABELS.
+   000214                     05 FILLER                        PIC X(9) VALUE SPACES.              IMP
+   000215                     05 TOT-BROKERS                   PIC X(13)
+   000216                        VALUE 'TOTAL BROKERS'.
+   000217                     05 FILLER                        PIC X(20) VALUE SPACES.             IMP
+   000218                     05 TOT-SHARES                    PIC X(17)
+   000219                        VALUE 'TOTAL SHARES SOLD'.
+   000220                     05 FILLER                        PIC X(13) VALUE SPACES.             IMP
+   000221                     05 TOT-DEP                       PIC X(15)
+   000222                        VALUE 'TOTAL DEPOSITED'.
+   000223                     05 FILLER                        PIC X(9) VALUE SPACES.              IMP
+   000224                     05 AVG-DEP                       PIC X(19)
+   000225                        VALUE 'AVERAGE DEPOSIT AMT'.
+   000226
+   000227                01   TOTAL-PRINT-LINE.
+   000228                     05 FILLER                        PIC X(19) VALUE SPACES.             IMP
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page     7
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000229                     05 OUT-TOTAL-BROKERS             PIC XXX.
+   000230                     05 FILLER                        PIC X(19) VALUE SPACES.             IMP
+   000231                     05 OUT-TOTAL-SHARES              PIC Z,ZZZ,ZZZ,ZZ9.9990.
+   000232                     05 FILLER                        PIC X(14) VALUE SPACES.             IMP
+   000233                     05 OUT-TOTAL-DEPOSIT             PIC $$$,$$$,$$9.99.
+   000234                     05 FILLER                        PIC X(18) VALUE SPACES.             IMP
+   000235                     05 OUT-AVG-DEPOSIT               PIC $$$,$$9.99.
+   000236                     05 FILLER                        PIC X(18) VALUE SPACES.             IMP
+   000237
+   000238                01   TOTAL-SHARES                     PIC 9(10)V9999.
+   000239
+   000240                01   TOTAL-DEPOSIT                    PIC 9(9)V99.
+   000241
+   000242                01   BRKR-CNT                         PIC 9(3) VALUE 0.
+   000243
+   000244                01   SALES-PRINT-RECORD.
+   000245                     05 OUT-CITY-NAME                 PIC X(25) VALUE SPACES.             IMP
+   000246                     05 FILLER                        PIC X     VALUE SPACES.             IMP
+   000247                     05 OUT-BROKER-NAME               PIC X(20) VALUE SPACES.             IMP
+   000248                     05 FILLER                        PIC X     VALUE SPACES.             IMP
+   000249                     05 OUT-FUND-NAME                 PIC X(26) VALUE SPACES.             IMP
+   000250                     05 OUT-FUND-NBR                  PIC ZZZZZZZZ9.
+   000251                     05 FILLER                        PIC X(8)  VALUE SPACES.             IMP
+   000252                     05 OUT-MF-SALE.
+   000253                        10 OUT-PRICE-FLAG             PIC X(8).
+   000254                        10 OUT-DEPOSIT-AMT            PIC $$$,$$9.99.
+   000255                        10 OUT-SHARES-SOLD            PIC ZZZZ,ZZZ,ZZ9.9990.
+   000256                        10 FILLER                     PIC X     VALUE SPACES.             IMP
+   000257                     05 OUT-FUND-MISSING REDEFINES OUT-MF-SALE.                           252
+
+ ==000257==> IGYDS1154-W "OUT-FUND-MISSING" redefined a smaller item.  The program was accepted as
+                         written.
+
+   000258                        10 MISSING-MESSAGE            PIC X(37).
+   000259
+   000260                01   SHARES                           PIC 9(9)V9(4).
+   000261
+   000262                01   EOF-FLAG                         PIC X VALUE 'N'.
+   000263
+   000264                01   PAGE-CNT                         PIC 9(2) VALUE 1.
+   000265
+   000266                01   LINE-CNT                         PIC 9(2) VALUE 0.
+   000267
+   000268                01   FUND-SUB                         PIC S9 COMP SYNC.
+   000269
+   000270                01   SALES-SUB                        PIC S9 COMP SYNC.
+   000271
+   000272                01   PRICE-SUB                        PIC S9 COMP SYNC.
+   000273
+   000274                01 NEW-LINE                           PIC X(132) VALUE SPACES.            IMP
+   000275
+   000276                01 DASHES                             PIC X(132) VALUE ALL '-'.
+   000277
+   000278
+   000279                PROCEDURE DIVISION.
+   000280
+   000281                0000-MAIN.
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page     8
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000282
+   000283               *********************************************************
+   000284               *                                                       *
+   000285               *   0000-MAIN DOES THE FOLLOWING:                       *
+   000286               *                                                       *
+   000287               *       1. GETS AND PRINTS THE DATE TO THE HEADER       *
+   000288               *       2. PRINTS HEADERS FOR THE FIRST TIME            *
+   000289               *       3. CALLS THE OTHER PERFORMS TO CALCULATE        *
+   000290               *              FUND DATA                                *
+   000291               *                                                       *
+   000292               *********************************************************
+   000293
+   000294                    OPEN OUTPUT PRINT-FILE                                                49
+   000295                         INPUT  BRKR-FILE.                                                37
+   000296
+   000297                    MOVE FUNCTION CURRENT-DATE TO WS-CURRENT-DATE-FIELDS.                 IFN 150
+   000298
+   000299                    MOVE 1 TO PAGENUM.                                                    174
+   000300                    MOVE WS-CURRENT-MONTH TO MONTH.                                       153 163
+   000301                    MOVE WS-CURRENT-DAY TO DAY-PRINT.                                     154 165
+   000302                    MOVE WS-CURRENT-YEAR TO YEAR.                                         152 167
+   000303                    MOVE WS-CURRENT-HOUR TO HOUR.                                         156 177
+   000304                    MOVE WS-CURRENT-MINUTE TO MINUTE.                                     157 179
+   000305
+   000306
+   000307                    WRITE PRINT-RECORD FROM RECORD-HEADER AFTER PAGE.                     52 162
+   000308                    WRITE PRINT-RECORD FROM REPORT-HEADER AFTER 2.                        52 176
+   000309                    WRITE PRINT-RECORD FROM RECORD-LABELS AFTER 2.                        52 185
+   000310                    WRITE PRINT-RECORD FROM DASHES AFTER 2.                               52 276
+   000311
+   000312
+   000313
+   000314                    READ BRKR-FILE                                                        37
+   000315      1                AT END MOVE 'Y' TO EOF-FLAG                                        262
+   000316                    END-READ.
+   000317
+   000318
+   000319                    PERFORM 3000-PROCESS-SALES                                            332
+   000320                       UNTIL EOF-FLAG = 'Y'.                                              262
+   000321
+   000322
+   000323                    PERFORM 4000-TOTALS.                                                  455
+   000324
+   000325                    CLOSE BRKR-FILE                                                       37
+   000326                          PRINT-FILE.                                                     49
+   000327
+   000328                    PERFORM 0000-EXIT.                                                    330
+   000329
+   000330                0000-EXIT. GOBACK.
+   000331
+   000332                3000-PROCESS-SALES.
+   000333
+   000334                    MOVE IN-CITY-NAME TO OUT-CITY-NAME.                                   42 245
+   000335                    MOVE IN-BROKER-NAME TO OUT-BROKER-NAME.                               43 247
+   000336
+   000337                    ADD 1 TO BRKR-CNT.                                                    242
+   000338
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page     9
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000339                    PERFORM VARYING SALES-SUB FROM 1 BY 1                                 270
+   000340                         UNTIL SALES-SUB > 4                                              270
+   000341
+   000342      1             PERFORM 3100-FIND-FUND                                                350
+   000343
+   000344                    END-PERFORM.
+   000345
+   000346                    READ BRKR-FILE                                                        37
+   000347      1                AT END MOVE 'Y' TO EOF-FLAG                                        262
+   000348                    END-READ.
+   000349
+   000350                3100-FIND-FUND.
+   000351
+   000352               ********************************************************
+   000353               *                                                      *
+   000354               *   3100 DOES THE FOLLOWING:                           *
+   000355               *                                                      *
+   000356               *   1. GETS DATA FROM THE SQL DATABASES                *
+   000357               *   2. GETS DATA FROM SALES RECORD COPYLIB             *
+   000358               *   3. PRINT 'FUND NOT FOUND' WHEN THE SQL CODE IS 100 *
+   000359               *             OR THE FUND NBR IS 0                     *
+   000360               *   4. CALCULATE THE SHARES                            *
+   000361               *   5. CALCULATE TOTAL SHARES                          *
+   000362               *   6. CALCUALTE TOTAL DEPOSITS                        *
+   000363               *   7. PRINT THE LINE                                  *
+   000364               *                                                      *
+   000365               ********************************************************
+   000366
+   000367                    MOVE IN-FUND-NBR OF SALES-RECORD(SALES-SUB) TO                        45 41 270
+   000368                         FND-FUND-NBR.                                                    106
+   000369                    MOVE IN-PRICE-FLAG(SALES-SUB) TO PRC-FUND-FLAG.                       46 270 143
+   000370                    IF FND-FUND-NBR = 0 THEN                                              106
+   000371
+   000372      1                   MOVE IN-FUND-NBR OF BRKR-FILE (SALES-SUB)                       45 37 270
+   000373      1                        TO OUT-FUND-NBR                                            250
+   000374      1                   MOVE FND-FUND-NAME-TEXT TO OUT-FUND-NAME                        112 249
+   000375      1                   MOVE '     MUTUAL FUND NOT FOUND!          '
+   000376      1                        TO MISSING-MESSAGE                                         258
+   000377      1                   WRITE PRINT-RECORD FROM SALES-PRINT-RECORD AFTER 2              52 244
+   000378      1                   PERFORM 3200-LINE-CHECK                                         435
+   000379
+   000380      1             ELSE IF FND-FUND-NBR > 0 THEN                                         106
+   000381
+   000382
+   000383      2             EXEC SQL
+   000384      2                   SELECT *
+   000385      2                   INTO :DCLFUND-PRICE                                             139
+   000386      2                   FROM KC02322.FUND_PRICE
+   000387      2                   WHERE FUND_NBR = :FND-FUND-NBR                                  106
+   000388      2                   AND FUND_FLAG = :PRC-FUND-FLAG                                  143
+   000389      2             END-EXEC                                                              IMP
+   000390
+   000391
+   000392      2             EXEC SQL
+   000393      2                   SELECT *
+   000394      2                   INTO :DCLFUND                                                   104
+   000395      2                   FROM KC02322.FUND
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    10
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000396      2                   WHERE FUND_NBR = :FND-FUND-NBR                                  106
+   000397      2             END-EXEC                                                              IMP
+   000398
+   000399      2             IF SQLCODE = 100 THEN                                                 62
+   000400
+   000401      3                   MOVE SPACES TO OUT-CITY-NAME                                    IMP 245
+   000402      3                   MOVE SPACES TO OUT-BROKER-NAME                                  IMP 247
+   000403      3                   MOVE IN-FUND-NBR OF BRKR-FILE (SALES-SUB)                       45 37 270
+   000404      3                        TO OUT-FUND-NBR                                            250
+   000405      3                   MOVE FND-FUND-NAME-TEXT TO OUT-FUND-NAME                        112 249
+   000406      3                   MOVE '     MUTUAL FUND NOT FOUND!          '
+   000407      3                        TO MISSING-MESSAGE                                         258
+   000408      3                   WRITE PRINT-RECORD FROM SALES-PRINT-RECORD AFTER 2              52 244
+   000409      3                   PERFORM 3200-LINE-CHECK                                         435
+   000410
+   000411      2             ELSE
+   000412
+   000413      3                   MOVE FND-FUND-NBR TO OUT-FUND-NBR                               106 250
+   000414      3                   MOVE FND-FUND-NAME-TEXT TO OUT-FUND-NAME                        112 249
+   000415      3                   MOVE IN-DEPOSIT-AMT (SALES-SUB) TO                              47 270
+   000416      3                             OUT-DEPOSIT-AMT                                       254
+   000417      3                   MOVE IN-PRICE-FLAG (SALES-SUB) TO                               46 270
+   000418      3                             OUT-PRICE-FLAG                                        253
+   000419      3                   COMPUTE TOTAL-DEPOSIT ROUNDED =                                 240
+   000420      3                             TOTAL-DEPOSIT +                                       240
+   000421      3                                 IN-DEPOSIT-AMT (SALES-SUB)                        47 270
+   000422      3                   COMPUTE SHARES ROUNDED =                                        260
+   000423      3                           IN-DEPOSIT-AMT(SALES-SUB) / PRC-FUND-PRC                47 270 145
+   000424      3                   MOVE SHARES TO OUT-SHARES-SOLD                                  260 255
+   000425      3                   COMPUTE TOTAL-SHARES ROUNDED = TOTAL-SHARES + SHARES            238 238 260
+   000426      3                   WRITE PRINT-RECORD FROM SALES-PRINT-RECORD AFTER 2              52 244
+   000427
+   000428      3                   PERFORM 3200-LINE-CHECK                                         435
+   000429      2             END-IF.
+   000430
+   000431                    MOVE SPACES TO OUT-CITY-NAME.                                         IMP 245
+   000432                    MOVE SPACES TO OUT-BROKER-NAME.                                       IMP 247
+   000433
+   000434
+   000435                3200-LINE-CHECK.
+   000436
+   000437               ***********************************************************
+   000438               *INCREMENT LINE COUNT. IF 16, PRINT HEADERS AND START OVER*
+   000439               ***********************************************************
+   000440
+   000441                    ADD 1 TO LINE-CNT                                                     266
+   000442                    IF LINE-CNT = 16                                                      266
+   000443      1                MOVE 0 TO LINE-CNT                                                 266
+   000444      1                ADD 1 TO PAGE-CNT                                                  264
+   000445      1                MOVE PAGE-CNT TO PAGENUM                                           264 174
+   000446      1                WRITE PRINT-RECORD FROM NEW-LINE AFTER PAGE                        52 274
+   000447      1                WRITE PRINT-RECORD FROM RECORD-HEADER AFTER 2                      52 162
+   000448      1                WRITE PRINT-RECORD FROM REPORT-HEADER AFTER 2                      52 176
+   000449      1                WRITE PRINT-RECORD FROM RECORD-LABELS AFTER 2                      52 185
+   000450      1                WRITE PRINT-RECORD FROM DASHES AFTER 2                             52 276
+   000451                    END-IF.
+   000452
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    11
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000453                3200-EXIT. EXIT.
+   000454
+   000455                4000-TOTALS.
+   000456
+   000457               *********************************************************
+   000458               *PRINT THE TOTALS CALCULATED IN 3100 ALONG WITH A HEADER*
+   000459               *********************************************************
+   000460
+   000461                    COMPUTE  OUT-AVG-DEPOSIT ROUNDED = TOTAL-DEPOSIT / BRKR-CNT.          235 240 242
+   000462
+   000463                    MOVE BRKR-CNT TO OUT-TOTAL-BROKERS.                                   242 229
+   000464                    MOVE TOTAL-DEPOSIT TO OUT-TOTAL-DEPOSIT.                              240 233
+   000465                    MOVE TOTAL-SHARES TO OUT-TOTAL-SHARES.                                238 231
+   000466
+   000467                    ADD 1 TO PAGE-CNT.                                                    264
+   000468                    MOVE PAGE-CNT TO PAGENUM.                                             264 174
+   000469
+   000470                    WRITE PRINT-RECORD FROM NEW-LINE AFTER PAGE.                          52 274
+   000471                    WRITE PRINT-RECORD FROM RECORD-HEADER AFTER 2.                        52 162
+   000472                    WRITE PRINT-RECORD FROM TOTAL-TITLE AFTER 2.                          52 207
+   000473                    WRITE PRINT-RECORD FROM TOTAL-LABELS AFTER 2.                         52 213
+   000474                    WRITE PRINT-RECORD FROM DASHES AFTER 2.                               52 276
+   000475                    WRITE PRINT-RECORD FROM TOTAL-PRINT-LINE AFTER 2.                     52 227
+   000476
+   000477                4000-EXIT. EXIT.
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    12
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+  Defined   Cross-reference of data names   References
+
+      224   AVG-DEP
+      242   BRKR-CNT . . . . . . . . . . .  M337 461 463
+       37   BRKR-FILE. . . . . . . . . . .  30 295 314 325 346 372 403
+      186   BROKER-CITY
+      189   BRPLER-NAME
+      276   DASHES . . . . . . . . . . . .  310 450 474
+      165   DAY-PRINT. . . . . . . . . . .  M301
+      104   DCLFUND. . . . . . . . . . . .  394
+      139   DCLFUND-PRICE. . . . . . . . .  385
+      201   DEP-TITLE
+      262   EOF-FLAG . . . . . . . . . . .  M315 320 M347
+      169   FIRM-TITLE
+      107   FND-FUND-NAME
+      109   FND-FUND-NAME-LEN
+      112   FND-FUND-NAME-TEXT . . . . . .  374 405 414
+      106   FND-FUND-NBR . . . . . . . . .  M368 370 380 387 396 413
+      198   FUND-FLAG
+      192   FUND-NAME
+      195   FUND-NBR
+      268   FUND-SUB
+      177   HOUR . . . . . . . . . . . . .  M303
+       43   IN-BROKER-NAME . . . . . . . .  335
+       42   IN-CITY-NAME . . . . . . . . .  334
+       47   IN-DEPOSIT-AMT . . . . . . . .  415 421 423
+       45   IN-FUND-NBR. . . . . . . . . .  367 372 403
+       44   IN-MF-SALE
+       46   IN-PRICE-FLAG. . . . . . . . .  369 417
+      266   LINE-CNT . . . . . . . . . . .  M441 442 M443
+      179   MINUTE . . . . . . . . . . . .  M304
+      258   MISSING-MESSAGE. . . . . . . .  M376 M407
+      163   MONTH. . . . . . . . . . . . .  M300
+      274   NEW-LINE . . . . . . . . . . .  446 470
+      235   OUT-AVG-DEPOSIT. . . . . . . .  M461
+      247   OUT-BROKER-NAME. . . . . . . .  M335 M402 M432
+      245   OUT-CITY-NAME. . . . . . . . .  M334 M401 M431
+      254   OUT-DEPOSIT-AMT. . . . . . . .  M416
+      257   OUT-FUND-MISSING
+      249   OUT-FUND-NAME. . . . . . . . .  M374 M405 M414
+      250   OUT-FUND-NBR . . . . . . . . .  M373 M404 M413
+      252   OUT-MF-SALE. . . . . . . . . .  257
+      253   OUT-PRICE-FLAG . . . . . . . .  M418
+      255   OUT-SHARES-SOLD. . . . . . . .  M424
+      229   OUT-TOTAL-BROKERS. . . . . . .  M463
+      233   OUT-TOTAL-DEPOSIT. . . . . . .  M464
+      231   OUT-TOTAL-SHARES . . . . . . .  M465
+      264   PAGE-CNT . . . . . . . . . . .  M444 445 M467 468
+      172   PAGE-TEXT
+      174   PAGENUM. . . . . . . . . . . .  M299 M445 M468
+      143   PRC-FUND-FLAG. . . . . . . . .  M369 388
+      141   PRC-FUND-NBR
+      145   PRC-FUND-PRC . . . . . . . . .  423
+      272   PRICE-SUB
+       49   PRINT-FILE . . . . . . . . . .  31 294 326
+       52   PRINT-RECORD . . . . . . . . .  M307 M308 M309 M310 M377 M408 M426 M446 M447 M448 M449 M450 M470 M471 M472 M473
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    13
+0 Defined   Cross-reference of data names   References
+
+0                                           M474 M475
+      162   RECORD-HEADER. . . . . . . . .  307 447 471
+      185   RECORD-LABELS. . . . . . . . .  309 449
+      176   REPORT-HEADER. . . . . . . . .  308 448
+      181   REPORT-TITLE
+      244   SALES-PRINT-RECORD . . . . . .  377 408 426
+       41   SALES-RECORD . . . . . . . . .  367
+      270   SALES-SUB. . . . . . . . . . .  M339 340 367 369 372 403 415 417 421 423
+      164   SEPERATOR
+      166   SEPERATOR
+      178   SEPERATOR
+      260   SHARES . . . . . . . . . . . .  M422 424 425
+      204   SHARES-TITLE
+        0   SQL---PLIST. . . . . . . . . .  389 397
+       59   SQLCA
+       61   SQLCABC
+       60   SQLCAID
+       62   SQLCODE. . . . . . . . . . . .  399
+       67   SQLERRD
+       63   SQLERRM
+       65   SQLERRMC
+       64   SQLERRML
+       66   SQLERRP
+       78   SQLEXT
+       82   SQLSTATE
+       69   SQLWARN
+       81   SQLWARNA
+       70   SQLWARN0
+       71   SQLWARN1
+       72   SQLWARN2
+       73   SQLWARN3
+       74   SQLWARN4
+       75   SQLWARN5
+       76   SQLWARN6
+       77   SQLWARN7
+       79   SQLWARN8
+       80   SQLWARN9
+      215   TOT-BROKERS
+      221   TOT-DEP
+      218   TOT-SHARES
+      240   TOTAL-DEPOSIT. . . . . . . . .  M419 420 461 464
+      213   TOTAL-LABELS . . . . . . . . .  473
+      227   TOTAL-PRINT-LINE . . . . . . .  475
+      238   TOTAL-SHARES . . . . . . . . .  M425 425 465
+      207   TOTAL-TITLE. . . . . . . . . .  472
+      209   TOTALS
+      151   WS-CURRENT-DATE
+      150   WS-CURRENT-DATE-FIELDS . . . .  M297
+      154   WS-CURRENT-DAY . . . . . . . .  301
+      156   WS-CURRENT-HOUR. . . . . . . .  303
+      159   WS-CURRENT-MILLISECOND
+      157   WS-CURRENT-MINUTE. . . . . . .  304
+      153   WS-CURRENT-MONTH . . . . . . .  300
+      158   WS-CURRENT-SECOND
+      155   WS-CURRENT-TIME
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    14
+0 Defined   Cross-reference of data names   References
+
+0     152   WS-CURRENT-YEAR. . . . . . . .  302
+      160   WS-DIFF-FROM-GMT
+      167   YEAR . . . . . . . . . . . . .  M302
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    15
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+
+  Defined   Cross-reference of procedures   References
+
+      330   0000-EXIT. . . . . . . . . . .  P328
+      281   0000-MAIN
+      332   3000-PROCESS-SALES . . . . . .  P319
+      350   3100-FIND-FUND . . . . . . . .  P342
+      453   3200-EXIT
+      435   3200-LINE-CHECK. . . . . . . .  P378 P409 P428
+      477   4000-EXIT
+      455   4000-TOTALS. . . . . . . . . .  P323
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    16
+0 Defined   Cross-reference of programs     References
+
+       20   ASSIGN7
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    17
+0
+          COPY/BASIS cross-reference of text-names, library names and dataset information
+
+  Text-name Library   File name                                    Concat   ISPF statistics
+  (Member)  (DDNAME)  (Dataset name)                               Level    Created         Changed
+
+  FUND      SYSLIB    KC02322.DB2.DCLLIB                             0     2015/02/19   2015/02/19 11:28:50
+  FUNDPRC   SYSLIB    KC02322.DB2.DCLLIB                             0
+  SALESREC  SYSLIB    KC02322.CSCI465.COPYLIB                        1     2013/04/09   2014/10/30 12:44:30
+
+1PP 5655-S71 IBM Enterprise COBOL for z/OS  4.2.0               ASSIGN7   Date 05/04/2015  Time 16:37:55   Page    18
+0LineID  Message code  Message text
+
+         IGYDS0139-W   Diagnostic messages were issued during processing of compiler options.  These messages are located at the
+                       beginning of the listing.
+
+    257  IGYDS1154-W   "OUT-FUND-MISSING" redefined a smaller item.  The program was accepted as written.
+-Messages    Total    Informational    Warning    Error    Severe    Terminating
+0Printed:       5           1              4
+-* Statistics for COBOL program ASSIGN7:
+ *    Source records = 868
+ *    Data Division statements = 185
+ *    Procedure Division statements = 166
+0End of compilation 1,  program ASSIGN7,  highest severity 4.
+0Return code 4
+1z/OS V1 R12 BINDER     16:37:56 MONDAY MAY  4, 2015
+ BATCH EMULATOR  JOB(ASSIGN7 ) STEP(LKED    ) PGM= IEWL
+ IEW2278I B352 INVOCATION PARAMETERS - XREF
+ IEW2322I 1220  1        NAME ASSIGN7(R)
+
+
+1                                       C R O S S - R E F E R E N C E  T A B L E
+                                        _________________________________________
+
+ TEXT CLASS = B_TEXT
+
+ ---------------  R E F E R E N C E  --------------------------  T A R G E T  -------------------------------------------
+   CLASS                            ELEMENT       |                                            ELEMENT                  |
+   OFFSET SECT/PART(ABBREV)          OFFSET  TYPE | SYMBOL(ABBREV)   SECTION (ABBREV)           OFFSET CLASS NAME       |
+                                                  |                                                                     |
+       50 ASSIGN7                        50 V-CON | IGZCBSO          IGZCBSO                         0 B_TEXT           |
+       BA ASSIGN7                        BA V-CON | CEESTART         CEESTART                        0 B_TEXT           |
+       DA ASSIGN7                        DA V-CON | CEESTART         CEESTART                        0 B_TEXT           |
+       DE ASSIGN7                        DE V-CON | CEEBETBL         CEEBETBL                        0 B_TEXT           |
+      138 ASSIGN7                       138 V-CON | CEELOCT          CEELOCT                         0 B_TEXT           |
+      13C ASSIGN7                       13C V-CON | CEEGMTO          CEEGMTO                         0 B_TEXT           |
+     1C6C CEEBETBL                        4 V-CON | CEEBXITA         $UNRESOLVED(W)                                     |
+     1C70 CEEBETBL                        8 V-CON | CEEBINT          CEEBINT                         0 B_TEXT           |
+     1C74 CEEBETBL                        C V-CON | CEEBLLST         CEEBLLST                        0 B_TEXT           |
+     1C78 CEEBETBL                       10 V-CON | CEEUOPT          $UNRESOLVED(W)                                     |
+     1C7C CEEBETBL                       14 V-CON | CEEBTRM          CEEBTRM                         0 B_TEXT           |
+     1C84 CEEBETBL                       1C V-CON | CEEBPUBT         CEEBPUBT                        0 B_TEXT           |
+     1C88 CEEBETBL                       20 V-CON | IEWBLIT          $UNRESOLVED(W)                                     |
+     1CEC CEESTART                       5C A-CON | CEEMAIN          $UNRESOLVED(W)                                     |
+     1CFC CEESTART                       6C C-LEN |                  $NON-RELOCATABLE                  B_PRV            |
+     1D28 CEESTART                       98 A-CON | CEEFMAIN         $UNRESOLVED(W)                                     |
+     1D34 CEESTART                       A4 A-CON | CEEBETBL         CEEBETBL                        0 B_TEXT           |
+     1D38 CEESTART                       A8 A-CON | CEEROOTA         $UNRESOLVED(W)                                     |
+     1D3C CEESTART                       AC A-CON | CEEROOTD         $UNRESOLVED(W)                                     |
+     2238 IGZCBSO                       4F8 V-CON | IGZEOPT          $UNRESOLVED(W)                                     |
+     223C IGZCBSO                       4FC V-CON | IGZETUN          $UNRESOLVED(W)                                     |
+     2240 IGZCBSO                       500 V-CON | CEEINT           CEEBPIRA                        0 B_TEXT           |
+     2244 IGZCBSO                       504 V-CON | CEEARLU          CEEARLU                         0 B_TEXT           |
+     25A8 CEEBPIRA                      230 A-CON | CEEBPUBT         CEEBPUBT                        0 B_TEXT           |
+     27DC CEEBTRM                        6C A-CON | CEEBPUBT         CEEBPUBT                        0 B_TEXT           |
+     2828 CEEBLLST                       10 A-CON | CEESG000         $UNRESOLVED(W)                                     |
+     282C CEEBLLST                       14 A-CON | CEESG001         $UNRESOLVED(W)                                     |
+     2830 CEEBLLST                       18 A-CON | CEESG002         $UNRESOLVED(W)                                     |
+     2834 CEEBLLST                       1C A-CON | CEESG003         $UNRESOLVED(W)                                     |
+     2838 CEEBLLST                       20 A-CON | CEESG004         $UNRESOLVED(W)                                     |
+     283C CEEBLLST                       24 A-CON | CEESG005         CEESG005                        0 B_TEXT           |
+     2840 CEEBLLST                       28 A-CON | CEESG006         $UNRESOLVED(W)                                     |
+     2844 CEEBLLST                       2C A-CON | CEESG007         $UNRESOLVED(W)                                     |
+     2848 CEEBLLST                       30 A-CON | CEESG008         $UNRESOLVED(W)                                     |
+     284C CEEBLLST                       34 A-CON | CEESG009         $UNRESOLVED(W)                                     |
+     2850 CEEBLLST                       38 A-CON | CEESG010         $UNRESOLVED(W)                                     |
+     2854 CEEBLLST                       3C A-CON | CEESG011         $UNRESOLVED(W)                                     |
+     2858 CEEBLLST                       40 A-CON | CEESG012         $UNRESOLVED(W)                                     |
+     285C CEEBLLST                       44 A-CON | CEESG013         $UNRESOLVED(W)                                     |
+     2860 CEEBLLST                       48 A-CON | CEESG014         $UNRESOLVED(W)                                     |
+     2864 CEEBLLST                       4C A-CON | CEESG015         $UNRESOLVED(W)                                     |
+     2868 CEEBLLST                       50 A-CON | CEESG016         $UNRESOLVED(W)                                     |
+                                        *** E N D  O F  C R O S S  R E F E R E N C E ***
+
+
+
+                                 *** O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+1PROCESSING OPTIONS:
+
+    ALIASES             NO
+    ALIGN2              NO
+    AMODE               UNSPECIFIED
+    CALL                YES
+    CASE                UPPER
+    COMPAT              UNSPECIFIED
+    COMPRESS            AUTO
+    DCBS                NO
+    DYNAM               NO
+    EXTATTR             UNSPECIFIED
+    EXITS:              NONE
+    FILL                NONE
+    GID                 UNSPECIFIED
+    HOBSET              NO
+    INFO                NO
+    LET                 04
+    LINECT              060
+    LIST                SUMMARY
+    LISTPRIV            NO
+    MAP                 NO
+    MAXBLK              032760
+    MODMAP              NO
+    MSGLEVEL            00
+    OVLY                NO
+    PRINT               YES
+    RES                 NO
+    REUSABILITY         UNSPECIFIED
+    RMODE               UNSPECIFIED
+    SIGN                NO
+    STORENX             NOREPLACE
+    STRIPCL             NO
+    STRIPSEC            NO
+    TERM                NO
+    TRAP                ON
+    UID                 UNSPECIFIED
+    UPCASE              NO
+    WKSPACE             000000K,000000K
+    XCAL                NO
+    XREF                YES
+    ***END OF OPTIONS***
+
+
+
+
+1SAVE OPERATION SUMMARY:
+
+    MEMBER NAME         ASSIGN7
+    LOAD LIBRARY        KC03F68.CSCI465.LOAD
+    PROGRAM TYPE        LOAD MODULE
+    VOLUME SERIAL       KCTR25
+    MAX BLOCK           1000
+    DISPOSITION         REPLACED
+    TIME OF SAVE        16.37.57  MAY  4, 2015
+
+
+1SAVE MODULE ATTRIBUTES:
+
+    AC                  000
+    AMODE                31
+    COMPRESSION         NONE
+    DC                  NO
+    EDITABLE            YES
+    EXCEEDS 16MB        NO
+    EXECUTABLE          YES
+    MIGRATABLE          YES
+    OL                  NO
+    OVLY                NO
+    PACK,PRIME          NO,NO
+    PAGE ALIGN          NO
+    REFR                NO
+    RENT                NO
+    REUS                NO
+    RMODE               ANY
+    SCTR                NO
+    SIGN                NO
+    SSI
+    SYM GENERATED       NO
+    TEST                NO
+    XPLINK              NO
+    MODULE SIZE (HEX)   00002880
+
+
+1 ENTRY POINT AND ALIAS SUMMARY:
+
+  NAME:            ENTRY TYPE AMODE C_OFFSET CLASS NAME        STATUS
+
+  ASSIGN7           MAIN_EP      31 00000000 B_TEXT
+
+                          *** E N D   O F   O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+
+
+
+1z/OS V1 R12 BINDER     16:37:56 MONDAY MAY  4, 2015
+ BATCH EMULATOR  JOB(ASSIGN7 ) STEP(LKED    ) PGM= IEWL
+ IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.
+
+
+
+1----------------------
+ MESSAGE SUMMARY REPORT
+ ----------------------
+  TERMINAL MESSAGES      (SEVERITY = 16)
+  NONE
+
+  SEVERE MESSAGES        (SEVERITY = 12)
+  NONE
+
+  ERROR MESSAGES         (SEVERITY = 08)
+  NONE
+
+  WARNING MESSAGES       (SEVERITY = 04)
+  NONE
+
+  INFORMATIONAL MESSAGES (SEVERITY = 00)
+  2008  2278  2322
+
+
+  **** END OF MESSAGE SUMMARY REPORT ****
+
+1READY
+   DSN SYSTEM(DBAG)
+ DSN
+   BIND PLAN(NIU) MEMBER(ASSIGN7)         ACT(REP) ISO(CS) ENCODING(EBCDIC)
+ DSNT254I  -DBAG DSNTBCM2 BIND OPTIONS FOR
+            PACKAGE = DALLASA.DSN_DEFAULT_COLLID_NIU.ASSIGN7.()
+            ACTION        REPLACE
+            OWNER         KC03F68
+            QUALIFIER     KC03F68
+            VALIDATE      RUN
+            EXPLAIN       NO
+            ISOLATION     CS
+            RELEASE       COMMIT
+            COPY
+            APREUSE
+            APCOMPARE
+            APRETAINDUP
+ DSNT255I  -DBAG DSNTBCM2 BIND OPTIONS FOR
+            PACKAGE = DALLASA.DSN_DEFAULT_COLLID_NIU.ASSIGN7.()
+            SQLERROR      NOPACKAGE
+            CURRENTDATA   NO
+            DEGREE        1
+            DYNAMICRULES  RUN
+            DEFER
+            NOREOPT       VARS
+            KEEPDYNAMIC   NO
+            IMMEDWRITE    NO
+            DBPROTOCOL    DRDA
+            OPTHINT
+            ENCODING      EBCDIC(01047)
+            PLANMGMT      OFF
+            PLANMGMTSCOPE STATIC
+            CONCURRENTACCESSRESOLUTION
+            EXTENDEDINDICATOR
+            PATH
+ DSNT203I  -DBAG BIND WARNING FOR PLAN NIU
+            DBRMS ARE CONVERTED INTO PACKAGES BEFORE
+            BIND PLAN NIU
+ DSNT252I  -DBAG DSNTBCM1 BIND OPTIONS FOR PLAN NIU
+            ACTION        REPLACE
+            OWNER         KC03F68
+            VALIDATE      RUN
+            ISOLATION     CS
+            ACQUIRE       USE
+            RELEASE       COMMIT
+            EXPLAIN       NO
+            DYNAMICRULES  RUN
+ DSNT253I  -DBAG DSNTBCM1 BIND OPTIONS FOR PLAN NIU
+            NODEFER       PREPARE
+            CACHESIZE     3072
+            QUALIFIER     KC03F68
+            CURRENTSERVER
+            CURRENTDATA   NO
+            DEGREE        1
+1           SQLRULES      DB2
+            DISCONNECT    EXPLICIT
+            NOREOPT       VARS
+            KEEPDYNAMIC   NO
+            IMMEDWRITE    NO
+            DBPROTOCOL    DRDA
+            OPTHINT
+            ENCODING      EBCDIC(01047)
+            CONCURRENTACCESSRESOLUTION
+            PATH
+ DSNT200I  -DBAG  BIND FOR PLAN NIU      SUCCESSFUL
+ DSN
+   END
+ READY
+ END
+1READY
+ DSN SYSTEM(DBAG)
+ DSN
+ RUN PROGRAM(ASSIGN7) PLAN(NIU) LIB(CSCI465)
+ DSN
+ END
+ READY
+ END
+105 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   1
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Athens, Greece            George Makedonas     NEW YORK TAX FREE FUND            3        1          $345.60          32.7580  
+0                                               HONG KONG INVESTORS FUND          4        1        $2,223.30       2,179.7050  
+0                                               HUSKIES HIGH YIELD FUND          21        5        $3,232.00         271.1400  
+0                                               BERLINER PHILH HIGH YIELD        65        4        $3,222.00          71.4090  
+0Athens, Greece            Aristotle Onassis    NEW YORK TAX FREE FUND            3        1           $54.44           5.1600  
+0                                               20TH CENT MONEY MKT FUND         10        3          $434.99          34.6600  
+0                                               MONEY MKT SECURE FUND            33        1          $433.00          33.0280  
+0                                               WIENER PHILH HIGH YIELD          55        4          $444.44          86.8040  
+0Athens, Greece            Jackie Onassis       BERLINER PHILH HIGH YIELD        65        2            $7.66           0.0760  
+0                                               AMERICAN MONEY MKT FUND          64        5          $222.30         966.5210  
+0                                               MONEY MKT SECURE FUND            33        4          $144.30          14.4300  
+0                                               MONEY MKT SECURE FUND            54             MUTUAL FUND NOT FOUND!
+0Athens, Greece            Maria Callas         HUSKIES HIGH YIELD FUND          21        2           $33.43           2.1360
+0                                               RINGLING BROS MONEY MKT          20        4        $1,112.20       1,170.7360
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   2
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Athens, Greece            Enid Holt            RINGLING BROS MONEY MKT          20        5           $43.34          46.1060
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+0Athens, Greece            Kostas Siegrid       HUSKIES HIGH YIELD FUND          21        2          $122.30           7.8140
+0                                               RINGLING BROS MONEY MKT          20        4          $232.32         244.5470
+0                                               DEWEY HIGH YIELD FUND            34        3          $223.23          27.9030
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0Berlin, Germany           Erich Kleiber        HUSKIES HIGH YIELD FUND          21        3       $31,223.45       2,178.8870
+0                                               RINGLING BROS MONEY MKT          20        5          $434.00         461.7020
+0                                               CHEATHAM HIGH YIELD FUND         35        2        $2,222.99         111.6510
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0Berlin, Germany           Wilhelm Furtwaengler DEWEY HIGH YIELD FUND            34        1           $32.32           3.2320
+0                                               CITY OF DEKALB BLDG FUND          6        1       $99,999.99      19,999.9980
+0                                               CITY OF DEKALB BLDG FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CITY OF DEKALB BLDG FUND          0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   3
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Berlin, Germany           Adolph Dege          MONEY MKT SECURE FUND            33        4          $323.30          32.3300
+0                                               HUSKIES HIGH YIELD FUND          21        2          $322.99          20.6380
+0                                               DEWEY HIGH YIELD FUND            34        5        $1,000.00         200.0000
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0Berlin, Germany           Johannes Klopp       WIENER PHILH HIGH YIELD          55        4          $444.40          86.7960
+0                                               CITY OF DEKALB BLDG FUND          6        3       $99,999.99      20,080.3190
+0                                               CITY OF DEKALB BLDG FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CITY OF DEKALB BLDG FUND          0             MUTUAL FUND NOT FOUND!
+0Berlin, Germany           Eugen Jochum         JOHN PHILIP SOUSA FUND           46        4          $343.40       1,493.0430
+0                                               MONEY MKT SECURE FUND            33        1        $1,122.30          85.6060
+0                                               CHICAGO INVESTORS FUND           31        5        $2,000.00         162.2060
+0                                               HONG KONG INVESTORS FUND          4        5        $1,234.77       2,743.9330
+0Bonn, Germany             Ludwig van Beethoven WIENER PHILH HIGH YIELD          55        1          $333.33          35.7260
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   4
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Bonn, Germany             Uwe Schmidt          LONDON INVESTORS FUND            58        2          $444.00         448.4840
+0                                               WASHINGTON & ADAMS FUND          61        5          $434.30          29.8480
+0                                               WASHINGTON & ADAMS FUND           0             MUTUAL FUND NOT FOUND!
+0                                               WASHINGTON & ADAMS FUND           0             MUTUAL FUND NOT FOUND!
+0Bonn, Germany             Helga Dernesch       LONDON INVESTORS FUND            58        3          $534.00         544.8980
+0                                               THOS JEFFERSON HIGH YLD          62        4          $134.20      13,420.0000
+0                                               DEWEY HIGH YIELD FUND            34        3          $122.10          15.2620
+0                                               NEW YORK TAX FREE FUND            3        3       $12,345.67       1,402.9170
+0Bonn, Germany             Richard Strauss      AMERICAN MONEY MKT FUND          64        4        $2,344.00       3,044.1550
+0                                               BERLINER PHILH HIGH YIELD        65        3        $9,999.99         187.8630
+0                                               AMERICAN MONEY MKT FUND          64        2        $2,232.00       2,254.5450
+0                                               AMERICAN MONEY MKT FUND           0             MUTUAL FUND NOT FOUND!
+0Chicago, U.S.             Maurizio Damilano    BERLINER PHILH HIGH YIELD        65        5          $567.75          24.4820
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   5
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0                                               BERLINER PHILH HIGH YIELD        66             MUTUAL FUND NOT FOUND!
+0                                               21ST CENT MONEY MKT FUND         51        3        $2,323.30         619.5460
+0                                               BERLINER PHILH HIGH YIELD        65        1        $2,320.00          22.9700
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0Chicago, U.S.             Steve Peplowski      WASHINGTON & ADAMS FUND          61        1        $2,323.00          23.4640
+0                                               JOHN PHILIP SOUSA FUND           46        3          $333.33         595.2320
+0                                               SINGAPORE INVESTORS FUND         30        4        $3,300.00         400.0000
+0                                               JOHN PHILIP SOUSA FUND           46        3        $1,000.00       1,785.7140
+0Chicago, U.S.             Michael Smith        WASHINGTON & ADAMS FUND          61        4        $1,111.00          47.3770
+0                                               WASHINGTON & ADAMS FUND           0             MUTUAL FUND NOT FOUND!
+0                                               WASHINGTON & ADAMS FUND           0             MUTUAL FUND NOT FOUND!
+0                                               WASHINGTON & ADAMS FUND           0             MUTUAL FUND NOT FOUND!
+0Chicago, U.S.             Charles Melodia      DEWEY HIGH YIELD FUND            34        5        $3,232.00         646.4000
+0                                               ZURICH INVESTORS FUND            13        5          $223.20          12.9610
+0                                               MONEY MKT SECURE FUND            33        1        $3,220.00         245.6140
+0                                               JOHN PHILIP SOUSA FUND           46        2        $2,000.00       2,040.8160
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   6
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Chicago, U.S.             Lisa Loganski        MONEY MKT SECURE FUND            33        4          $123.45          12.3450
+0                                               LONDON INVESTORS FUND            58        5          $323.20         336.6660
+0                                               LONDON INVESTORS FUND            58        1       $10,111.00      10,111.0000
+0                                               CHEATHAM HIGH YIELD FUND         35        2        $3,000.00         150.6780
+0Chicago, U.S.             Theodore Thomas      SINGAPORE INVESTORS FUND         30        1        $1,111.20          52.9140
+0                                               WASHINGTON & ADAMS FUND          61        4        $1,000.00          42.6430
+0                                               WASHINGTON & ADAMS FUND           0             MUTUAL FUND NOT FOUND!
+0                                               WASHINGTON & ADAMS FUND           0             MUTUAL FUND NOT FOUND!
+0Chicago, U.S.             Frederick Stock      SINGAPORE INVESTORS FUND         30        1        $2,334.99         111.1900
+0                                               JOHN PHILIP SOUSA FUND           46        4        $2,323.22      10,100.9560
+0                                               JOHN PHILIP SOUSA FUND            0             MUTUAL FUND NOT FOUND!
+0                                               JOHN PHILIP SOUSA FUND            0             MUTUAL FUND NOT FOUND!
+0Belfast, N. Ireland       Billy O'Leary        SINGAPORE INVESTORS FUND         30        2          $945.70          47.4980
+0                                               RINGLING BROS MONEY MKT          20        3          $323.00         336.4580
+0                                               LONDON INVESTORS FUND            58        3        $2,323.00       2,370.4080
+0                                               21ST CENT MONEY MKT FUND         51        5        $4,000.00       1,574.8030
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   7
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Belfast, N. Ireland       Anna Owen            WIENER PHILH HIGH YIELD          55        3        $9,876.50       1,485.1880
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0Edinburgh, U.K.           Billy Connolly       21ST CENT MONEY MKT FUND         51        3          $165.40          44.1060
+0                                               HUSKIES HIGH YIELD FUND          21        4          $332.20          26.4700
+0                                               HUSKIES HIGH YIELD FUND           0             MUTUAL FUND NOT FOUND!
+0                                               HUSKIES HIGH YIELD FUND           0             MUTUAL FUND NOT FOUND!
+0Edinburgh, U.K.           Omar Sharif          ZURICH INVESTORS FUND            13        3        $1,200.00          60.0300
+0                                               DEWEY HIGH YIELD FUND            34        5        $1,999.99         399.9980
+0                                               LONDON INVESTORS FUND            58        2          $323.30         326.5650
+0                                               LONDON INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0Edinburgh, U.K.           Julie Christie       HONG KONG INVESTORS FUND          4        5       $11,233.75      24,963.8880
+0                                               HONG KONG INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0                                               HONG KONG INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0                                               HONG KONG INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   8
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Edinburgh, U.K.           James Oxfordshire    NEW YORK TAX FREE FUND            3        5          $342.00          61.6210
+0                                               SINGAPORE INVESTORS FUND         30        2          $233.20          11.7120
+0                                               HUSKIES HIGH YIELD FUND          21        5          $222.00          18.6240
+0                                               21ST CENT MONEY MKT FUND         51        4        $5,500.00       1,478.4940
+0Frankfurt, Germany        Johannes Dundor      NEW YORK TAX FREE FUND            3        2          $123.40          12.3640
+0                                               NEW YORK TAX FREE FUND            0             MUTUAL FUND NOT FOUND!
+0                                               NEW YORK TAX FREE FUND            0             MUTUAL FUND NOT FOUND!
+0                                               NEW YORK TAX FREE FUND            0             MUTUAL FUND NOT FOUND!
+0Frankfurt, Germany        Gretel Decker        HUSKIES HIGH YIELD FUND          21        5          $343.30          28.8000
+0                                               HUSKIES HIGH YIELD FUND          21        3          $232.20          16.2030
+0                                               RINGLING BROS MONEY MKT          20        1          $776.00         776.0000
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+0Frankfurt, Germany        Adam Dieffenbach     HUSKIES HIGH YIELD FUND          21        5        $1,237.50         103.8170
+0                                               HONG KONG INVESTORS FUND          4        5        $1,222.00       2,715.5550
+0                                               HUSKIES HIGH YIELD FUND          21        4          $344.00          27.4100
+0                                               WIENER PHILH HIGH YIELD          55        4        $1,200.00         234.3750
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:   9
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Hong Kong, China          Mao Zedong           RINGLING BROS MONEY MKT          20        1          $232.21         232.2100
+0                                               HONG KONG INVESTORS FUND          4        5          $111.98         248.8440
+0                                               CHEATHAM HIGH YIELD FUND         35        4          $222.20          11.1710
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0Hong Kong, China          Zhou Enlai           RINGLING BROS MONEY MKT          20        5          $122.20         130.0000
+0                                               NEW YORK TAX FREE FUND            3        5          $120.00          21.6210
+0                                               WIENER PHILH HIGH YIELD          55        4          $111.97          21.8690
+0                                               LONDON INVESTORS FUND            58        2        $2,200.00       2,222.2220
+0Hong Kong, China          Zhau Ziyang          ZURICH INVESTORS FUND            13        4        $2,121.21         111.7010
+0                                               21ST CENT MONEY MKT FUND         51        5          $210.00          82.6770
+0                                               21ST CENT MONEY MKT FUND         51        3        $1,000.00         266.6660
+0                                               MONEY MKT SECURE FUND            33        1        $1,100.98          83.9800
+0Hong Kong, China          Chiang Kai-shek      ZURICH INVESTORS FUND            13        3          $323.20          16.1680
+0                                               21ST CENT MONEY MKT FUND         51        5          $110.00          43.3070
+0                                               SINGAPORE INVESTORS FUND         30        1        $4,000.00         190.4760
+0                                               MONEY MKT SECURE FUND            33        5       $12,555.75       1,395.0830
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  10
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Hong Kong, China          Shau-Zin Loki        20TH CENT MONEY MKT FUND         10        2        $1,233.30          94.8690
+0                                               HUSKIES HIGH YIELD FUND          21        5          $780.00          65.4360
+0                                               CHICAGO INVESTORS FUND           31        3          $500.00          14.1920
+0                                               JOHN PHILIP SOUSA FUND           46        3        $2,365.67       4,224.4100
+0Hong Kong, China          Stephanie Buckingham ZURICH INVESTORS FUND            13        1          $322.23          14.6530
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND            14             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0Kansas City, U.S.         Geoffrey Decker      JOHN PHILIP SOUSA FUND           46        4          $200.00         869.5650
+0                                               JOHN PHILIP SOUSA FUND            0             MUTUAL FUND NOT FOUND!
+0                                               JOHN PHILIP SOUSA FUND            0             MUTUAL FUND NOT FOUND!
+0                                               JOHN PHILIP SOUSA FUND            0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  11
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0London, U.K.              Elizabeth Windsor    JOHN PHILIP SOUSA FUND           46        3       $12,212.00      21,807.1420
+0                                               HUSKIES HIGH YIELD FUND          21        4        $3,232.00         257.5290
+0                                               HUSKIES HIGH YIELD FUND           0             MUTUAL FUND NOT FOUND!
+0                                               HUSKIES HIGH YIELD FUND           0             MUTUAL FUND NOT FOUND!
+0London, U.K.              Stevie Nicks         WASHINGTON & ADAMS FUND          61        2       $22,222.10         246.9390
+0                                               THOS JEFFERSON HIGH YLD          62        3          $333.00      33,300.0000
+0                                               MONEY MKT SECURE FUND            33        4          $433.00          43.3000
+0                                               JOHN PHILIP SOUSA FUND           46        5        $3,440.00      34,400.0000
+0London, U.K.              Andrew Windsor       WASHINGTON & ADAMS FUND          61        1        $1,011.99          10.2220
+0                                               THOS JEFFERSON HIGH YLD          62        4          $100.00      10,000.0000
+0                                               MONEY MKT SECURE FUND            33        3        $1,346.50         122.4090
+0                                               JOHN PHILIP SOUSA FUND           46        5        $6,570.00      65,700.0000
+0London, U.K.              Michael Windsor      LONDON INVESTORS FUND            58        5           $30.00          31.2500
+0                                               LONDON INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               LONDON INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               LONDON INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  12
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0London, U.K.              Phillip Windsor      BERLINER PHILH HIGH YIELD        65        5          $987.99          42.6040
+0                                               AMERICAN MONEY MKT FUND          64        4        $2,333.20       3,030.1290
+0                                               ZURICH INVESTORS FUND            13        2        $2,222.75         106.4530
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND            71             MUTUAL FUND NOT FOUND!
+0                                               BERLINER PHILH HIGH YIELD        65        4          $443.22           9.8230
+0                                               HONG KONG INVESTORS FUND          4        3          $232.00         313.5130
+0                                               JOHN PHILIP SOUSA FUND           46        5        $6,777.75      67,777.5000
+0Los Angeles, U.S.         William Mills        THOS JEFFERSON HIGH YLD          62        5        $2,332.30     233,230.0000
+0                                               THOS JEFFERSON HIGH YLD           0             MUTUAL FUND NOT FOUND!
+0                                               THOS JEFFERSON HIGH YLD           0             MUTUAL FUND NOT FOUND!
+0                                               THOS JEFFERSON HIGH YLD           0             MUTUAL FUND NOT FOUND!
+0Los Angeles, U.S.         Catherine Monteiro   THOS JEFFERSON HIGH YLD          62        2        $1,234.11     123,411.0000
+0                                               THOS JEFFERSON HIGH YLD           0             MUTUAL FUND NOT FOUND!
+0                                               THOS JEFFERSON HIGH YLD           0             MUTUAL FUND NOT FOUND!
+0                                               THOS JEFFERSON HIGH YLD           0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  13
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Los Angeles, U.S.         Lindsay Lohan        BERLINER PHILH HIGH YIELD        65        5           $99.99           4.3110
+0                                               RINGLING BROS MONEY MKT          20        3        $2,322.30       2,419.0620
+0                                               RINGLING BROS MONEY MKT          20        2        $2,322.00       2,393.8140
+0                                               BRIDGE'S BUILDING FUND            5        2          $100.00           8.4170
+0Los Angeles, U.S.         Paris Hilton         JOHN PHILIP SOUSA FUND           46        5          $199.99       1,999.9000
+0                                               20TH CENT MONEY MKT FUND         10        3          $323.00          25.7370
+0                                               NEW YORK TAX FREE FUND            3        1          $333.39          31.6000
+0                                               NEW YORK TAX FREE FUND           80             MUTUAL FUND NOT FOUND!
+0                                               NEW YORK TAX FREE FUND           40             MUTUAL FUND NOT FOUND!
+0                                               NEW YORK TAX FREE FUND           94             MUTUAL FUND NOT FOUND!
+0                                               NEW YORK TAX FREE FUND            3        3        $1,200.00         136.3630
+0                                               WASHINGTON & ADAMS FUND          61        4          $300.00          12.7930
+0Moscow, Russia            Vladimir Ashkenazy   CHEATHAM HIGH YIELD FUND         35        4            $0.00           0.0000
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  14
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Moscow, Russia            Serge Rachmaninov    RINGLING BROS MONEY MKT          20        3        $1,239.99       1,291.6560
+0                                               JOHN PHILIP SOUSA FUND           46        5        $1,000.00      10,000.0000
+0                                               SINGAPORE INVESTORS FUND         30        1        $2,200.00         104.7610
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0Moscow, Russia            Vladimir Putin       HUSKIES HIGH YIELD FUND          21        4          $345.66          27.5420
+0                                               21ST CENT MONEY MKT FUND         51        5        $1,100.00         433.0700
+0                                               MONEY MKT SECURE FUND            33        4        $3,300.00         330.0000
+0                                               JOHN PHILIP SOUSA FUND           46        4       $12,500.00      54,347.8260
+0Moscow, Russia            Leonid Breshnev      HUSKIES HIGH YIELD FUND          21        5        $1,676.69         140.6610
+0                                               AMERICAN MONEY MKT FUND          64        5        $1,100.00       4,782.6080
+0                                               CHEATHAM HIGH YIELD FUND         35        2        $5,500.00         276.2430
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0Moscow, Russia            Dmitri Shostakovich  RINGLING BROS MONEY MKT          20        4          $233.23         245.5050
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+0                                               RINGLING BROS MONEY MKT           0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  15
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0New York, U.S.            Gary Graffman        HUSKIES HIGH YIELD FUND          21        3          $344.45          24.0370
+0                                               HUSKIES HIGH YIELD FUND           0             MUTUAL FUND NOT FOUND!
+0                                               HUSKIES HIGH YIELD FUND           0             MUTUAL FUND NOT FOUND!
+0                                               HUSKIES HIGH YIELD FUND           0             MUTUAL FUND NOT FOUND!
+0New York, U.S.            Andre Previn         NEW YORK TAX FREE FUND            3        2        $1,222.99         122.5440
+0                                               NEW YORK TAX FREE FUND            0             MUTUAL FUND NOT FOUND!
+0                                               NEW YORK TAX FREE FUND            0             MUTUAL FUND NOT FOUND!
+0                                               NEW YORK TAX FREE FUND            0             MUTUAL FUND NOT FOUND!
+0New York, U.S.            Samuel Jefferson     20TH CENT MONEY MKT FUND         10        1        $3,450.00         256.5050
+0                                               20TH CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0                                               20TH CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0                                               20TH CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0New York, U.S.            John Adams           SINGAPORE INVESTORS FUND         30        3        $1,234.00          62.0410
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  16
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0New York, U.S.            Cheryl Studer        CHEATHAM HIGH YIELD FUND         35        4          $444.00          22.3220
+0                                               MONEY MKT SECURE FUND            33        5        $1,200.00         133.3330
+0                                               MONEY MKT SECURE FUND            36             MUTUAL FUND NOT FOUND!
+0                                               LONDON INVESTORS FUND            58        4       $22,500.00      23,195.8760
+0New York, U.S.            Renee Fleming        JOHN PHILIP SOUSA FUND           46        2          $555.99         567.3360
+0                                               MONEY MKT SECURE FUND            33        5        $3,200.00         355.5550
+0                                               21ST CENT MONEY MKT FUND         51        2        $4,500.98         963.8070
+0                                               21ST CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0                                               21ST CENT MONEY MKT FUND         44             MUTUAL FUND NOT FOUND!
+0                                               MONEY MKT SECURE FUND            33        4       $12,200.98       1,220.0980
+0                                               21ST CENT MONEY MKT FUND         51        1          $332.00          62.9980
+0                                               LONDON INVESTORS FUND            58        3        $1,220.00       1,244.8980
+0New York, U.S.            Christa Ludwig       21ST CENT MONEY MKT FUND         51        2        $1,234.00         264.2390
+0                                               DEWEY HIGH YIELD FUND            34        4        $2,322.00         331.7140
+0                                               21ST CENT MONEY MKT FUND         51        5        $4,300.00       1,692.9130
+0                                               LONDON INVESTORS FUND            58        3        $2,233.99       2,279.5810
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  17
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0New York, U.S.            James Levine         WIENER PHILH HIGH YIELD          55        3          $123.00          18.4960
+0                                               DEWEY HIGH YIELD FUND            34        4        $1,000.00         142.8570
+0                                               21ST CENT MONEY MKT FUND         51        4        $2,220.00         596.7740
+0                                               LONDON INVESTORS FUND            58        3        $1,110.00       1,132.6530
+0New York, U.S.            Leonard Bernstein    WIENER PHILH HIGH YIELD          55        1       $10,000.00       1,071.8110
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0Paris, France             Napoleon Bonaparte   WIENER PHILH HIGH YIELD          55        2       $23,000.00       3,448.2750
+0                                               HONG KONG INVESTORS FUND          4        4        $1,000.99       1,924.9800
+0                                               JOHN PHILIP SOUSA FUND           46        3        $1,000.00       1,785.7140
+0                                               LONDON INVESTORS FUND            58        2        $2,000.00       2,020.2020
+0Paris, France             Claude Monet         LONDON INVESTORS FUND            58        1       $44,333.99      44,333.9900
+0                                               LONDON INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               LONDON INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               LONDON INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  18
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Paris, France             Olivier Messiaen     DEWEY HIGH YIELD FUND            34        2        $2,333.98         259.3310
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0Paris, France             Claude Debussy       DEWEY HIGH YIELD FUND            34        1        $3,433.99         343.3990
+0                                               HUSKIES HIGH YIELD FUND          21        3          $300.00          20.9350
+0                                               WIENER PHILH HIGH YIELD          55        2        $1,000.00         149.9250
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0Paris, France             Maurice Ravel        21ST CENT MONEY MKT FUND         51        5          $122.00          48.0310
+0                                               CITY OF CORTLAND BLDG            22        2        $3,300.00         280.3730
+0                                               WIENER PHILH HIGH YIELD          55        2        $2,000.00         299.8500
+0                                               JOHN PHILIP SOUSA FUND           46        5        $3,000.00      30,000.0000
+0Paris, France             Edith Piaf           WASHINGTON & ADAMS FUND          61        1          $333.67           3.3700
+0                                               HUSKIES HIGH YIELD FUND          21        1        $3,200.00         181.2000
+0                                               WIENER PHILH HIGH YIELD          55        3        $3,000.00         451.1270
+0                                               JOHN PHILIP SOUSA FUND           46        5       $13,400.00     134,000.0000
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  19
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Paris, France             Coco Chanel          20TH CENT MONEY MKT FUND         10        1          $333.40          24.7880
+0                                               MONEY MKT SECURE FUND            33        2        $3,100.00         238.8290
+0                                               WIENER PHILH HIGH YIELD          55        4        $4,000.00         781.2500
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0Rio de Janeiro, Br.       Joao Castagneto      ZURICH INVESTORS FUND            13        3        $1,111.10          55.5820
+0                                               DEWEY HIGH YIELD FUND            34        3          $330.00          41.2500
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0Rio de Janeiro, Br.       Lasar Segall         ZURICH INVESTORS FUND            13        4        $2,222.99         117.0610
+0                                               CHEATHAM HIGH YIELD FUND         35        4        $1,110.00          55.8060
+0                                               WIENER PHILH HIGH YIELD          55        5       $15,000.00       3,080.0820
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0Rio de Janeiro, Br.       Tarsila do Amaral    ZURICH INVESTORS FUND            13        5        $4,343.40         252.2300
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  20
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Rio de Janeiro, Br.       Eliseu Visconti      20TH CENT MONEY MKT FUND         10        1          $433.00          32.1930
+0                                               20TH CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0                                               20TH CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0                                               20TH CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0Rome, Italy               Julius Caesar        LONDON INVESTORS FUND            58        2          $555.50         561.1110
+0                                               DEWEY HIGH YIELD FUND            34        5        $2,323.00         464.6000
+0                                               WIENER PHILH HIGH YIELD          55        5       $11,110.99       2,281.5170
+0                                               JOHN PHILIP SOUSA FUND           46        3       $11,878.00      21,210.7140
+0Rome, Italy               Franco Sinatra       AMERICAN MONEY MKT FUND          64        1        $6,666.60       6,060.5450
+0                                               CHEATHAM HIGH YIELD FUND         35        5        $3,330.98         167.5540
+0                                               JOHN PHILIP SOUSA FUND           46        2        $4,340.00       4,428.5710
+0                                               WIENER PHILH HIGH YIELD          55        2        $8,888.65       1,332.6310
+0Rome, Italy               Giacomo Puccini      BERLINER PHILH HIGH YIELD        65        3          $576.50          10.8300
+0                                               JOHN PHILIP SOUSA FUND           46        4          $334.25       1,453.2600
+0                                               WASHINGTON & ADAMS FUND          61        4       $15,000.00         639.6580
+0                                               WIENER PHILH HIGH YIELD          55        1          $121.00          12.9680
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  21
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Rome, Italy               Enrico Caruso        BERLINER PHILH HIGH YIELD        65        2        $3,223.30          32.2360
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0Rome, Italy               Sofia Loren          AMERICAN MONEY MKT FUND          64        2          $444.30         448.7870
+0                                               JOHN PHILIP SOUSA FUND           46        3        $2,320.00       4,142.8570
+0                                               JOHN PHILIP SOUSA FUND            0             MUTUAL FUND NOT FOUND!
+0                                               JOHN PHILIP SOUSA FUND            0             MUTUAL FUND NOT FOUND!
+0Sydney, Australia         Milton Sheppard      AMERICAN MONEY MKT FUND          64        2       $46,051.60      46,516.7670
+0                                               CHEATHAM HIGH YIELD FUND         35        2          $332.00          16.6750
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0Sydney, Australia         Shelley Boughton     BERLINER PHILH HIGH YIELD        65        1       $81,051.60         802.4910
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  22
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Sydney, Australia         Joan Sutherland      THOS JEFFERSON HIGH YLD          62        2       $41,051.60   4,105,160.0000
+0                                               CHEATHAM HIGH YIELD FUND         35        1          $777.77          39.0440
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0Sydney, Australia         Barry Tuckwell       THOS JEFFERSON HIGH YLD          62        5       $91,052.20   9,105,220.0000
+0                                               BERLINER PHILH HIGH YIELD        65        1          $888.77           8.7990
+0                                               MONEY MKT SECURE FUND            33        4        $3,443.00         344.3000
+0                                               MONEY MKT SECURE FUND             0             MUTUAL FUND NOT FOUND!
+0Sydney, Australia         Cayla Smithe         DEWEY HIGH YIELD FUND            34        1       $21,051.69       2,105.1690
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND            36             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  23
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Sydney, Australia         Peter Pears          CHEATHAM HIGH YIELD FUND         35        1       $43,051.65       2,161.2270
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0Sydney, Australia         Paul Gray            CHEATHAM HIGH YIELD FUND         35        1       $41,041.67       2,060.3240
+0                                               AMERICAN MONEY MKT FUND          64        4        $1,234.00       1,602.5970
+0                                               AMERICAN MONEY MKT FUND           0             MUTUAL FUND NOT FOUND!
+0                                               AMERICAN MONEY MKT FUND           0             MUTUAL FUND NOT FOUND!
+0Vienna, Austria           Herbert von Karajan  GEOFFREY'S BBQ FUND               2        3       $58,081.39         880.1540
+0                                               GEOFFREY'S BBQ FUND               0             MUTUAL FUND NOT FOUND!
+0                                               GEOFFREY'S BBQ FUND               0             MUTUAL FUND NOT FOUND!
+0                                               GEOFFREY'S BBQ FUND               0             MUTUAL FUND NOT FOUND!
+0Vienna, Austria           Josef Haydn          21ST CENT MONEY MKT FUND         51        1       $58,081.31      11,021.1210
+0                                               21ST CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0                                               21ST CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+0                                               21ST CENT MONEY MKT FUND          0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  24
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Vienna, Austria           Johann Strauss, Jr.  SINGAPORE INVESTORS FUND         30        3       $68,086.51       3,423.1520
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0Vienna, Austria           Karl Boehm           MONEY MKT SECURE FUND            33        2       $58,081.31       4,474.6770
+0                                               MONEY MKT SECURE FUND             0             MUTUAL FUND NOT FOUND!
+0                                               MONEY MKT SECURE FUND             0             MUTUAL FUND NOT FOUND!
+0                                               MONEY MKT SECURE FUND             0             MUTUAL FUND NOT FOUND!
+0Vienna, Austria           Elisa Schwarzkopf    SINGAPORE INVESTORS FUND         30        5       $48,082.23       9,409.4380
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0                                               SINGAPORE INVESTORS FUND          0             MUTUAL FUND NOT FOUND!
+0Vienna, Austria           Maurizio Pollini     MONEY MKT SECURE FUND            33        1       $31,081.32       2,370.8100
+0                                               MONEY MKT SECURE FUND            33        4          $434.36          43.4360
+0                                               AMERICAN MONEY MKT FUND          64        3        $3,333.33       3,787.8750
+0                                               CITY OF CORTLAND BLDG            22        4          $434.99          50.8760
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  25
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Zurich, Switzerland       Earl Grey            MONEY MKT SECURE FUND            33        5       $58,089.91       6,454.4340
+0                                               MONEY MKT SECURE FUND            33        2        $1,111.00          85.5930
+0                                               MONEY MKT SECURE FUND             0             MUTUAL FUND NOT FOUND!
+0                                               MONEY MKT SECURE FUND             0             MUTUAL FUND NOT FOUND!
+0Zurich, Switzerland       Diana Kensington     MONEY MKT SECURE FUND            33        3       $17,581.30       1,598.3000
+0                                               DEWEY HIGH YIELD FUND            34        2        $2,222.00         246.8880
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0                                               DEWEY HIGH YIELD FUND             0             MUTUAL FUND NOT FOUND!
+0Zurich, Switzerland       Axel Vond            MONEY MKT SECURE FUND            33        3       $59,081.60       5,371.0540
+0                                               CHEATHAM HIGH YIELD FUND         35        2        $3,336.75         167.5910
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0                                               CHEATHAM HIGH YIELD FUND          0             MUTUAL FUND NOT FOUND!
+0Zurich, Switzerland       Ute Schweitzer       JOHN PHILIP SOUSA FUND           46        5       $58,081.31     580,813.1000
+0                                               HUSKIES HIGH YIELD FUND          21        5          $322.20          27.0300
+0                                               BERLINER PHILH HIGH YIELD        65        3        $3,200.00          60.1160
+0                                               CHEATHAM HIGH YIELD FUND         35        3          $120.00           6.0300
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  26
+016 37                                             MUTUAL FUND DEPOSIT AND SALES RECORD
+0CITY                      BROKER NAME          FUND NAME               FUND NUMBER FUND FLAG  DEPOSIT AMOUNT   NUMBER OF SHARES
+0------------------------------------------------------------------------------------------------------------------------------------
+0Zurich, Switzerland       Rene Jacobs          21ST CENT MONEY MKT FUND         51        4       $58,081.36      15,613.2680
+0                                               ZURICH INVESTORS FUND            13        1        $1,112.00          50.5680
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0                                               ZURICH INVESTORS FUND             0             MUTUAL FUND NOT FOUND!
+0Zurich, Switzerland       Anton Bruckner       WIENER PHILH HIGH YIELD          55        3       $28,085.37       4,223.3630
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0                                               WIENER PHILH HIGH YIELD           0             MUTUAL FUND NOT FOUND!
+0Zurich, Switzerland       Charles Pasadena     21ST CENT MONEY MKT FUND         51        1       $58,089.91      11,022.7530
+0                                               BERLINER PHILH HIGH YIELD        65        3        $1,111.00          20.8710
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+0                                               BERLINER PHILH HIGH YIELD         0             MUTUAL FUND NOT FOUND!
+1
+005 04 2015                                               FEELINGS MUTUAL FUND                                             PAGE:  27
+0                                                      TOTAL SHARES AND DEPOSITS
+0         TOTAL BROKERS                    TOTAL SHARES SOLD             TOTAL DEPOSITED         AVERAGE DEPOSIT AMT
+0------------------------------------------------------------------------------------------------------------------------------------
+0                   103                      15,052,455.1060               $1,836,924.44                  $17,834.22

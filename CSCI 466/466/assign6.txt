@@ -1,0 +1,69 @@
+//1
+MariaDB [henrybooks]> select AuthorFirst, AuthorLast from Author order by AuthorFirst limit 20;
++-------------+--------------+
+| AuthorFirst | AuthorLast   |
++-------------+--------------+
+| Albert      | Camus        |
+| Barbara     | Owen         |
+| Bradley     | Collins, Jr. |
+| Bradley     | Collins      |
+| Dick        | Francis      |
+| Douglas R.  | Hofstadter   |
+| Gary        | Wills        |
+| Harper      | Lee          |
+| J.D.        | Salinger     |
+| J.K.        | Rowling      |
+| John        | Steinbeck    |
+| Joseph      | Heller       |
+| Lon         | Schleining   |
+| Paul        | Solotaroff   |
+| Peter       | Straub       |
+| Philip      | Pratt        |
+| Randy       | O'Rourke     |
+| Riva        | Castelman    |
+| Seamus      | Heaney       |
+| Stephen     | King         |
++-------------+--------------+
+20 rows in set (0.00 sec)
+
+MariaDB [henrybooks]> \t
+
+//2
+MariaDB [henrybooks]> select distinct City from Publisher where City is not null limit 20;
++--------------+
+| City         |
++--------------+
+| Sauk City WI |
+| New York     |
+| Boulder CO   |
+| Boston       |
+| Los Angeles  |
+| Kingston     |
+| Newtown CT   |
+| Westport CT  |
++--------------+
+8 rows in set (0.00 sec)
+
+MariaDB [henrybooks]> \t
+
+//3
+MariaDB [henrybooks]> select count(Title) from Book where Title is not null;
++--------------+
+| count(Title) |
++--------------+
+|           33 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [henrybooks]> \t
+
+//5
+MariaDB [henrybooks]> select count(NumEmployees) from Branch where BranchName = 'Henry Books';
++---------------------+
+| count(NumEmployees) |
++---------------------+
+|                   0 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [henrybooks]> \t

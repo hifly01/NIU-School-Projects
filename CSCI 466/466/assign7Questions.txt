@@ -1,0 +1,129 @@
+/*Charles Alms
+Revanth Reddy Dadi
+Assign 7 due 10/27
+just questions
+*/
+
+#1. Drop/delete all of the tables/views you will be creating below
+
+MariaDB [z1797837]> DROP TABLE Dog; #removes the table Dog
+
+MariaDB [z1797837]> DROP TABLE Visit; #removes the table Visit
+
+
+#2. Create a table dogs with a dog id, a breed and a name. Dog id should be an auto-increment primary key.
+
+MariaDB [z1797837]> CREATE TABLE Dog(DogID MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT, DogName char(20) NOT NULL, DogBreed char(30), PRIMARY KEY (DogID));
+
+
+#3. Put at least 5 records in this table
+
+MariaDB [z1797837]> INSERT INTO Dog (DogName, DogBreed) VALUES ('Piper', 'Border Collie Mix'); #creates a dog called Piper and breed is border collie mix
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [z1797837]> INSERT INTO Dog (DogName, DogBreed) VALUES ('Chloe', 'Border Collie');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [z1797837]> INSERT INTO Dog (DogName, DogBreed) VALUES ('Max', 'Bulldog');
+Query OK, 1 row affected (0.07 sec)
+
+MariaDB [z1797837]> INSERT INTO Dog (DogName, DogBreed) VALUES ('Bruiser', 'Chihuahua');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [z1797837]> INSERT INTO Dog (DogName, DogBreed) VALUES ('Coco', 'Black Lab');
+Query OK, 1 row affected (0.07 sec)
+
+
+
+#4. Do a select * on this table to show all the records
+MariaDB [z1797837]> select * from Dog;
+
+
+#5. Create a table called visits with a visit id (auto-increment primary key), dog id (foreign key into dogs) and date. Use the CURDATE() function.
+
+MariaDB [z1797837]> create table Visit(VisitID MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT, DogID  MEDIUMINT UNSIGNED, Date TIMESTAMP, PRIMARY KEY (VisitID), FOREIGN KEY (DogID) REFERENCES Dog(DogID));
+
+
+
+#6. Put at least 8 records in this table, which will mean some of the dogs will have multiple visits.
+
+MariaDB [z1797837]> INSERT INTO Visit(DogID, Date) VALUES (2, CURDATE()); #enter the time of visit to dog 2
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [z1797837]> INSERT INTO Visit(DogID, Date) VALUES (1, CURDATE());                             $
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [z1797837]> INSERT INTO Visit(DogID, Date) VALUES (3, CURDATE());
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [z1797837]> INSERT INTO Visit(DogID, Date) VALUES (1, CURDATE());
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [z1797837]> INSERT INTO Visit(DogID, Date) VALUES (4, CURDATE());
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [z1797837]> INSERT INTO Visit(DogID, Date) VALUES (5, CURDATE());
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [z1797837]> INSERT INTO Visit(DogID, Date) VALUES (5, CURDATE());
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [z1797837]> INSERT INTO Visit(DogID, Date) VALUES (1, CURDATE());
+Query OK, 1 row affected (0.05 sec)
+
+
+
+#7. Do a select * on this table to show all the records
+MariaDB [z1797837]> select * from Visit;
+
+
+#8. Add a column to the visit table for the time or day of week– there are many date/time functions, pick one to use.
+MariaDB [z1797837]> ALTER TABLE Visit ADD Day char(3); #crates a column for a day of the week
+
+
+#9. Update several rows to add values to the column you just created.
+
+MariaDB [z1797837]> UPDATE Visit SET Day = 'Mon' where VisitID = '6'; #makes visit 6 happen on a monday
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> UPDATE Visit SET Day = 'Tue' where VisitID = '2';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> UPDATE Visit SET Day = 'Tue' where VisitID = '3';
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> UPDATE Visit SET Day = 'Wed' where VisitID = '4';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> UPDATE Visit SET Day = 'Thu' where VisitID = '1';
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [z1797837]> UPDATE Visit SET Day = 'Thu' where VisitID = '7';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> UPDATE Visit SET Day = 'Fri' where VisitID = '5';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [z1797837]> UPDATE Visit SET Day = 'Fri' where VisitID = '8';
+Query OK, 1 row affected (0.08 sec)
+
+
+#10. Do a select * on this table to show all the records
+MariaDB [z1797837]> select * from Visit;
+
+
+#11. Define a view that will list each dog and the number of visits they have made.
+
+MariaDB [z1797837]> CREATE VIEW v AS select DogName, VisitID, Date, Day from Dog, Visit where Dog.DogI$ #creates a view for dog name, visit, and time of the visit
+Query OK, 0 rows affected (0.04 sec)
+
+
+#12. Do a select * on this view to show all the records
+MariaDB [z1797837]> select * from v;
+

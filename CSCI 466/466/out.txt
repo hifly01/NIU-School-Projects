@@ -1,0 +1,284 @@
+MariaDB [z1797837]> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| BabyName           |
+| JavaCust01         |
+| JavaCust02         |
+| JavaCust03         |
+| JavaCust04         |
+| JavaCust05         |
+| JavaCust06         |
+| JavaCust07         |
+| JavaCust08         |
+| JavaCust09         |
+| JavaCust10         |
+| JavaCust11         |
+| JavaCust12         |
+| JavaCust13         |
+| JavaCust14         |
+| JavaCust15         |
+| JavaCust16         |
+| JavaCust17         |
+| JavaCust18         |
+| JavaCust19         |
+| JavaCust20         |
+| JavaCust21         |
+| JavaCust22         |
+| JavaCust23         |
+| JavaCust24         |
+| JavaCust25         |
+| JavaCust26         |
+| JavaCust27         |
+| JavaCust28         |
+| JavaCust29         |
+| JavaCust30         |
+| JavaCust31         |
+| JavaCust32         |
+| JavaCust33         |
+| JavaCust34         |
+| JavaCust35         |
+| JavaCust36         |
+| JavaCust37         |
+| JavaCust38         |
+| JavaCust39         |
+| JavaCust40         |
+| JavaCust41         |
+| JavaCust42         |
+| JavaCust43         |
+| JavaCust44         |
+| JavaCust45         |
+| JavaCust46         |
+| JavaCust47         |
+| JavaCust48         |
+| JavaCust49         |
+| JavaCust50         |
+| JavaCust51         |
+| JavaCust52         |
+| JavaCust53         |
+| JavaCust54         |
+| JavaCust55         |
+| JavaCust56         |
+| JavaCust57         |
+| JavaCust58         |
+| JavaCust59         |
+| JavaCust60         |
+| JavaCust61         |
+| JavaCust62         |
+| JavaCust63         |
+| JavaCust64         |
+| JavaCust65         |
+| Premiere           |
+| classicmodels      |
+| henrybooks         |
+| information_schema |
+| test               |
+| z1797837           |
++--------------------+
+72 rows in set (0.08 sec)
+
+MariaDB [z1797837]> use BabyName;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [BabyName]> show tables;
++--------------------+
+| Tables_in_BabyName |
++--------------------+
+| BabyName           |
++--------------------+
+1 row in set (0.00 sec)
+//number 1
+MariaDB [BabyName]> describe BabyName
+    -> ;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| name   | varchar(15) | NO   | PRI | NULL    |       |
+| count  | int(11)     | YES  |     | NULL    |       |
+| gender | char(1)     | NO   | PRI | NULL    |       |
+| year   | smallint(6) | NO   | PRI | NULL    |       |
+| place  | char(2)     | NO   | PRI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+//number 2
+MariaDB [BabyName]> select year from BabyName where name = 'Charles' limit 20;
++------+
+| year |
++------+
+| 1880 |
+| 1881 |
+| 1882 |
+| 1883 |
+| 1884 |
+| 1885 |
+| 1886 |
+| 1887 |
+| 1888 |
+| 1889 |
+| 1890 |
+| 1891 |
+| 1892 |
+| 1893 |
+| 1894 |
+| 1895 |
+| 1896 |
+| 1897 |
+| 1898 |
+| 1899 |
++------+
+20 rows in set (0.00 sec)
+//number 3
+MariaDB [BabyName]> select name from BabyName where year = 1998 limit 20;
++----------+
+| name     |
++----------+
+| Aadam    |
+| Aadil    |
+| Aaditya  |
+| Aailyah  |
+| Aaisha   |
+| Aajah    |
+| Aakash   |
+| Aakash   |
+| Aalayah  |
+| Aaleah   |
+| Aaleyah  |
+| Aalia    |
+| Aaliah   |
+| Aaliayah |
+| Aaliya   |
+| Aaliyah  |
+| Aaliyah  |
+| Aaliyah  |
+| Aaliyah  |
+| Aaliyah  |
++----------+
+20 rows in set (0.00 sec)
+//number 4
+MariaDB [BabyName]> select * from BabyName where name like 'Charles' limit 20;
++---------+-------+--------+------+-------+
+| name    | count | gender | year | place |
++---------+-------+--------+------+-------+
+| Charles |    11 | F      | 1880 | US    |
+| Charles |    17 | F      | 1881 | US    |
+| Charles |    23 | F      | 1882 | US    |
+| Charles |    18 | F      | 1883 | US    |
+| Charles |    19 | F      | 1884 | US    |
+| Charles |    24 | F      | 1885 | US    |
+| Charles |    22 | F      | 1886 | US    |
+| Charles |    33 | F      | 1887 | US    |
+| Charles |    28 | F      | 1888 | US    |
+| Charles |    28 | F      | 1889 | US    |
+| Charles |    30 | F      | 1890 | US    |
+| Charles |    29 | F      | 1891 | US    |
+| Charles |    29 | F      | 1892 | US    |
+| Charles |    23 | F      | 1893 | US    |
+| Charles |    26 | F      | 1894 | US    |
+| Charles |    27 | F      | 1895 | US    |
+| Charles |    10 | F      | 1896 | US    |
+| Charles |    20 | F      | 1897 | US    |
+| Charles |    19 | F      | 1898 | US    |
+| Charles |    23 | F      | 1899 | US    |
++---------+-------+--------+------+-------+
+20 rows in set (0.00 sec)
+//number 5
+MariaDB [BabyName]> select count rows from BabyName limit 20;
++------+
+| rows |
++------+
+|    5 |
+|    6 |
+|    9 |
+|   11 |
+|   11 |
+|    6 |
+|   14 |
+|    6 |
+|   16 |
+|   15 |
+|    7 |
+|    5 |
+|    9 |
+|    7 |
+|    5 |
+|    5 |
+|    5 |
+|    5 |
+|    5 |
+|    5 |
++------+
+20 rows in set (0.00 sec)
+//number 6
+MariaDB [BabyName]> select count name from BabyName where year = 1998 limit 20;
++------+
+| name |
++------+
+|    8 |
+|    5 |
+|    7 |
+|    6 |
+|    6 |
+|    6 |
+|    8 |
+|   29 |
+|   14 |
+|    5 |
+|   14 |
+|    6 |
+|   16 |
+|    7 |
+|   21 |
+|   43 |
+|   13 |
+|   23 |
+|  108 |
+|   16 |
++------+
+20 rows in set (0.00 sec)
+//number 7
+MariaDB [BabyName]> select name from BabyName where year =1998 && name like 'C%' limit 20;
++----------+
+| name     |
++----------+
+| Caanan   |
+| Cabe     |
+| Cabel    |
+| Cabria   |
+| Cabrina  |
+| Cacey    |
+| Cache    |
+| Cache    |
+| Cache    |
+| Cache    |
+| Cache    |
+| Cache    |
+| Cachet   |
+| Caci     |
+| Cacia    |
+| Cacie    |
+| Cacy     |
+| Cadarius |
+| Cadarius |
+| Cadarius |
++----------+
+20 rows in set (0.00 sec)
+//number 7 female
+MariaDB [BabyName]> select count(name) from BabyName where gender = 'F' and year = 1963;
++-------------+
+| count(name) |
++-------------+
+|       37984 |
++-------------+
+1 row in set (0.00 sec)
+//number 7 male
+MariaDB [BabyName]> select count(name) from BabyName where gender = 'M' and year = 1963;
++-------------+
+| count(name) |
++-------------+
+|       27240 |
++-------------+
+1 row in set (0.03 sec)
+

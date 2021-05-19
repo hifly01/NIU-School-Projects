@@ -1,0 +1,10 @@
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\bin\Debug\FlashCards.exe.config
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\bin\Debug\FlashCards.exe
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\bin\Debug\FlashCards.pdb
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\obj\Debug\FlashCards.csprojAssemblyReference.cache
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\obj\Debug\FlashCards.Properties.Resources.resources
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\obj\Debug\FlashCards.csproj.GenerateResource.cache
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\obj\Debug\FlashCards.csproj.CoreCompileInputs.cache
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\obj\Debug\FlashCards.exe
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\obj\Debug\FlashCards.pdb
+C:\Users\a1560953.NIUNT\source\repos\FlashCards\FlashCards\obj\Debug\FlashCards.Form1.resources

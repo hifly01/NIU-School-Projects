@@ -1,0 +1,213 @@
+/*
+Assignment: 5 
+Section: 1
+Name: Charles Alms z1797837
+TA: Revanth Reddy Dadi
+Due date: 10/12/18
+Both inputs and outputs
+*/
+
+MariaDB [BabyName]> describe BabyName;#show the tables and the structure of the tables in the BabyName 
+database
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| name   | varchar(15) | NO   | PRI | NULL    |       |
+| count  | int(11)     | YES  |     | NULL    |       |
+| gender | char(1)     | NO   | PRI | NULL    |       |
+| year   | smallint(6) | NO   | PRI | NULL    |       |
+| place  | char(2)     | NO   | PRI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [BabyName]> \t
+MariaDB [BabyName]> select year from BabyName where name = 'Charles' limit 20;#list all the years where your name is on the list
++------+
+| year |
++------+
+| 1880 |
+| 1881 |
+| 1882 |
+| 1883 |
+| 1884 |
+| 1885 |
+| 1886 |
+| 1887 |
+| 1888 |
+| 1889 |
+| 1890 |
+| 1891 |
+| 1892 |
+| 1893 |
+| 1894 |
+| 1895 |
+| 1896 |
+| 1897 |
+| 1898 |
+| 1899 |
++------+
+20 rows in set (0.00 sec)
+
+MariaDB [BabyName]> \t
+MariaDB [BabyName]> select distinct name from BabyName where year =1998 limit 20;#list all the names for your birth year
++----------+
+| name     |
++----------+
+| Aadam    |
+| Aadil    |
+| Aaditya  |
+| Aailyah  |
+| Aaisha   |
+| Aajah    |
+| Aakash   |
+| Aalayah  |
+| Aaleah   |
+| Aaleyah  |
+| Aalia    |
+| Aaliah   |
+| Aaliayah |
+| Aaliya   |
+| Aaliyah  |
+| Aaliyha  |
+| Aalliyah |
+| Aalyah   |
+| Aalyiah  |
+| Aamina   |
++----------+
+20 rows in set (0.00 sec)
+
+MariaDB [BabyName]> \t
+MariaDB [BabyName]> select * from BabyName where name like 'Charles' order by count, year limit 20;#list all the information about name similar to your name in 
+alphabetic order of the name and within that of the count and 
+then year
++---------+-------+--------+------+-------+
+| name    | count | gender | year | place |
++---------+-------+--------+------+-------+
+| Charles |     5 | F      | 1910 | NY    |
+| Charles |     5 | F      | 1912 | VA    |
+| Charles |     5 | F      | 1913 | TN    |
+| Charles |     5 | F      | 1914 | PA    |
+| Charles |     5 | F      | 1915 | IL    |
+| Charles |     5 | F      | 1915 | GA    |
+| Charles |     5 | M      | 1916 | AK    |
+| Charles |     5 | F      | 1916 | MA    |
+| Charles |     5 | F      | 1916 | VA    |
+| Charles |     5 | F      | 1917 | MA    |
+| Charles |     5 | F      | 1917 | TN    |
+| Charles |     5 | F      | 1917 | NC    |
+| Charles |     5 | F      | 1918 | LA    |
+| Charles |     5 | F      | 1918 | TN    |
+| Charles |     5 | F      | 1918 | VA    |
+| Charles |     5 | F      | 1918 | OH    |
+| Charles |     5 | F      | 1919 | IL    |
+| Charles |     5 | F      | 1919 | NC    |
+| Charles |     5 | F      | 1919 | WI    |
+| Charles |     5 | F      | 1919 | MA    |
++---------+-------+--------+------+-------+
+20 rows in set (0.00 sec)
+
+MariaDB [BabyName]> \t
+MariaDB [BabyName]> select count rows from BabyName limit 20;#tell how many rows are in the table
++------+
+| rows |
++------+
+|    5 |
+|    6 |
+|    9 |
+|   11 |
+|   11 |
+|    6 |
+|   14 |
+|    6 |
+|   16 |
+|   15 |
+|    7 |
+|    5 |
+|    9 |
+|    7 |
+|    5 |
+|    5 |
+|    5 |
+|    5 |
+|    5 |
+|    5 |
++------+
+20 rows in set (0.00 sec)
+
+MariaDB [BabyName]> \t
+MariaDB [BabyName]> select count name from BabyName where year =1998 limit 20;#tell how many names are from your birth year
++------+
+| name |
++------+
+|    8 |
+|    5 |
+|    7 |
+|    6 |
+|    6 |
+|    6 |
+|    8 |
+|   29 |
+|   14 |
+|    5 |
+|   14 |
+|    6 |
+|   16 |
+|    7 |
+|   21 |
+|   43 |
+|   13 |
+|   23 |
+|  108 |
+|   16 |
++------+
+20 rows in set (0.00 sec)
+
+MariaDB [BabyName]> \t
+MariaDB [BabyName]> select distinct name from BabyName where year = 1998 && name like 'C%' limit 20;#list all the names from your birth year that start with the same
+letter as your name
++-----------+
+| name      |
++-----------+
+| Caanan    |
+| Cabe      |
+| Cabel     |
+| Cabria    |
+| Cabrina   |
+| Cacey     |
+| Cache     |
+| Cachet    |
+| Caci      |
+| Cacia     |
+| Cacie     |
+| Cacy      |
+| Cadarius  |
+| Cadarrius |
+| Cade      |
+| Cadee     |
+| Cadell    |
+| Caden     |
+| Cadence   |
+| Cadey     |
++-----------+
+20 rows in set (0.00 sec)
+
+MariaDB [BabyName]> \t
+MariaDB [BabyName]> select count(name) from BabyName where gender ='F' && year =1963 limit 20;#list the number of names for each sex from your mother's birth 
+year females
++-------------+
+| count(name) |
++-------------+
+|       37984 |
++-------------+
+1 row in set (0.03 sec)
+
+MariaDB [BabyName]> select count(name) from BabyName where gender ='M' && year =1963 limit 20;#list the number of names for each sex from your mother's birth 
+year Males
++-------------+
+| count(name) |
++-------------+
+|       27240 |
++-------------+
+1 row in set (0.04 sec)
+
+MariaDB [BabyName]> \t

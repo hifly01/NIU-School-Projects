@@ -1,0 +1,2346 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2
+0
+ 17.03.44 JOB04584 ---- MONDAY,    30 NOV 2020 ----
+ 17.03.44 JOB04584  IRR010I  USERID KC03I4C  IS ASSIGNED TO THIS JOB.
+ 17.03.46 JOB04584  ICH70001I KC03I4C  LAST ACCESS AT 16:46:09 ON MONDAY, NOVEMBER 30, 2020
+ 17.03.46 JOB04584  $HASP373 KC03I4CA STARTED - INIT 2    - CLASS A        - SYS 2964
+ 17.03.51 JOB04584  $HASP395 KC03I4CA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  30 NOV 2020 JOB EXECUTION DATE
+-        1,376 CARDS READ
+-        2,356 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-          170 SYSOUT SPOOL KBYTES
+-         0.11 MINUTES EXECUTION TIME
+         1 //KC03I4CA JOB ,'CHARLES ALMS',MSGCLASS=H                               JOB04584
+           //********************************************************************
+           //* CSCI 465               ASSIGNMENT 7               FALL 2020      *
+           //*                                                                  *
+           //* DEVELOPER NAME: CHARELES ALMS                                    *
+           //* DATE DUE: 11/30/2020                                             *
+           //*                                                                  *
+           //* Purpose: create a program to calculate the average and deposit/  *
+           //* withdrawl amouunts from ochestra accounts that will be printed   *
+           //* on a report. This assignment reads from 4 fileS and prints 2     *
+           //* reports on the same output by opening and closing the files when *
+           //* needed. File 2 is based off information of file 1                *
+           //********************************************************************
+           //*
+           //********************************************************************
+           //* JSTEP01 - performs the sort program                              *
+           //*                                                                  *
+           //* SORTIN - SORTS THE INPUT FOR THE DATA WE WANT SORTED             *
+           //*                                                                  *
+           //* SORTOUT - Output FOR THE SORTED DATA                             *
+           //*                                                                  *
+           //* SYSOUT - Output                                                  *
+           //*                                                                  *
+           //* SYSIN - INPUT FOR THE PARAMETERS TO BE SORTED                    *
+           //********************************************************************
+         2 //JSTEP01 EXEC PGM=SORT,PARM='CMP=CLC'
+           //*
+         3 //SORTIN  DD DSN=KC02322.CSCI465.DATAFA20(FUNDS),DISP=SHR
+           //*
+         4 //SORTOUT DD DSN=&&SORTED,SPACE=(TRK,(1,5)),DISP=(NEW,PASS)
+           //*
+         5 //SYSOUT  DD SYSOUT=*
+           //*
+         6 //SYSIN   DD *
+           //********************************************************************
+           //* JSTEP02 -  calls the COBOL compiler                              *
+           //*                                                                  *
+           //* SYSIN - the input for the COBOL program that was provided to us  *
+           //*                                                                  *
+           //* SYSLIB - GETS THE COPYLIN FORM PROFESSOR DECKER                  *
+           //*                                                                  *
+           //* SYSLIN - Output will be in a temp labeled &&TEMP                 *
+           //*                                                                  *
+           //* SYSPRINT - Output messages for the binder                        *
+           //*                                                                  *
+           //* SYSUT1-15 - Data pads/scratch work used by the compiler          *
+           //*                                                                  *
+           //* SYSUDECK - Part of the SYSUT1-15 for the COBOL compiler          *
+           //*                                                                  *
+           //* SYSDUMP -  Output messages for abends                            *
+           //********************************************************************
+           //*
+         7 //JSTEP02 EXEC PGM=IGYCRCTL,PARM=APOST,REGION=0M
+           //*
+         8 //SYSLIB  DD DSN=KC02322.CSCI465.COPYLIB,DISP=SHR
+           //*
+         9 //SYSIN   DD *
+           //*
+        10 //SYSLIN   DD DSN=&&TEMP,SPACE=(CYL,(1,1)),
+           //            DISP=(MOD,PASS)
+           //*
+        11 //SYSPRINT DD SYSOUT=*
+           //*
+        12 //SYSUT1   DD SPACE=(CYL,(1,1))
+        13 //SYSUT2   DD SPACE=(CYL,(1,1))
+        14 //SYSUT3   DD SPACE=(CYL,(1,1))
+        15 //SYSUT4   DD SPACE=(CYL,(1,1))
+        16 //SYSUT5   DD SPACE=(CYL,(1,1))
+        17 //SYSUT6   DD SPACE=(CYL,(1,1))
+        18 //SYSUT7   DD SPACE=(CYL,(1,1))
+        19 //SYSUT8   DD SPACE=(CYL,(1,1))
+        20 //SYSUT9   DD SPACE=(CYL,(1,1))
+        21 //SYSUT10  DD SPACE=(CYL,(1,1))
+        22 //SYSUT11  DD SPACE=(CYL,(1,1))
+        23 //SYSUT12  DD SPACE=(CYL,(1,1))
+        24 //SYSUT13  DD SPACE=(CYL,(1,1))
+        25 //SYSUT14  DD SPACE=(CYL,(1,1))
+        26 //SYSUT15  DD SPACE=(CYL,(1,1))
+        27 //SYSMDECK DD SPACE=(CYL,(1,1))
+           //*
+        28 //SYSUDUMP DD SYSOUT=*
+           //*
+           //*******************************************************************
+           //* JSTEP03 - Executes the program 'HEWL' and will be the binder    *
+           //* step. only works if the condition code is 0 meaning no abends   *
+           //*                                                                 *
+           //* SYSLIB - required for the compiler                              *
+           //*                                                                 *
+           //* SYSLIN - grabs the TEMP from JSTEP01                            *
+           //*                                                                 *
+           //* SYSLMOD - Load module/program object stored in PDSE             *
+           //*                                                                 *
+           //* SYSPRINT - Output of the registers for abend                    *
+           //*******************************************************************
+           //*
+        29 //JSTEP03  EXEC PGM=HEWL,COND=(0,LT)
+           //*
+        30 //SYSLIB   DD DSN=CEE.SCEELKED,DISP=SHR
+           //*
+        31 //SYSLIN   DD DSN=&&TEMP,DISP=(OLD,DELETE,DELETE)
+           //*
+        32 //SYSLMOD  DD DSN=KC03I4C.CSCI465.LOADLIB(ENDOWMT4),
+           //            SPACE=(1024,(50,20,1)),DSNTYPE=LIBRARY,
+           //            DISP=(MOD,KEEP,KEEP)
+           //*
+        33 //SYSPRINT DD SYSOUT=*
+           //*
+           //*******************************************************************
+           //* JSTEP04 - Fetches the program object/load module stored in my   *
+           //* PDSE. Only works when less than 0, (no abends or errors)        *
+           //*                                                                 *
+           //* STEPLIN input will be used for accessing the data set from my   *
+           //* loadlib                                                         *
+           //*                                                                 *
+           //* FUNDFLE - used with the sorted file from JSTEP01                *
+           //*                                                                 *
+           //* ORCHFLE - gets the data from Professor Decker's DATAFA20        *
+           //*                                                                 *
+           //* TRANFLE  - gets the data from Professor Decker's DATAFA20       *
+           //*                                                                 *
+           //* LEFILE saves space for the other report                         *
+           //*                                                                 *
+           //* RPTFILE output will print the data from                         *
+           //* KC02322.CSCI465.DATAFA20(DATA5)                                 *
+           //*                                                                 *
+           //* SYSUDUMP output will provide a dump of registers and PSW        *
+           //* incase of abend                                                 *
+           //*******************************************************************
+        34 //JSTEP04  EXEC PGM=ENDOWMT4,COND=(0,LT)
+           //*
+        35 //STEPLIB  DD DSN=KC03I4C.CSCI465.LOADLIB,DISP=SHR
+           //*
+        36 //FUNDFLE  DD DSN=&&SORTED,DISP=(OLD,DELETE,DELETE)
+           //*
+        37 //ORCHFLE  DD DSN=KC02322.CSCI465.DATAFA20(ORCHS),DISP=SHR
+           //*
+        38 //TRANFLE  DD DSN=KC02322.CSCI465.DATAFA20(DATA7),DISP=SHR
+           //*
+        39 //LEFILE   DD SPACE=(TRK,(5,10)),DISP=(MOD,DELETE,DELETE)
+           //*
+        40 //RPTFLE   DD SYSOUT=*
+           //*
+        41 //SYSUDUMP DD SYSOUT=*
+ ICH70001I KC03I4C  LAST ACCESS AT 16:46:09 ON MONDAY, NOVEMBER 30, 2020
+ IEFA111I KC03I4CA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03I4CA JSTEP01
+ IGD103I SMS ALLOCATED TO DDNAME SORTIN
+ IGD101I SMS ALLOCATED TO DDNAME (SORTOUT )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.SORTED.H01  )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF142I KC03I4CA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02322.CSCI465.DATAFA20                     RETAINED,  DDNAME=SORTIN
+ IGD106I SYS20335.T170344.RA000.KC03I4CA.SORTED.H01   PASSED,    DDNAME=SORTOUT
+ IEF285I   KC03I4C.KC03I4CA.JOB04584.D0000103.?         SYSOUT
+ IEF285I   KC03I4C.KC03I4CA.JOB04584.D0000101.?         SYSIN
+ IEF373I STEP/JSTEP01 /START 2020335.1703
+ IEF032I STEP/JSTEP01 /STOP  2020335.1703
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:  1068K  SYS:   256K  EXT:     6160K  SYS:    12260K
+         ATB- REAL:                  1044K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IEF236I ALLOC. FOR KC03I4CA JSTEP02
+ IGD103I SMS ALLOCATED TO DDNAME SYSLIB
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD101I SMS ALLOCATED TO DDNAME (SYSLIN  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.TEMP.H01    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT1  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124280    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT2  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124281    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT3  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124282    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT4  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124283    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT5  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124284    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT6  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124285    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT7  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124286    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT8  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124287    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT9  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124288    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT10 )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124289    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT11 )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124290    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT12 )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124291    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT13 )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124292    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT14 )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124293    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSUT15 )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124294    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IGD101I SMS ALLOCATED TO DDNAME (SYSMDECK)
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124295    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF142I KC03I4CA JSTEP02 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02322.CSCI465.COPYLIB                      RETAINED,  DDNAME=SYSLIB
+ IEF285I   KC03I4C.KC03I4CA.JOB04584.D0000102.?         SYSIN
+ IGD106I SYS20335.T170344.RA000.KC03I4CA.TEMP.H01     PASSED,    DDNAME=SYSLIN
+ IEF285I   KC03I4C.KC03I4CA.JOB04584.D0000104.?         SYSOUT
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124280     DELETED,   DDNAME=SYSUT1
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124281     DELETED,   DDNAME=SYSUT2
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124282     DELETED,   DDNAME=SYSUT3
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124283     DELETED,   DDNAME=SYSUT4
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124284     DELETED,   DDNAME=SYSUT5
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124285     DELETED,   DDNAME=SYSUT6
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124286     DELETED,   DDNAME=SYSUT7
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124287     DELETED,   DDNAME=SYSUT8
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124288     DELETED,   DDNAME=SYSUT9
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124289     DELETED,   DDNAME=SYSUT10
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124290     DELETED,   DDNAME=SYSUT11
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124291     DELETED,   DDNAME=SYSUT12
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124292     DELETED,   DDNAME=SYSUT13
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124293     DELETED,   DDNAME=SYSUT14
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124294     DELETED,   DDNAME=SYSUT15
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124295     DELETED,   DDNAME=SYSMDECK
+ IEF285I   KC03I4C.KC03I4CA.JOB04584.D0000105.?         SYSOUT
+ IEF373I STEP/JSTEP02 /START 2020335.1703
+ IEF032I STEP/JSTEP02 /STOP  2020335.1703
+         CPU:     0 HR  00 MIN  00.08 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:   508K  SYS:  4260K  EXT:   135884K  SYS:    14528K
+         ATB- REAL:                 10564K  SLOTS:                     0K
+              VIRT- ALLOC:     529M SHRD:       0M
+ IEF236I ALLOC. FOR KC03I4CA JSTEP03
+ IEF237I 1001 ALLOCATED TO SYSLIB
+ IGD103I SMS ALLOCATED TO DDNAME SYSLIN
+ IGD103I SMS ALLOCATED TO DDNAME SYSLMOD
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF142I KC03I4CA JSTEP03 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   CEE.SCEELKED                                 KEPT
+ IEF285I   VOL SER NOS= VTMVSC.
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.TEMP.H01     DELETED,   DDNAME=SYSLIN
+ IGD104I KC03I4C.CSCI465.LOADLIB                      RETAINED,  DDNAME=SYSLMOD
+ IEF285I   KC03I4C.KC03I4CA.JOB04584.D0000106.?         SYSOUT
+ IEF373I STEP/JSTEP03 /START 2020335.1703
+ IEF032I STEP/JSTEP03 /STOP  2020335.1703
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:    88K  SYS:   264K  EXT:     1768K  SYS:    12548K
+         ATB- REAL:                  1068K  SLOTS:                     0K
+              VIRT- ALLOC:      15M SHRD:       0M
+ IEF236I ALLOC. FOR KC03I4CA JSTEP04
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IGD103I SMS ALLOCATED TO DDNAME FUNDFLE
+ IGD103I SMS ALLOCATED TO DDNAME ORCHFLE
+ IGD103I SMS ALLOCATED TO DDNAME TRANFLE
+ IGD101I SMS ALLOCATED TO DDNAME (LEFILE  )
+         DSN (SYS20335.T170344.RA000.KC03I4CA.R0124296    )
+         STORCLAS (TEMPSC) MGMTCLAS (        ) DATACLAS (        )
+         VOL SER NOS= TEMP00
+ IEF237I JES2 ALLOCATED TO RPTFLE
+ IEF237I JES2 ALLOCATED TO SYSUDUMP
+ IEF142I KC03I4CA JSTEP04 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC03I4C.CSCI465.LOADLIB                      RETAINED,  DDNAME=STEPLIB
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.SORTED.H01   DELETED,   DDNAME=FUNDFLE
+ IGD104I KC02322.CSCI465.DATAFA20                     RETAINED,  DDNAME=ORCHFLE
+ IGD104I KC02322.CSCI465.DATAFA20                     RETAINED,  DDNAME=TRANFLE
+ IGD105I SYS20335.T170344.RA000.KC03I4CA.R0124296     DELETED,   DDNAME=LEFILE
+ IEF285I   KC03I4C.KC03I4CA.JOB04584.D0000107.?         SYSOUT
+ IEF285I   KC03I4C.KC03I4CA.JOB04584.D0000108.?         SYSOUT
+ IEF373I STEP/JSTEP04 /START 2020335.1703
+ IEF032I STEP/JSTEP04 /STOP  2020335.1703
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:    92K  SYS:   272K  EXT:     2744K  SYS:    12556K
+         ATB- REAL:                  1068K  SLOTS:                     0K
+              VIRT- ALLOC:      15M SHRD:       0M
+ IEF375I  JOB/KC03I4CA/START 2020335.1703
+ IEF033I  JOB/KC03I4CA/STOP  2020335.1703
+         CPU:     0 HR  00 MIN  00.10 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+1ICE201I B RECORD TYPE IS F - DATA STARTS IN POSITION 1
+ ICE751I 0 C5-I58435 C6-BASE   C7-I58435 C8-I58435 E4-BASE   C9-BASE   E5-I58435 E7-I58377
+ ICE143I 0 BLOCKSET     SORT  TECHNIQUE SELECTED
+ ICE250I 0 VISIT http://www.ibm.com/storage/dfsort FOR DFSORT PAPERS, EXAMPLES AND MORE
+ ICE000I 1 - CONTROL STATEMENTS FOR 5650-ZOS, Z/OS DFSORT V2R3  - 17:03 ON MON NOV 30, 2020 -
+0            SORT FIELDS=(1,3,ZD,A)
+ ICE193I 0 ICEAM1 INVOCATION ENVIRONMENT IN EFFECT - ICEAM1 ENVIRONMENT SELECTED
+ ICE252I 1 PARMLIB OPTIONS WERE MERGED WITH INSTALLATION MODULE DEFAULTS
+ ICE088I 1 KC03I4CA.JSTEP01 .        , INPUT LRECL = 80, BLKSIZE = 800, TYPE = FB
+ ICE093I 0 MAIN STORAGE = (MAX,6291456,6291456)
+ ICE156I 0 MAIN STORAGE ABOVE 16MB = (6234096,6234096)
+ ICE127I 0 OPTIONS: OVFLO=RC0 ,PAD=RC0 ,TRUNC=RC0 ,SPANINC=RC16,VLSCMP=N,SZERO=Y,RESET=Y,VSAMEMT=Y,DYNSPC=256
+ ICE128I 0 OPTIONS: SIZE=6291456,MAXLIM=1048576,MINLIM=450560,EQUALS=N,LIST=Y,ERET=RC16 ,MSGDDN=SYSOUT
+ ICE129I 0 OPTIONS: VIO=N,RESDNT=ALL ,SMF=NO   ,WRKSEC=Y,OUTSEC=Y,VERIFY=Y,CHALT=N,DYNALOC=N             ,ABCODE=MSG
+ ICE130I 0 OPTIONS: RESALL=4096,RESINV=0,SVC=109 ,CHECK=Y,WRKREL=Y,OUTREL=Y,CKPT=N,COBEXIT=COB2
+ ICE131I 0 OPTIONS: TMAXLIM=6291456,ARESALL=0,ARESINV=0,OVERRGN=65536,CINV=Y,CFW=Y,DSA=0
+ ICE132I 0 OPTIONS: VLSHRT=N,ZDPRINT=Y,IEXIT=N,TEXIT=N,LISTX=N,EFS=NONE    ,EXITCK=S,PARMDDN=DFSPARM ,FSZEST=N
+ ICE133I 0 OPTIONS: HIPRMAX=OPTIMAL,DSPSIZE=MAX ,ODMAXBF=0,SOLRF=Y,VLLONG=N,VSAMIO=N,MOSIZE=MAX
+ ICE235I 0 OPTIONS: NULLOUT=RC0
+ ICE236I 0 OPTIONS: DYNAPCT=10 ,MOWRK=Y,TUNE=STOR,EXPMAX=MAX    ,EXPOLD=50%    ,EXPRES=10%
+ ICE084I 0 EXCP ACCESS METHOD USED FOR SORTOUT
+ ICE084I 0 EXCP ACCESS METHOD USED FOR SORTIN
+ ICE750I 0 DC 906400 TC 0 CS DSVVV KSZ 2 VSZ 2
+ ICE752I 0 FSZ=11330 RC  IGN=0 E  AVG=84 0  WSP=1236 C  DYN=0 0
+ ICE751I 1 DE-I58435 D5-I58435 D9-I58435 E8-I58435
+ ICE090I 0 OUTPUT LRECL = 80, BLKSIZE = 27920, TYPE = FB   (SDB)
+ ICE080I 0 IN MAIN STORAGE SORT
+ ICE055I 0 INSERT 0, DELETE 0
+ ICE054I 0 RECORDS - IN: 31, OUT: 31
+ ICE134I 0 NUMBER OF BYTES SORTED: 2480
+ ICE253I 0 RECORDS SORTED - PROCESSED: 31, EXPECTED: 11330
+ ICE199I 0 MEMORY OBJECT USED AS MAIN STORAGE = 0M BYTES
+ ICE299I 0 MEMORY OBJECT USED AS WORK STORAGE = 0M BYTES
+ ICE180I 0 HIPERSPACE STORAGE USED = 0K BYTES
+ ICE188I 0 DATA SPACE STORAGE USED = 0K BYTES
+ ICE052I 0 END OF DFSORT
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107                 Date 11/30/2020  Time 17:03:47   Page     1
+0Invocation parameters:
+  APOST
+0Options in effect:
+  NOADATA
+    ADV
+    AFP(NOVOLATILE)
+    APOST
+    ARCH(7)
+    ARITH(COMPAT)
+  NOAWO
+  NOBLOCK0
+    BUFSIZE(4096)
+  NOCICS
+    CODEPAGE(1140)
+  NOCOMPILE(S)
+  NOCOPYLOC
+  NOCOPYRIGHT
+  NOCURRENCY
+    DATA(31)
+    DBCS
+  NODECK
+  NODEFINE
+  NODIAGTRUNC
+    DISPSIGN(COMPAT)
+  NODLL
+  NODUMP
+  NODYNAM
+  NOEXIT
+  NOEXPORTALL
+  NOFASTSRT
+    FLAG(I,I)
+  NOFLAGSTD
+    HGPR(PRESERVE)
+  NOINITCHECK
+    INLINE
+    INTDATE(ANSI)
+    LANGUAGE(EN)
+    LINECOUNT(60)
+  NOLIST
+  NOMAP
+    MAXPCF(100000)
+  NOMDECK
+  NONAME
+    NSYMBOL(NATIONAL)
+  NONUMBER
+  NONUMCHECK
+    NUMPROC(NOPFD)
+    OBJECT
+  NOOFFSET
+    OPTIMIZE(0)
+    OUTDD(SYSOUT)
+  NOPARMCHECK
+    PGMNAME(COMPAT)
+    QUALIFY(COMPAT)
+    RENT
+    RMODE(AUTO)
+  NORULES
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107                 Date 11/30/2020  Time 17:03:47   Page     2
+0 NOSERVICE
+    SEQUENCE
+    SOURCE
+    SPACE(1)
+  NOSQL
+    SQLCCSID
+  NOSQLIMS
+  NOSSRANGE
+  NOSTGOPT
+    SUPPRESS
+  NOTERM
+  NOTEST(NODWARF,NOSOURCE,NOSEPARATE)
+  NOTHREAD
+    TRUNC(STD)
+  NOVBREF
+    VLR(STANDARD)
+    VSAMOPENFS(COMPAT)
+  NOWORD
+    XMLPARSE(XMLSS)
+    XREF(FULL)
+    ZONEDATA(PFD)
+    ZWB
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page     3
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000001               ****************************************************************
+   000002               *                                                              *
+   000003               * PROGRAM NAME:  ENDOWMT4                                      *
+   000004               *                                                              *
+   000005               * FUNCTION:  THIS PROGRAM READS INPUT DATA TABLES AND THEN     *
+   000006               *            WRITES THEM TO STANDARD OUTPUT. PROGRAM TAKES IN  *
+   000007               *            INPUT AND CALCULATES AVERAGES AND DEPOSITS/WITH   *
+   000008               *            FOR DIFFERENT ACCOUNTS                            *
+   000009               *                                                              *
+   000010               * INPUT:     ININST - THE INPUT DATA RECORDS READ IN FOR RPT 1 *
+   000011               *            LOW-ENDOWMT-FILE - FOR RPT 2                      *
+   000012               *                                                              *
+   000013               * OUTPUT:    REPORT - THE INPUT DATA RECORDS WRITTEN OUT.      *
+   000014               *                                                              *
+   000015               ****************************************************************
+   000016
+   000017                IDENTIFICATION DIVISION.
+   000018
+   000019                PROGRAM-ID.    ENDOWMT4.
+   000020                AUTHOR.        CHARLES ALMS.
+   000021                DATE-WRITTEN.  11/20/2020.
+   000022                DATE-COMPILED. 11/30/20.
+   000023
+   000024                ENVIRONMENT DIVISION.
+   000025
+   000026                INPUT-OUTPUT SECTION.
+   000027               ***************************************************************
+   000028                FILE-CONTROL.
+   000029                    SELECT ORCH-FILE ASSIGN TO ORCHFLE.                                   40
+   000030                    SELECT TRAN-FILE ASSIGN TO TRANFLE.                                   51
+   000031                    SELECT LOW-ENDOWMT-FILE ASSIGN TO LEFILE.                             74
+   000032                    SELECT REPORT-FILE ASSIGN TO RPTFLE.                                  85
+   000033                    SELECT FUND-FILE ASSIGN TO FUNDFLE.                                   61
+   000034
+   000035
+   000036                DATA DIVISION.
+   000037
+   000038                FILE SECTION.
+   000039
+   000040                FD  ORCH-FILE
+   000041                    RECORDING MODE F.
+   000042
+   000043                01  ORCH-RECORD.
+   000044                    05  IN-ORCH-NME             PIC X(45).
+   000045                    05  IN-INV-FUND-NBR         PIC S9(3).
+   000046                    05  IN-ENDOWMT-AMT          PIC S9(9)V99.
+   000047                    05  IN-ENDOWMT-USUF-LMT     PIC S9(9)V99.
+   000048                    05  IN-CAP-GAINS-PCT-FLG    PIC S9.
+   000049                    05  FILLER                  PIC X(9).
+   000050
+   000051                FD  TRAN-FILE
+   000052                    RECORDING MODE F.
+   000053
+   000054                COPY TRANREC.
+   000055C               01  TRAN-RECORD.                                                 00010000
+   000056C                   05  IN-ORCH-NME           PIC X(45).                         00020000
+   000057C                   05  IN-TRAN-TYPE          PIC X.                             00030000
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page     4
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000058C                   05  IN-ENDOWMT-CHG-AMT    PIC S9(9)V99.                      00040000
+   000059                    05  FILLER                  PIC X(23).
+   000060
+   000061                FD  FUND-FILE
+   000062                    RECORDING MODE F.
+   000063
+   000064                01  FUND-RECORD.
+   000065                    05  IN-FUND-NBR             PIC S9(3).
+   000066                    05  IN-FUND-NME             PIC X(25).
+   000067                    05  IN-FUND-SHR-PRC         PIC S9(3)V99.
+   000068                    05  IN-FUND-CAP-GNS-PCT     OCCURS 4
+   000069                                                INDEXED BY GAIN-NDX
+   000070                                                PIC S9(3)V999.
+   000071                    05  FILLER                  PIC X(23) VALUE SPACES.                   IMP
+   000072
+   000073               ******************************
+   000074                FD  LOW-ENDOWMT-FILE
+   000075                    RECORDING MODE F.
+   000076
+   000077                COPY LEREC.
+   000078C               01  LOW-ENDOWMT-RECORD.                                          00010000
+   000079C                   05  LE-ORCH-NME           PIC X(45).                         00020000
+   000080C                   05  LE-FUND-NBR           PIC S9(3)     PACKED-DECIMAL.      00030000
+   000081C                   05  LE-ENDOWMT-AMT        PIC S9(9)V99  PACKED-DECIMAL.      00040000
+   000082                    05  FILLER                  PIC X(21).
+   000083
+   000084               ******************************
+   000085                FD  REPORT-FILE
+   000086                    RECORDING MODE F.
+   000087
+   000088                01  REPORT-RECORD               PIC X(132).
+   000089               ***************************************************************
+   000090                WORKING-STORAGE SECTION.
+   000091
+   000092                COPY ORCHSTBL.
+   000093C               01  ORCHS-TBL.                                                   00000100
+   000094C                   05  TBL-ORCH-CTR              PIC S9(3) BINARY SYNC VALUE 0. 00000200
+   000095C                   05  TBL-ORCH-NTRY             OCCURS 1 TO 100                00001000
+   000096C                                                 DEPENDING ON TBL-ORCH-CTR      00002000 94
+   000097C                                                 INDEXED BY ORCH-NDX.           00003000
+   000098C                       10  TBL-ORCH-NME          PIC X(45).                     00010000
+   000099C                       10  TBL-INV-FUND-NBR      PIC S9(3)    PACKED-DECIMAL.   00020000
+   000100C                       10  TBL-ENDOWMT-AMT       PIC S9(9)V99 PACKED-DECIMAL.   00030000
+   000101C                       10  TBL-ENDOWMT-USUF-LMT  PIC S9(9)V99 PACKED-DECIMAL.   00040000
+   000102C                       10  TBL-CAP-GAINS-PCT-FLG PIC S9       BINARY SYNC.      00050001
+   000103
+   000104               ***************************************************************
+   000105               * THIS WILL DECALRE THE FUND TABLE AND IN ASCENDING ORDER     *
+   000106               * BASED ON THE FUND-NBR. COPPIES REST FROM DECKER'S COPLIB    *
+   000107               ***************************************************************
+   000108                01  FUND-TBL.
+   000109                    05  TBL-FUND-CTR            PIC S9(3) BINARY SYNC VALUE 0.
+   000110                    05  TBL-FUND-NTRY           OCCURS 1 TO 100
+   000111                                                DEPENDING ON TBL-FUND-CTR                 109
+   000112                                                ASCENDING KEY TBL-FUND-NBR                115
+   000113                                                INDEXED BY FUND-NDX.
+   000114                COPY FUNDSTBL.
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page     5
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000115C                       10  TBL-FUND-NBR           PIC S9(3)    BINARY SYNC.
+   000116C                       10  TBL-FUND-NME           PIC X(25).
+   000117C                       10  TBL-FUND-SHR-PRC       PIC S9(3)V99 PACKED-DECIMAL.
+   000118C                       10  TBL-FUND-CAP-GAINS-PCT OCCURS 4
+   000119C                                                  PIC S9(3)V999 PACKED-DECIMAL.
+   000120               ***************************************************************
+   000121
+   000122
+   000123                01  EOF-FLAG                    PIC X VALUE 'N'.
+   000124
+   000125               ***************************************************************
+   000126               * VARIABLE STORAGE                                            *
+   000127               ***************************************************************
+   000128                01  VARIABLES.
+   000129                    05  LINE-CTR                PIC S9(2) BINARY SYNC VALUE 99.
+   000130                    05  PAGE-CTR                PIC S9(3) PACKED-DECIMAL
+   000131                                                          VALUE 0.
+   000132                    05  TRAN-CTR                PIC S9(3) PACKED-DECIMAL
+   000133                                                          VALUE 0.
+   000134                    05  CG-PCT-SUB              PIC S9 BINARY SYNC.
+   000135                    05  NEW-END-AMT             PIC S9(11)V99 PACKED-DECIMAL
+   000136                                                VALUE 0.
+   000137                    05  NEG-END-AMT             PIC S9(11)V99 PACKED-DECIMAL
+   000138                                                VALUE 0.
+   000139                    05  NEG-SHR-AMT             PIC S9(11)V99 PACKED-DECIMAL
+   000140                                                VALUE 0.
+   000141                    05  FLAG-VAL                PIC S9 BINARY SYNC.
+   000142
+   000143               ***************************************************************
+   000144               * SHARE AMOUNT VARIABLES                                      *
+   000145               ***************************************************************
+   000146                01  SHAR-VALS.
+   000147                    05  ENDOWMT-SHR-STRT        PIC S9(14)V9999 PACKED-DECIMAL
+   000148                                                VALUE  0.
+   000149                    05  ENDOWMT-SHR-CHG         PIC S9(14)V9999 PACKED-DECIMAL
+   000150                                                VALUE  0.
+   000151                    05  ENDOWMT-SHR-NEW         PIC S9(14)V9999 PACKED-DECIMAL
+   000152                                                VALUE  0.
+   000153
+   000154               ***************************************************************
+   000155               * TOTAL STORAGE                                               *
+   000156               ***************************************************************
+   000157                01  STORAGE-TOTAL.
+   000158                    05  TOT-ENDOWMT-AMT         PIC S9(11)V99 PACKED-DECIMAL
+   000159                                                VALUE  0.
+   000160                    05  TOT-ENDOWMT-CHG-AMT     PIC S9(11)V99 PACKED-DECIMAL
+   000161                                                VALUE  0.
+   000162                    05  TOT-NEW-ENDOWMT-AMT     PIC S9(11)V99 PACKED-DECIMAL
+   000163                                                VALUE  0.
+   000164                    05  TOT-SHR-STR             PIC S9(11)V99 PACKED-DECIMAL
+   000165                                                VALUE  0.
+   000166                    05  TOT-SHR-CHG             PIC S9(11)V99 PACKED-DECIMAL
+   000167                                                VALUE  0.
+   000168                    05  TOT-SHR-NEW             PIC S9(11)V99 PACKED-DECIMAL
+   000169                                                VALUE  0.
+   000170
+   000171               ***************************************************************
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page     6
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000172               * STORAGE FOR THE FLAG VALUES                                 *
+   000173               ***************************************************************
+   000174                01  STORAGE-FLG-VAL.
+   000175                    05  DEP                     PIC X(12) VALUE
+   000176                            'DEPOSIT     '.
+   000177                    05  WITHD                   PIC X(12) VALUE
+   000178                            'WITHDRAWAL  '.
+   000179                    05  REINV                   PIC X(12) VALUE
+   000180                            'REINVESTMENT'.
+   000181                    05  EXCOUT                  PIC X(12) VALUE
+   000182                            'EXCHANGE OUT'.
+   000183                    05  TRANOUT                 PIC X(12) VALUE
+   000184                            'TRANSFER OUT'.
+   000185
+   000186               ***************************************************************
+   000187               * STORAGE FOR THE ERRORS THAT CAN HAPPEN                      *
+   000188               ***************************************************************
+   000189                01  STORAGE-ERR.
+   000190                    05  DEP-ERR                 PIC X(26) VALUE
+   000191                            'DEPOSIT NOT PROCESSED     '.
+   000192                    05  WITH-ERR                PIC X(26) VALUE
+   000193                            'WITHDRAWAL NOT PROCESSED  '.
+   000194                    05  EXCH-ERR                PIC X(26) VALUE
+   000195                            'EXCHANGE OUT NOT PROCESSED'.
+   000196                    05  TRAN-ERR                PIC X(26) VALUE
+   000197                            'TRANSFER OUT NOT PROCESSED'.
+   000198                    05  REINV-ERR               PIC X(26) VALUE
+   000199                            'REINVESTMENT NOT PROCESSED'.
+   000200                    05  ORCH-ERR                PIC X(18) VALUE
+   000201                            'UNKNOWN ORCHESTRA'.
+   000202
+   000203               ***************************************************************
+   000204               * STORAGE FOR BAD TRANS                                       *
+   000205               ***************************************************************
+   000206                01  STORAGE-TRAN-ERRS.
+   000207
+   000208                    05  ZERO-ERR                PIC X(8)  VALUE
+   000209                            '(0.0000)'.
+   000210                    05  ZERO-DOL-ERR            PIC X(7)  VALUE
+   000211                            '($0.00)'.
+   000212                    05  PAR-OPEN                PIC X(1)  VALUE '('.
+   000213                    05  PAR-CLOSE               PIC X(1)  VALUE ')'.
+   000214
+   000215               ***************************************************************
+   000216               * FUND NUM NOT FOUND ERROR LINE 1                             *
+   000217               ***************************************************************
+   000218                01  FUND-ERR-LN1.
+   000219                    05  OUT-ORCH-NME3         PIC X(45).
+   000220                    05  FILLER                PIC X(87) VALUE SPACES.                     IMP
+   000221
+   000222               ***************************************************************
+   000223               * FUND NUM NOT FOUND ERROR LINE 2                             *
+   000224               ***************************************************************
+   000225                01  FUND-ERR-LN2.
+   000226                    05  FUND-ERR                PIC X(30) VALUE
+   000227                            '*** FUND NUMBER NOT FOUND ***'.
+   000228                    05  FILLER                  PIC X(24) VALUE SPACES.                   IMP
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page     7
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000229                    05  OUT-FUND-END-AMT        PIC $$$$,$$$,$$9.99.
+   000230                    05  FILLER                  PIC X(2) VALUE SPACES.                    IMP
+   000231                    05  OUT-FUND-TRAN-ERR       PIC X(26).
+   000232                    05  FILLER                  PIC X(20) VALUE SPACES.                   IMP
+   000233                    05  OUT-FUND-ERR-NEW        PIC $$$$,$$$,$$9.99.
+   000234
+   000235               ***************************************************************
+   000236               * TRAN ERROR                                                  *
+   000237               ***************************************************************
+   000238                01  ERR-TRAN-LN.
+   000239                    05  OUT-ORCH-NME2           PIC X(45).
+   000240                    05  FILLER                  PIC X(7) VALUE SPACES.                    IMP
+   000241                    05  FILLER              PIC X(17) VALUE
+   000242                            'UNKNOWN ORCHESTRA'.
+   000243                    05  FILLER              PIC X(2)  VALUE SPACES.                       IMP
+   000244                    05  OUT-TRAN-ERR-MSG    PIC X(26).
+   000245                    05  FILLER              PIC X(36) VALUE SPACES.                       IMP
+   000246
+   000247               ***************************************************************
+   000248               * HEADER 1 WILL HAVE THE DATE, PAGE COUNTER, REPORT NAME SS   *
+   000249               ***************************************************************
+   000250                01  HEADER1.
+   000251                    05  OUT-CURRENT-DATE.
+   000252                        10  CURRENT-MONTH              PIC 99.
+   000253                        10  FILLER                     PIC X VALUE '/'.
+   000254                        10  CURRENT-DAY                PIC 99.
+   000255                        10  FILLER                     PIC X VALUE '/'.
+   000256                        10  CURRENT-YEAR               PIC 9(4).
+   000257                    05  FILLER                         PIC X(39) VALUE SPACES.            IMP
+   000258                    05  FILLER                         PIC X(36) VALUE
+   000259                        'ORCHESTRAL INVESTMENTS COMPANY, INC.'.
+   000260                    05  FILLER                         PIC X(39) VALUE SPACES.            IMP
+   000261                    05  PAGE-HEADER                    PIC X(5) VALUE 'PAGE:'.
+   000262                    05  FILLER                         PIC X(1) VALUE SPACES.             IMP
+   000263                    05  OUT-PAGE-CTR                   PIC Z9.
+   000264
+   000265
+   000266               ***************************************************************
+   000267               * HEADER 2 WILL HAVE THE TIME AND REPORT NAME     DS          *
+   000268               ***************************************************************
+   000269                01  HEADER2.
+   000270                    05  OUT-CURRENT-TIMES.
+   000271                        10  CURRENT-HOUR               PIC 99.
+   000272                        10  FILLER                     PIC X(1) VALUE ':'.
+   000273                        10  CURRENT-MINUTE             PIC 99.
+   000274                    05  FILLER                         PIC X(46) VALUE SPACES.            IMP
+   000275                    05  MEFC-HEAD                      PIC X(31) VALUE
+   000276                          'MONTHLY INVESTMENT TRANSACTIONS'.
+   000277                    05  FILLER                         PIC X(50) VALUE SPACES.            IMP
+   000278
+   000279               ***************************************************************
+   000280               * HEADER3 WILL HAVE THE FIRST COULMN NAMES                    *
+   000281               ***************************************************************
+   000282                01  HEADER3.
+   000283                    05  FILLER                  PIC X(54) VALUE SPACES.                   IMP
+   000284                    05  FILLER                  PIC X(18) VALUE
+   000285                          'ENDOWMENT SHARE   '.
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page     8
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000286                    05  FILLER                  PIC X(18) VALUE
+   000287                          'TRANSACTION       '.
+   000288                    05  FILLER                  PIC X(23) VALUE
+   000289                          'TRANSACTION CHANGE     '.
+   000290                    05  FILLER                  PIC X(19) VALUE
+   000291                          'NEW ENDOWMENT SHARE'.
+   000292
+   000293               ***************************************************************
+   000294               * HEADER4 WILL HAVE THE NEXT SET OF COULMN NAMES              *
+   000295               ***************************************************************
+   000296                01  HEADER4.
+   000297                    05  FILLER                  PIC X(53) VALUE
+   000298                      'ORCHESTRA NAME                                      '.
+   000299                    05  FILLER                  PIC X(26) VALUE
+   000300                        'AMOUNT AND VALUE         '.
+   000301                    05  FILLER                  PIC X(7) VALUE
+   000302                        'TYPE  '.
+   000303                    05  FILLER                  PIC X(30) VALUE
+   000304                        'SHARE AMOUNT AND VALUE       '.
+   000305                    05  FILLER                  PIC X(17) VALUE
+   000306                        'AMOUNT AND VALUE'.
+   000307
+   000308               ***************************************************************
+   000309               * HEADER5 WILL BE THE HYPHENS                                 *
+   000310               ***************************************************************
+   000311                01  HEADER5.
+   000312                    05  FILLER                  PIC X(47) VALUE ALL '-'.
+   000313                    05  FILLER                  PIC X(3)  VALUE SPACES.                   IMP
+   000314                    05  FILLER                  PIC X(19) VALUE ALL '-'.
+   000315                    05  FILLER                  PIC X(2)  VALUE SPACES.                   IMP
+   000316                    05  FILLER                  PIC X(12) VALUE ALL '-'.
+   000317                    05  FILLER                  PIC X(3)  VALUE SPACES.                   IMP
+   000318                    05  FILLER                  PIC X(22) VALUE ALL '-'.
+   000319                    05  FILLER                  PIC X(5)  VALUE SPACES.                   IMP
+   000320                    05  FILLER                  PIC X(20) VALUE ALL '-'.
+   000321
+   000322               ***************************************************************
+   000323               * RPTLN-1 WILL BE THE FIRST LINE OF REPORT 1                  *
+   000324               ***************************************************************
+   000325                01  RPTLN-1.
+   000326                    05  OUT-ORCH-NME            PIC X(45).
+   000327                    05  FILLER                  PIC X(5) VALUE SPACES.                    IMP
+   000328                    05  OUT-END-SHR-AMT         PIC ZZ,ZZZ,ZZZ,ZZ9.9990.
+   000329                    05  FILLER                  PIC X(2) VALUE SPACES.                    IMP
+   000330                    05  PROCESS.
+   000331                        10  OUT-TRAN-TYPE           PIC X(13).
+   000332                        10  FILLER                  PIC X(3) VALUE SPACES.                IMP
+   000333                        10  OUT-PAR                 PIC X(1).
+   000334                        10  OUT-CHG-SHR-AMT         PIC ZZ,ZZZ,ZZZ,ZZ9.9990.
+   000335                        10  OUT-PAR-CLOSE           PIC X(1).
+   000336                    05  NO-PROCESS REDEFINES PROCESS.                                     330
+   000337                        10  OUT-TRAN-ERR            PIC X(26).
+   000338                        10  FILLER                  PIC X(3).
+   000339                        10  OUT-ZERO-ERR            PIC X(8).
+   000340                    05  NO-PROCESS-SPACES REDEFINES PROCESS                               330
+   000341                                                    PIC X(37).
+   000342                    05  FILLER                  PIC X(5)  VALUE SPACES.                   IMP
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page     9
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000343                    05  OUT-NEW-SHR-AMT         PIC ZZ,ZZZ,ZZZ,ZZ9.9990.
+   000344
+   000345               ***************************************************************
+   000346               * RPTLN-2 WILL BE THE SECOND LINE OF REPORT 1                 *
+   000347               ***************************************************************
+   000348                01  RPTLN-2.
+   000349                    05  FILLER                  PIC X(19) VALUE
+   000350                        'FUND NUMBER/NAME: '.
+   000351                    05  OUT-FUND-NUM            PIC ZZ9.
+   000352                    05  FILLER                  PIC X VALUE '/'.
+   000353                    05  OUT-FUND-NME            PIC X(25).
+   000354                    05  FILLER                  PIC X(6) VALUE SPACES.                    IMP
+   000355                    05  OUT-END-AMT             PIC $$$$,$$$,$$9.99.
+   000356                    05  PROCESS2.
+   000357                        10  FILLER                  PIC X(22) VALUE SPACES.               IMP
+   000358                        10  OUT-PAR2                PIC X(1).
+   000359                        10  OUT-END-CHG-AMT         PIC $$$$,$$$,$$9.99.
+   000360                        10  OUT-PAR-CLOSE2          PIC X(1).
+   000361                    05  NO-PROCESS2 REDEFINES PROCESS2.                                   356
+   000362                        10  FILLER                  PIC X(32).
+   000363                        10  OUT-ZERO-DOL-ERR        PIC X(7).
+   000364                    05  NO-PROCESS-SPACES2 REDEFINES PROCESS2                             356
+   000365                                                    PIC X(39).
+   000366                    05  FILLER                  PIC X(9) VALUE SPACES.                    IMP
+   000367                    05  OUT-NEW-END-AMT         PIC $$$$,$$$,$$9.99.
+   000368
+   000369               ***************************************************************
+   000370               * FOOTER FOR THE HYPHENS ON REPORT 1                          *
+   000371               ***************************************************************
+   000372                01  FOOTER1.
+   000373                    05  FILLER                  PIC X(47) VALUE SPACES.                   IMP
+   000374                    05  FILLER                  PIC X(22) VALUE ALL '-'.
+   000375                    05  FILLER                  PIC X(15) VALUE SPACES.                   IMP
+   000376                    05  FILLER                  PIC X(24) VALUE ALL '-'.
+   000377                    05  FILLER                  PIC X(2)  VALUE SPACES.                   IMP
+   000378                    05  FILLER                  PIC X(23) VALUE ALL '-'.
+   000379
+   000380               ***************************************************************
+   000381               * TOT-LINE WILL BE FOR THE SHARE TOTALS AT THE END            *
+   000382               ***************************************************************
+   000383                01  TOT-LN1.
+   000384                    05  FILLER                  PIC X(14) VALUE
+   000385                        'TRANSACTIONS: '.
+   000386                    05  OUT-TRAN-CTR            PIC ZZ9.
+   000387                    05  FILLER                  PIC X(15) VALUE SPACES.                   IMP
+   000388                    05  FILLER                  PIC X(15) VALUE
+   000389                        'SHARE TOTALS:  '.
+   000390                    05  OUT-TOT-SHR-STR         PIC Z,ZZZ,ZZZ,ZZZ,ZZ9.9990.
+   000391                    05  FILLER                  PIC X(17) VALUE SPACES.                   IMP
+   000392                    05  OUT-TOT-SHR-CHG         PIC Z,ZZZ,ZZZ,ZZZ,ZZ9.9990.
+   000393                    05  FILLER                  PIC X(2) VALUE SPACES.                    IMP
+   000394                    05  OUT-TOT-SHR-NEW         PIC Z,ZZZ,ZZZ,ZZZ,ZZ9.9990.
+   000395
+   000396               ***************************************************************
+   000397               * TOT-LN2 WILL HAVE THE END TOTALS                            *
+   000398               ***************************************************************
+   000399                01  TOT-LN2.
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    10
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000400                    05  FILLER                  PIC X(31) VALUE SPACES.                   IMP
+   000401                    05  FILLER                  PIC X(20) VALUE
+   000402                        'DOLLAR TOTALS:      '.
+   000403                    05  OUT-TOT-END-STR         PIC $$$,$$$,$$$,$$9.99.
+   000404                    05  FILLER                  PIC X(21) VALUE SPACES.                   IMP
+   000405                    05  OUT-TOT-END-CHG         PIC $$$,$$$,$$$,$$9.99.
+   000406                    05  FILLER                  PIC X(6) VALUE SPACES.                    IMP
+   000407                    05  OUT-TOT-END-NEW         PIC $$$,$$$,$$$,$$9.99.
+   000408
+   000409
+   000410
+   000411
+   000412
+   000413
+   000414               ***************************************************************
+   000415               *                                                             *
+   000416               * BELOW WILL BE ALL PRINT LINES FOR THE SECOND REPORT         *
+   000417               *                                                             *
+   000418               ***************************************************************
+   000419
+   000420               ***************************************************************
+   000421               * HEADER 6 WILL BE FOR THE DATE AND TIME FOR THE SECOND REPORT*
+   000422               ***************************************************************
+   000423                01  HEADER6.
+   000424                    05  OUT-CURRENT-TIMES2.
+   000425                        10  CURRENT-HOUR               PIC 99.
+   000426                        10  FILLER                     PIC X(1) VALUE ':'.
+   000427                        10  CURRENT-MINUTE             PIC 99.
+   000428                    05  FILLER                         PIC X(51) VALUE SPACES.            IMP
+   000429                    05  MEFC-HEAD                      PIC X(23) VALUE
+   000430                          'LOW INVESTMENT REPORT'.
+   000431                    05  FILLER                         PIC X(53) VALUE SPACES.            IMP
+   000432
+   000433               ***************************************************************
+   000434               * HEADER 7 WILL BE FOR THE COLUMN NAMES FOR REPORT 2          *
+   000435               ***************************************************************
+   000436                01  HEADER7.
+   000437                    05  FILLER                  PIC X(14) VALUE
+   000438                        'ORCHESTRA NAME'.
+   000439                    05  FILLER                  PIC X(35) VALUE SPACES.                   IMP
+   000440                    05  FILLER                  PIC X(11) VALUE
+   000441                        'FUND NUMBER'.
+   000442                    05  FILLER                  PIC X(4)  VALUE SPACES.                   IMP
+   000443                    05  FILLER                  PIC X(9)  VALUE
+   000444                        'FUND NAME'.
+   000445                    05  FILLER                  PIC X(20) VALUE SPACES.                   IMP
+   000446                    05  FILLER                  PIC X(20) VALUE
+   000447                        'CURRENT SHARE AMOUNT'.
+   000448                    05  FILLER                  PIC X(6)  VALUE SPACES.                   IMP
+   000449                    05  FILLER                  PIC X(13) VALUE
+   000450                        'CURRENT VALUE'.
+   000451
+   000452               ***************************************************************
+   000453               * HEADER 8 WILL BE HYPHENS FOR REPORT 2                       *
+   000454               ***************************************************************
+   000455                01  HEADER8.
+   000456                    05  FILLER                  PIC X(45) VALUE ALL '-'.
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    11
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000457                    05  FILLER                  PIC X(4)  VALUE SPACES.                   IMP
+   000458                    05  FILLER                  PIC X(11) VALUE ALL '-'.
+   000459                    05  FILLER                  PIC X(4)  VALUE SPACES.                   IMP
+   000460                    05  FILLER                  PIC X(25) VALUE ALL '-'.
+   000461                    05  FILLER                  PIC X(4)  VALUE SPACES.                   IMP
+   000462                    05  FILLER                  PIC X(20) VALUE ALL '-'.
+   000463                    05  FILLER                  PIC X(4)  VALUE SPACES.                   IMP
+   000464                    05  FILLER                  PIC X(15) VALUE ALL '-'.
+   000465
+   000466               ***************************************************************
+   000467               * RPT-LN3 WILL BE FOR THE SECOND REPORT                       *
+   000468               ***************************************************************
+   000469                01  RPT-LN3.
+   000470                    05  OUT-LE-ORCH-NME         PIC X(45).
+   000471                    05  FILLER                  PIC X(12) VALUE SPACES.                   IMP
+   000472                    05  OUT-LE-FUND-NUM         PIC ZZ9.
+   000473                    05  FILLER                  PIC X(4)  VALUE SPACES.                   IMP
+   000474                    05  OUT-LE-INST-NME         PIC X(25).
+   000475                    05  FILLER                  PIC X(5)  VALUE SPACES.                   IMP
+   000476                    05  OUT-LE-SHR-AMT          PIC ZZ,ZZZ,ZZZ,ZZ9.9990.
+   000477                    05  FILLER                  PIC X(4)  VALUE SPACES.                   IMP
+   000478                    05  OUT-LE-END-AMT          PIC $$$$,$$$,$$9.99.
+   000479
+   000480               ***************************************************************
+   000481               * DATE FUNCTION FROM THE NOTES                                *
+   000482               ***************************************************************
+   000483                01  CURRENT-DATE-FIELDS.
+   000484                    05  CURRENT-DATE.
+   000485                        10  CURRENT-YEAR                   PIC 9(4).
+   000486                        10  CURRENT-MONTH                  PIC 9(2).
+   000487                        10  CURRENT-DAY                    PIC 9(2).
+   000488                    05  CURRENT-TIME.
+   000489                        10  CURRENT-HOUR                   PIC 9(2).
+   000490                        10  CURRENT-MINUTE                 PIC 9(2).
+   000491                        10  CURRENT-SECOND                 PIC 9(2).
+   000492                        10  CURRENT-MS                     PIC 9(2).
+   000493                    05  DIFF-FROM-GMT                      PIC S9(4).
+   000494
+   000495               ***************************************************************
+   000496               * FIRST OPEN THE FILES ORCH, FUND, AND REPORT.                *
+   000497               * NEXT, READ ORCH-FILE AND PUT THE DATA INTO THE TABLE        *
+   000498               * ONCE DONE, SET EOF-FLAG TO N AND READ THE FUND-FILE         *
+   000499               * STORE THE DATA INTO THE FUND-TBL                            *
+   000500               ***************************************************************
+   000501                PROCEDURE DIVISION.
+   000502
+   000503                0000-MAIN.
+   000504
+   000505                    PERFORM 0100-DATE-AND-TIME.                                           577
+   000506
+   000507                    OPEN INPUT  ORCH-FILE                                                 40
+   000508                         INPUT  FUND-FILE                                                 61
+   000509                         INPUT  TRAN-FILE                                                 51
+   000510                         OUTPUT LOW-ENDOWMT-FILE                                          74
+   000511                         OUTPUT REPORT-FILE.                                              85
+   000512
+   000513                    READ ORCH-FILE                                                        40
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    12
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000514      1               AT END MOVE 'Y' TO EOF-FLAG                                         123
+   000515                    END-READ.
+   000516
+   000517                    PERFORM 0200-PROCESS-ORCH VARYING ORCH-NDX FROM 1 BY 1                647 97
+   000518                      UNTIL ORCH-NDX > 999                                                97
+   000519                        OR EOF-FLAG = 'Y'.                                                123
+   000520
+   000521                    CLOSE ORCH-FILE.                                                      40
+   000522
+   000523                    MOVE 'N' TO EOF-FLAG.                                                 123
+   000524
+   000525                    READ FUND-FILE                                                        61
+   000526      1               AT END MOVE 'Y' TO EOF-FLAG                                         123
+   000527                    END-READ.
+   000528
+   000529                    PERFORM 0300-PROCESS-FUNDS VARYING FUND-NDX FROM 1 BY 1               670 113
+   000530                      UNTIL FUND-NDX > 999                                                113
+   000531                        OR EOF-FLAG = 'Y'.                                                123
+   000532
+   000533                    CLOSE FUND-FILE.                                                      61
+   000534
+   000535                    MOVE 'N' TO EOF-FLAG.                                                 123
+   000536
+   000537                    READ TRAN-FILE                                                        51
+   000538      1               AT END MOVE 'Y' TO EOF-FLAG                                         123
+   000539                    END-READ.
+   000540
+   000541                      PERFORM 0400-PROCESS-TRAN                                           767
+   000542                        UNTIL EOF-FLAG = 'Y'.                                             123
+   000543
+   000544                    PERFORM 0800-PROCESS-TOTALS.                                          1223
+   000545
+   000546                    CLOSE TRAN-FILE                                                       51
+   000547                          LOW-ENDOWMT-FILE.                                               74
+   000548
+   000549               ***************************************************************
+   000550               * FOR RUNNING THE LE FILE                                     *
+   000551               ***************************************************************
+   000552                    PERFORM 0900-PROCESS-RESET.                                           1243
+   000553
+   000554                    OPEN INPUT LOW-ENDOWMT-FILE.                                          74
+   000555
+   000556                    READ LOW-ENDOWMT-FILE                                                 74
+   000557      1               AT END MOVE 'Y' TO EOF-FLAG                                         123
+   000558                    END-READ.
+   000559
+   000560                    PERFORM 0710-PROCESS-PRINT-LE                                         1179
+   000561                       UNTIL EOF-FLAG = 'Y'                                               123
+   000562
+   000563
+   000564                    CLOSE LOW-ENDOWMT-FILE                                                74
+   000565                          REPORT-FILE.                                                    85
+   000566
+   000567                    MOVE 0 TO RETURN-CODE.                                                IMP IMP
+   000568
+   000569                    GOBACK.
+   000570
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    13
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000571                0000-EXIT. EXIT.
+   000572
+   000573               ***************************************************************
+   000574               * SUB. FOR THE DATE                                           *
+   000575               * MOVES THE DATE TO HEADER 1 AND TIME TO HEADER 2             *
+   000576               ***************************************************************
+   000577                0100-DATE-AND-TIME.
+   000578
+   000579                    MOVE FUNCTION CURRENT-DATE TO CURRENT-DATE-FIELDS.                    IFN 483
+   000580                    MOVE CORRESPONDING CURRENT-DATE TO OUT-CURRENT-DATE.                  484 251
+   000581                    MOVE CORRESPONDING CURRENT-TIME TO OUT-CURRENT-TIMES.                 488 270
+   000582                    MOVE CORRESPONDING CURRENT-TIME TO OUT-CURRENT-TIMES2.                488 424
+   000583
+   000584                0100-EXIT. EXIT.
+   000585
+   000586               ***************************************************************
+   000587               * PERFORM HEADERS EVERY 10 LINES FOR THE FIRST REPORT         *
+   000588               ***************************************************************
+   000589                0110-HEADERS-ONE.
+   000590
+   000591                    IF LINE-CTR > 9                                                       129
+   000592      1                MOVE 0 TO LINE-CTR                                                 129
+   000593                    END-IF.
+   000594
+   000595                    IF LINE-CTR = 0                                                       129
+   000596      1               ADD 1 TO PAGE-CTR                                                   130
+   000597      1               MOVE PAGE-CTR TO OUT-PAGE-CTR                                       130 263
+   000598
+   000599      1               WRITE REPORT-RECORD FROM HEADER1 AFTER 2                            88 250
+   000600      1               WRITE REPORT-RECORD FROM HEADER2 AFTER 1                            88 269
+   000601      1               WRITE REPORT-RECORD FROM HEADER3 AFTER 2                            88 282
+   000602      1               WRITE REPORT-RECORD FROM HEADER4 AFTER 1                            88 296
+   000603      1               WRITE REPORT-RECORD FROM HEADER5 AFTER 1                            88 311
+   000604                    END-IF.
+   000605
+   000606                0110-EXIT. EXIT.
+   000607
+   000608               ***************************************************************
+   000609               * PERFORM HEADERS 2 EVERY 16 LINES FOR THE SECOND REPORT      *
+   000610               ***************************************************************
+   000611                0120-HEADERS-TWO.
+   000612
+   000613                    IF LINE-CTR > 15                                                      129
+   000614      1               MOVE 0 TO LINE-CTR                                                  129
+   000615                    END-IF.
+   000616
+   000617                    IF LINE-CTR = 0                                                       129
+   000618      1               ADD 1 TO PAGE-CTR                                                   130
+   000619      1               MOVE PAGE-CTR TO OUT-PAGE-CTR                                       130 263
+   000620
+   000621      1               WRITE REPORT-RECORD FROM HEADER1 AFTER 2                            88 250
+   000622      1               WRITE REPORT-RECORD FROM HEADER6 AFTER 1                            88 423
+   000623      1               WRITE REPORT-RECORD FROM HEADER7 AFTER 2                            88 436
+   000624      1               WRITE REPORT-RECORD FROM HEADER8 AFTER 1                            88 455
+   000625                    END-IF.
+   000626
+   000627                0120-EXIT. EXIT.
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    14
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000628
+   000629               ***************************************************************
+   000630               * CLEARS THE VLAUES FOR PRINT LINES                           *
+   000631               ***************************************************************
+   000632                0130-PROCESS-CLEAR.
+   000633
+   000634                    MOVE SPACES TO NO-PROCESS-SPACES.                                     IMP 340
+   000635                    MOVE SPACES TO NO-PROCESS-SPACES2.                                    IMP 364
+   000636                    MOVE SPACES TO OUT-PAR.                                               IMP 333
+   000637                    MOVE SPACES TO OUT-PAR-CLOSE.                                         IMP 335
+   000638                    MOVE SPACES TO OUT-PAR2.                                              IMP 358
+   000639                    MOVE SPACES TO OUT-PAR-CLOSE2.                                        IMP 360
+   000640
+   000641
+   000642                0130-EXIT. EXIT.
+   000643
+   000644               ***************************************************************
+   000645               * PROCESS THE ORCH TABLE DATA                                 *
+   000646               ***************************************************************
+   000647                0200-PROCESS-ORCH.
+   000648
+   000649                    ADD 1 TO TBL-ORCH-CTR.                                                94
+   000650
+   000651               *USE 'OF' TO USE THE SAME VARIABLE NAME FROM DIFFERENT RECS
+   000652                    MOVE IN-ORCH-NME OF ORCH-RECORD TO TBL-ORCH-NME (ORCH-NDX).           44 43 98 97
+   000653                    MOVE IN-INV-FUND-NBR TO TBL-INV-FUND-NBR (ORCH-NDX).                  45 99 97
+   000654                    MOVE IN-ENDOWMT-AMT TO TBL-ENDOWMT-AMT (ORCH-NDX).                    46 100 97
+   000655                    MOVE IN-ENDOWMT-USUF-LMT TO                                           47
+   000656                       TBL-ENDOWMT-USUF-LMT (ORCH-NDX).                                   101 97
+   000657                    MOVE IN-CAP-GAINS-PCT-FLG TO                                          48
+   000658                       TBL-CAP-GAINS-PCT-FLG (ORCH-NDX).                                  102 97
+   000659
+   000660
+   000661                    READ ORCH-FILE                                                        40
+   000662      1               AT END MOVE 'Y' TO EOF-FLAG                                         123
+   000663                    END-READ.
+   000664
+   000665                0200-EXIT. EXIT.
+   000666
+   000667               ***************************************************************
+   000668               * 0300 WILL BE PROCESS-FUNDS                                  *
+   000669               ***************************************************************
+   000670                0300-PROCESS-FUNDS.
+   000671
+   000672                    ADD 1 TO TBL-FUND-CTR.                                                109
+   000673
+   000674                    MOVE IN-FUND-NBR TO TBL-FUND-NBR (FUND-NDX).                          65 115 113
+   000675                    MOVE IN-FUND-NME TO TBL-FUND-NME (FUND-NDX).                          66 116 113
+   000676                    MOVE IN-FUND-SHR-PRC TO TBL-FUND-SHR-PRC (FUND-NDX).                  67 117 113
+   000677
+   000678                    PERFORM VARYING CG-PCT-SUB FROM 1 BY 1                                134
+   000679                      UNTIL CG-PCT-SUB > 4                                                134
+   000680      1                 MOVE IN-FUND-CAP-GNS-PCT (CG-PCT-SUB) TO                          68 134
+   000681      1                 TBL-FUND-CAP-GAINS-PCT  (FUND-NDX, CG-PCT-SUB)                    118 113 134
+   000682                    END-PERFORM.
+   000683
+   000684                    READ FUND-FILE                                                        61
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    15
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000685      1               AT END MOVE 'Y' TO EOF-FLAG                                         123
+   000686                    END-READ.
+   000687
+   000688                0300-EXIT. EXIT.
+   000689
+   000690               ***************************************************************
+   000691               * IF THE FUND NUMBER WAS FOUND                                *
+   000692               ***************************************************************
+   000693                0310-FUND-FOUND.
+   000694
+   000695                    MOVE TBL-INV-FUND-NBR (ORCH-NDX) TO OUT-FUND-NUM.                     99 97 351
+   000696                    MOVE TBL-FUND-NME (FUND-NDX) TO OUT-FUND-NME.                         116 113 353
+   000697
+   000698                    PERFORM 0410-PROCESS-TRAN-TYPE.                                       789
+   000699
+   000700                0310-EXIT. EXIT.
+   000701
+   000702               ***************************************************************
+   000703               * IF THE FUND NUMBER WAS NOT FOUND                            *
+   000704               ***************************************************************
+   000705                0320-FUND-NOT-FOUND.
+   000706
+   000707               * WILL HAVE TO MOVE THE END-AMT TO THE PRINT LINE AS WELL AS
+   000708               * THE TRAN TYPE AND TOTAL AMOUNT
+   000709
+   000710                    MOVE TBL-ORCH-NME (ORCH-NDX) TO OUT-ORCH-NME3.                        98 97 219
+   000711                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO OUT-FUND-END-AMT.                  100 97 229
+   000712
+   000713                    IF IN-TRAN-TYPE = 'D'                                                 57
+   000714      1               MOVE DEP-ERR TO OUT-FUND-TRAN-ERR                                   190 231
+   000715
+   000716      1             ELSE IF IN-TRAN-TYPE = 'C'                                            57
+   000717      2               MOVE REINV-ERR TO OUT-FUND-TRAN-ERR                                 198 231
+   000718
+   000719      2             ELSE IF IN-TRAN-TYPE = 'W'                                            57
+   000720      3               MOVE WITH-ERR TO OUT-FUND-TRAN-ERR                                  192 231
+   000721
+   000722      3             ELSE IF IN-TRAN-TYPE = 'E'                                            57
+   000723      4               MOVE EXCH-ERR TO OUT-FUND-TRAN-ERR                                  194 231
+   000724
+   000725      4             ELSE IF IN-TRAN-TYPE = 'T'                                            57
+   000726      5               MOVE TRAN-ERR TO OUT-FUND-TRAN-ERR                                  196 231
+   000727
+   000728      4             END-IF.
+   000729
+   000730                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO OUT-FUND-ERR-NEW.                  100 97 233
+   000731
+   000732                    PERFORM 0110-HEADERS-ONE.                                             589
+   000733
+   000734                    COMPUTE TOT-ENDOWMT-AMT ROUNDED =                                     158
+   000735                        TOT-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                     158 100 97
+   000736
+   000737                    COMPUTE TOT-NEW-ENDOWMT-AMT ROUNDED =                                 162
+   000738                        TOT-NEW-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                 162 100 97
+   000739
+   000740                    WRITE REPORT-RECORD FROM FUND-ERR-LN1 AFTER 1.                        88 218
+   000741                    WRITE REPORT-RECORD FROM FUND-ERR-LN2 AFTER 1.                        88 225
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    16
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000742
+   000743                    ADD 1 TO TRAN-CTR.                                                    132
+   000744                    ADD 1 TO LINE-CTR.                                                    129
+   000745
+   000746
+   000747                0320-EXIT. EXIT.
+   000748
+   000749               ***************************************************************
+   000750               * SEARCH FUND TABLE                                           *
+   000751               ***************************************************************
+   000752                0330-SEARCH-FUND-TBL.
+   000753
+   000754                    SEARCH ALL TBL-FUND-NTRY                                              110
+   000755                      AT END
+   000756      1                 PERFORM 0320-FUND-NOT-FOUND                                       705
+   000757                        WHEN TBL-FUND-NBR (FUND-NDX) =                                    115 113
+   000758                         TBL-INV-FUND-NBR (ORCH-NDX)                                      99 97
+   000759      1                     PERFORM 0310-FUND-FOUND                                       693
+   000760                    END-SEARCH.
+   000761
+   000762                0330-EXIT. EXIT.
+   000763
+   000764               ***************************************************************
+   000765               * PROCESSES THE TRAN RECORD                                   *
+   000766               ***************************************************************
+   000767                0400-PROCESS-TRAN.
+   000768
+   000769                    SET ORCH-NDX TO 1.                                                    97
+   000770
+   000771
+   000772               *AT END MEANS IT WAS NOT FOUND. PUT ERROR MESSAGE THERE
+   000773                    SEARCH TBL-ORCH-NTRY                                                  95
+   000774                      AT END
+   000775      1                 PERFORM 0420-PROCESS-TRAN-TYPE-BAD                                813
+   000776                      WHEN TBL-ORCH-NME (ORCH-NDX) = IN-ORCH-NME OF TRAN-RECORD           98 97 56 55
+   000777      1                 PERFORM 0330-SEARCH-FUND-TBL                                      752
+   000778                    END-SEARCH.
+   000779
+   000780                    READ TRAN-FILE                                                        51
+   000781      1               AT END MOVE 'Y' TO EOF-FLAG                                         123
+   000782                    END-READ.
+   000783
+   000784                0400-EXIT. EXIT.
+   000785
+   000786               ***************************************************************
+   000787               * THIS WILL PROCESS WHICH TRAN TYPE IT IS WHEN ITS GOOD       *
+   000788               ***************************************************************
+   000789                0410-PROCESS-TRAN-TYPE.
+   000790
+   000791                    IF IN-TRAN-TYPE = 'D'                                                 57
+   000792      1               PERFORM 0500-PROCESS-DEPOSIT                                        855
+   000793
+   000794      1             ELSE IF IN-TRAN-TYPE = 'C'                                            57
+   000795      2               PERFORM 0510-PROCESS-REINVEST                                       892
+   000796
+   000797      2             ELSE IF IN-TRAN-TYPE = 'W'                                            57
+   000798      3               PERFORM 0520-PROCESS-WITHDRAWAL                                     934
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    17
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000799
+   000800      3             ELSE IF IN-TRAN-TYPE = 'E'                                            57
+   000801      4               PERFORM 0520-PROCESS-WITHDRAWAL                                     934
+   000802
+   000803      4             ELSE IF IN-TRAN-TYPE = 'T'                                            57
+   000804      5               PERFORM 0520-PROCESS-WITHDRAWAL                                     934
+   000805
+   000806      4             END-IF.
+   000807
+   000808                0410-EXIT. EXIT.
+   000809
+   000810               ***************************************************************
+   000811               * THIS WILL PROCESS WHICH TRAN TYPE IT IS WHEN ITS BAD        *
+   000812               ***************************************************************
+   000813                0420-PROCESS-TRAN-TYPE-BAD.
+   000814
+   000815                    IF IN-TRAN-TYPE = 'D'                                                 57
+   000816      1               PERFORM 0110-HEADERS-ONE                                            589
+   000817      1               MOVE IN-ORCH-NME OF TRAN-RECORD TO OUT-ORCH-NME2                    56 55 239
+   000818      1               MOVE DEP-ERR TO OUT-TRAN-ERR-MSG                                    190 244
+   000819      1               WRITE REPORT-RECORD FROM ERR-TRAN-LN AFTER 1                        88 238
+   000820
+   000821      1             ELSE IF IN-TRAN-TYPE = 'C'                                            57
+   000822      2               PERFORM 0110-HEADERS-ONE                                            589
+   000823      2               MOVE IN-ORCH-NME OF TRAN-RECORD TO OUT-ORCH-NME2                    56 55 239
+   000824      2               MOVE REINV-ERR TO OUT-TRAN-ERR-MSG                                  198 244
+   000825      2               WRITE REPORT-RECORD FROM ERR-TRAN-LN AFTER 1                        88 238
+   000826
+   000827      2             ELSE IF IN-TRAN-TYPE = 'W'                                            57
+   000828      3               PERFORM 0110-HEADERS-ONE                                            589
+   000829      3               MOVE IN-ORCH-NME OF TRAN-RECORD TO OUT-ORCH-NME2                    56 55 239
+   000830      3               MOVE WITH-ERR TO OUT-TRAN-ERR-MSG                                   192 244
+   000831      3               WRITE REPORT-RECORD FROM ERR-TRAN-LN AFTER 1                        88 238
+   000832
+   000833      3             ELSE IF IN-TRAN-TYPE = 'E'                                            57
+   000834      4               PERFORM 0110-HEADERS-ONE                                            589
+   000835      4               MOVE IN-ORCH-NME OF TRAN-RECORD TO OUT-ORCH-NME2                    56 55 239
+   000836      4               MOVE EXCH-ERR TO OUT-TRAN-ERR-MSG                                   194 244
+   000837      4               WRITE REPORT-RECORD FROM ERR-TRAN-LN AFTER 1                        88 238
+   000838
+   000839      4             ELSE IF IN-TRAN-TYPE = 'T'                                            57
+   000840      5               PERFORM 0110-HEADERS-ONE                                            589
+   000841      5               MOVE IN-ORCH-NME OF TRAN-RECORD TO OUT-ORCH-NME2                    56 55 239
+   000842      5               MOVE TRAN-ERR TO OUT-TRAN-ERR-MSG                                   196 244
+   000843      5               WRITE REPORT-RECORD FROM ERR-TRAN-LN AFTER 1                        88 238
+   000844
+   000845      4             END-IF.
+   000846
+   000847                    ADD 1 TO TRAN-CTR.                                                    132
+   000848                    ADD 1 TO LINE-CTR.                                                    129
+   000849
+   000850                0420-EXIT. EXIT.
+   000851
+   000852               ***************************************************************
+   000853               * FOR THE DEPOSIT                                             *
+   000854               ***************************************************************
+   000855                0500-PROCESS-DEPOSIT.
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    18
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000856
+   000857                    PERFORM 0110-HEADERS-ONE.                                             589
+   000858
+   000859                    PERFORM 0130-PROCESS-CLEAR.                                           632
+   000860
+   000861               * GET THE TOTAL FOR THE NEW AMOUNT
+   000862                    COMPUTE NEW-END-AMT ROUNDED =                                         135
+   000863                      TBL-ENDOWMT-AMT (ORCH-NDX) + IN-ENDOWMT-CHG-AMT.                    100 97 58
+   000864
+   000865                    PERFORM 0600-PROCESS-SHR-AMT.                                         1070
+   000866                    PERFORM 0620-PROCESS-CALC-TOT.                                        1117
+   000867
+   000868                    MOVE TBL-ORCH-NME (ORCH-NDX) TO OUT-ORCH-NME.                         98 97 326
+   000869                    MOVE DEP TO OUT-TRAN-TYPE.                                            175 331
+   000870
+   000871               * SECOND LINE
+   000872
+   000873                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO OUT-END-AMT.                       100 97 355
+   000874                    MOVE IN-ENDOWMT-CHG-AMT TO OUT-END-CHG-AMT.                           58 359
+   000875                    MOVE NEW-END-AMT TO OUT-NEW-END-AMT.                                  135 367
+   000876
+   000877                    WRITE REPORT-RECORD FROM RPTLN-1 AFTER 1.                             88 325
+   000878                    WRITE REPORT-RECORD FROM RPTLN-2 AFTER 2.                             88 348
+   000879
+   000880                    ADD 1 TO TRAN-CTR.                                                    132
+   000881                    ADD 1 TO LINE-CTR.                                                    129
+   000882
+   000883                    IF NEW-END-AMT <= 999999.99                                           135
+   000884      1               PERFORM 0700-PROCESS-LE-FILE                                        1166
+   000885                    END-IF.
+   000886
+   000887                0500-EXIT. EXIT.
+   000888
+   000889               ***************************************************************
+   000890               * FOR REINVESTMENT                                            *
+   000891               ***************************************************************
+   000892                0510-PROCESS-REINVEST.
+   000893
+   000894                    PERFORM 0110-HEADERS-ONE.                                             589
+   000895                    PERFORM 0130-PROCESS-CLEAR.                                           632
+   000896
+   000897                    MOVE TBL-ORCH-NME (ORCH-NDX) TO OUT-ORCH-NME.                         98 97 326
+   000898                    MOVE REINV TO OUT-TRAN-TYPE.                                          179 331
+   000899
+   000900               * MOVE THE FLAG NUMBER TO A VARIABLE FOR COMPUTING
+   000901                    MOVE TBL-CAP-GAINS-PCT-FLG (ORCH-NDX) TO FLAG-VAL.                    102 97 141
+   000902
+   000903                    COMPUTE IN-ENDOWMT-CHG-AMT ROUNDED =                                  58
+   000904                      TBL-ENDOWMT-AMT (ORCH-NDX) *                                        100 97
+   000905                        TBL-FUND-CAP-GAINS-PCT (FUND-NDX, FLAG-VAL).                      118 113 141
+   000906
+   000907                    COMPUTE IN-ENDOWMT-CHG-AMT ROUNDED =                                  58
+   000908                      IN-ENDOWMT-CHG-AMT / 100.                                           58
+   000909
+   000910                    COMPUTE NEW-END-AMT ROUNDED =                                         135
+   000911                      TBL-ENDOWMT-AMT (ORCH-NDX) + IN-ENDOWMT-CHG-AMT.                    100 97 58
+   000912
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    19
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000913                    PERFORM 0600-PROCESS-SHR-AMT.                                         1070
+   000914                    PERFORM 0620-PROCESS-CALC-TOT.                                        1117
+   000915
+   000916                    MOVE IN-ENDOWMT-CHG-AMT TO OUT-END-CHG-AMT.                           58 359
+   000917                    MOVE NEW-END-AMT TO OUT-NEW-END-AMT.                                  135 367
+   000918
+   000919                    WRITE REPORT-RECORD FROM RPTLN-1 AFTER 1.                             88 325
+   000920                    WRITE REPORT-RECORD FROM RPTLN-2 AFTER 2.                             88 348
+   000921
+   000922                    ADD 1 TO TRAN-CTR.                                                    132
+   000923                    ADD 1 TO LINE-CTR.                                                    129
+   000924
+   000925                    IF NEW-END-AMT <= 999999.99                                           135
+   000926      1               PERFORM 0700-PROCESS-LE-FILE                                        1166
+   000927                    END-IF.
+   000928
+   000929                0510-EXIT. EXIT.
+   000930
+   000931               ***************************************************************
+   000932               * FOR WITHDRAWAL                                              *
+   000933               ***************************************************************
+   000934                0520-PROCESS-WITHDRAWAL.
+   000935
+   000936                    PERFORM 0110-HEADERS-ONE.                                             589
+   000937
+   000938                    PERFORM 0130-PROCESS-CLEAR.                                           632
+   000939
+   000940
+   000941                    MOVE TBL-ORCH-NME (ORCH-NDX) TO OUT-ORCH-NME.                         98 97 326
+   000942                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO OUT-END-AMT.                       100 97 355
+   000943
+   000944                    COMPUTE NEW-END-AMT ROUNDED =                                         135
+   000945                      TBL-ENDOWMT-AMT (ORCH-NDX) - IN-ENDOWMT-CHG-AMT.                    100 97 58
+   000946
+   000947               * IF IT IS BELOW THE LIMIT, ITS BAD
+   000948                    IF NEW-END-AMT <= TBL-ENDOWMT-USUF-LMT (ORCH-NDX)                     135 101 97
+   000949      1               IF IN-TRAN-TYPE = 'W'                                               57
+   000950      2                 PERFORM 0550-PROCESS-NOT-WITH                                     1049
+   000951
+   000952      2               ELSE IF IN-TRAN-TYPE = 'E'                                          57
+   000953      3                 PERFORM 0530-PROCESS-NOT-EXCHANGE                                 1006
+   000954
+   000955      3               ELSE IF IN-TRAN-TYPE = 'T'                                          57
+   000956      4                PERFORM 0540-PROCESS-NOT-TRANS                                     1028
+   000957
+   000958      3               END-IF
+   000959
+   000960                    ELSE
+   000961      1               IF IN-TRAN-TYPE = 'W'                                               57
+   000962
+   000963      2                 PERFORM 0600-PROCESS-SHR-AMT                                      1070
+   000964      2                 PERFORM 0610-PROCESS-NEG-AMT                                      1094
+   000965
+   000966      2                 MOVE WITHD TO OUT-TRAN-TYPE                                       177 331
+   000967      2                 PERFORM 0620-PROCESS-CALC-TOT                                     1117
+   000968
+   000969      2               ELSE IF IN-TRAN-TYPE = 'E'                                          57
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    20
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  000970
+   000971      3                 PERFORM 0600-PROCESS-SHR-AMT                                      1070
+   000972      3                 PERFORM 0610-PROCESS-NEG-AMT                                      1094
+   000973
+   000974      3                 MOVE EXCOUT TO OUT-TRAN-TYPE                                      181 331
+   000975      3                 PERFORM 0620-PROCESS-CALC-TOT                                     1117
+   000976
+   000977
+   000978      3               ELSE IF IN-TRAN-TYPE = 'T'                                          57
+   000979
+   000980      4                 PERFORM 0600-PROCESS-SHR-AMT                                      1070
+   000981      4                 PERFORM 0610-PROCESS-NEG-AMT                                      1094
+   000982
+   000983      4                 MOVE TRANOUT TO OUT-TRAN-TYPE                                     183 331
+   000984      4                 PERFORM 0620-PROCESS-CALC-TOT                                     1117
+   000985
+   000986      3               END-IF
+   000987      2             END-IF.
+   000988
+   000989                    WRITE REPORT-RECORD FROM RPTLN-1 AFTER 1.                             88 325
+   000990                    WRITE REPORT-RECORD FROM RPTLN-2 AFTER 2.                             88 348
+   000991
+   000992                    ADD 1 TO TRAN-CTR.                                                    132
+   000993                    ADD 1 TO LINE-CTR.                                                    129
+   000994
+   000995               *     PERFORM 0620-PROCESS-CALC-TOT.
+   000996
+   000997                    IF NEW-END-AMT <= 999999.99                                           135
+   000998      1               PERFORM 0700-PROCESS-LE-FILE                                        1166
+   000999                    END-IF.
+   001000
+   001001                0520-EXIT. EXIT.
+   001002
+   001003               ***************************************************************
+   001004               * PROCESS NOT EXCHANGE OUT                                    *
+   001005               ***************************************************************
+   001006                0530-PROCESS-NOT-EXCHANGE.
+   001007
+   001008                    MOVE EXCH-ERR TO OUT-TRAN-ERR.                                        194 337
+   001009                    MOVE ZERO-ERR TO OUT-ZERO-ERR.                                        208 339
+   001010                    MOVE ZERO-DOL-ERR TO OUT-ZERO-DOL-ERR.                                210 363
+   001011                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO OUT-NEW-END-AMT.                   100 97 367
+   001012                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO NEW-END-AMT.                       100 97 135
+   001013
+   001014                    PERFORM 0630-PROCESS-BAD-SHR.                                         1142
+   001015
+   001016                    COMPUTE TOT-ENDOWMT-AMT =                                             158
+   001017                        TOT-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                     158 100 97
+   001018
+   001019                    COMPUTE TOT-NEW-ENDOWMT-AMT =                                         162
+   001020                        TOT-NEW-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                 162 100 97
+   001021
+   001022
+   001023                0530-EXIT. EXIT.
+   001024
+   001025               ***************************************************************
+   001026               * PROCESS NOT TRANS OUT                                       *
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    21
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  001027               ***************************************************************
+   001028                0540-PROCESS-NOT-TRANS.
+   001029
+   001030                    MOVE TRAN-ERR TO OUT-TRAN-ERR.                                        196 337
+   001031                    MOVE ZERO-ERR TO OUT-ZERO-ERR.                                        208 339
+   001032                    MOVE ZERO-DOL-ERR TO OUT-ZERO-DOL-ERR.                                210 363
+   001033                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO OUT-NEW-END-AMT.                   100 97 367
+   001034                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO NEW-END-AMT.                       100 97 135
+   001035
+   001036                    PERFORM 0630-PROCESS-BAD-SHR.                                         1142
+   001037
+   001038                    COMPUTE TOT-ENDOWMT-AMT =                                             158
+   001039                        TOT-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                     158 100 97
+   001040
+   001041                    COMPUTE TOT-NEW-ENDOWMT-AMT =                                         162
+   001042                        TOT-NEW-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                 162 100 97
+   001043
+   001044                0540-EXIT. EXIT.
+   001045
+   001046               ***************************************************************
+   001047               * PROCESS NOT WITHDRAWAL                                      *
+   001048               ***************************************************************
+   001049                0550-PROCESS-NOT-WITH.
+   001050
+   001051                    MOVE WITH-ERR TO OUT-TRAN-ERR.                                        192 337
+   001052                    MOVE ZERO-ERR TO OUT-ZERO-ERR.                                        208 339
+   001053                    MOVE ZERO-DOL-ERR TO OUT-ZERO-DOL-ERR.                                210 363
+   001054                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO OUT-NEW-END-AMT.                   100 97 367
+   001055                    MOVE TBL-ENDOWMT-AMT (ORCH-NDX) TO NEW-END-AMT.                       100 97 135
+   001056
+   001057                    PERFORM 0630-PROCESS-BAD-SHR.                                         1142
+   001058
+   001059                    COMPUTE TOT-ENDOWMT-AMT =                                             158
+   001060                        TOT-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                     158 100 97
+   001061
+   001062                    COMPUTE TOT-NEW-ENDOWMT-AMT =                                         162
+   001063                        TOT-NEW-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                 162 100 97
+   001064
+   001065                0550-EXIT. EXIT.
+   001066
+   001067               ***************************************************************
+   001068               * PROCESS SHARE AMOUNTS                                       *
+   001069               ***************************************************************
+   001070                0600-PROCESS-SHR-AMT.
+   001071
+   001072               * STARTING SHARE AMT = STARTING END AMT / SHAR PRICE
+   001073                    COMPUTE ENDOWMT-SHR-STRT ROUNDED =                                    147
+   001074                      TBL-ENDOWMT-AMT (ORCH-NDX) / TBL-FUND-SHR-PRC (FUND-NDX).           100 97 117 113
+   001075
+   001076               * CHG SHARE AMT = CHG END AMT / SHAR PRICE
+   001077                    COMPUTE ENDOWMT-SHR-CHG ROUNDED =                                     149
+   001078                     IN-ENDOWMT-CHG-AMT / TBL-FUND-SHR-PRC (FUND-NDX).                    58 117 113
+   001079
+   001080               * NEW SHARE AMT = NEW END AMT / SHAR PRICE
+   001081                    COMPUTE ENDOWMT-SHR-NEW ROUNDED =                                     151
+   001082                      NEW-END-AMT / TBL-FUND-SHR-PRC (FUND-NDX).                          135 117 113
+   001083
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    22
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  001084                    MOVE ENDOWMT-SHR-STRT TO OUT-END-SHR-AMT.                             147 328
+   001085                    MOVE ENDOWMT-SHR-CHG TO OUT-CHG-SHR-AMT.                              149 334
+   001086                    MOVE ENDOWMT-SHR-NEW TO OUT-NEW-SHR-AMT.                              151 343
+   001087
+   001088
+   001089                0600-EXIT. EXIT.
+   001090
+   001091               ***************************************************************
+   001092               * USED TO PROCESS THE NEGATIVE AMOUNTS HAVING () AROUND THEM  *
+   001093               ***************************************************************
+   001094                0610-PROCESS-NEG-AMT.
+   001095
+   001096                    MOVE IN-ENDOWMT-CHG-AMT TO OUT-END-CHG-AMT.                           58 359
+   001097
+   001098                    COMPUTE ENDOWMT-SHR-CHG ROUNDED =                                     149
+   001099                      ENDOWMT-SHR-CHG * -1.                                               149
+   001100
+   001101                    COMPUTE IN-ENDOWMT-CHG-AMT =                                          58
+   001102                      IN-ENDOWMT-CHG-AMT * -1.                                            58
+   001103
+   001104                    MOVE NEW-END-AMT TO OUT-NEW-END-AMT.                                  135 367
+   001105
+   001106                    MOVE PAR-OPEN TO OUT-PAR.                                             212 333
+   001107                    MOVE PAR-CLOSE TO OUT-PAR-CLOSE.                                      213 335
+   001108                    MOVE PAR-OPEN TO OUT-PAR2.                                            212 358
+   001109                    MOVE PAR-CLOSE TO OUT-PAR-CLOSE2.                                     213 360
+   001110
+   001111
+   001112                0610-EXIT. EXIT.
+   001113
+   001114               ***************************************************************
+   001115               * PROCESS CALC TOTALS                                         *
+   001116               ***************************************************************
+   001117                0620-PROCESS-CALC-TOT.
+   001118
+   001119                    COMPUTE TOT-ENDOWMT-AMT ROUNDED =                                     158
+   001120                        TOT-ENDOWMT-AMT + TBL-ENDOWMT-AMT (ORCH-NDX).                     158 100 97
+   001121
+   001122                    COMPUTE TOT-ENDOWMT-CHG-AMT ROUNDED =                                 160
+   001123                        TOT-ENDOWMT-CHG-AMT + IN-ENDOWMT-CHG-AMT.                         160 58
+   001124
+   001125                    COMPUTE TOT-NEW-ENDOWMT-AMT ROUNDED =                                 162
+   001126                        TOT-NEW-ENDOWMT-AMT + NEW-END-AMT.                                162 135
+   001127
+   001128                    COMPUTE TOT-SHR-STR ROUNDED =                                         164
+   001129                      TOT-SHR-STR + ENDOWMT-SHR-STRT.                                     164 147
+   001130
+   001131                    COMPUTE TOT-SHR-CHG ROUNDED =                                         166
+   001132                      TOT-SHR-CHG + ENDOWMT-SHR-CHG.                                      166 149
+   001133
+   001134                    COMPUTE TOT-SHR-NEW ROUNDED =                                         168
+   001135                      TOT-SHR-NEW + ENDOWMT-SHR-NEW.                                      168 151
+   001136
+   001137                0620-EXIT. EXIT.
+   001138
+   001139               ***************************************************************
+   001140               * COMPUTE SHARE AMOUNT FOR BAD WITHDRAWALS                    *
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    23
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  001141               ***************************************************************
+   001142                0630-PROCESS-BAD-SHR.
+   001143
+   001144                    COMPUTE ENDOWMT-SHR-STRT ROUNDED =                                    147
+   001145                      TBL-ENDOWMT-AMT (ORCH-NDX) / TBL-FUND-SHR-PRC (FUND-NDX).           100 97 117 113
+   001146
+   001147                    COMPUTE ENDOWMT-SHR-NEW ROUNDED =                                     151
+   001148                      TBL-ENDOWMT-AMT (ORCH-NDX) / TBL-FUND-SHR-PRC (FUND-NDX).           100 97 117 113
+   001149
+   001150                    MOVE 0 TO ENDOWMT-SHR-CHG.                                            149
+   001151
+   001152                    MOVE ENDOWMT-SHR-STRT TO OUT-END-SHR-AMT.                             147 328
+   001153                    MOVE ENDOWMT-SHR-NEW TO OUT-NEW-SHR-AMT.                              151 343
+   001154
+   001155                    COMPUTE TOT-SHR-STR ROUNDED =                                         164
+   001156                      TOT-SHR-STR + ENDOWMT-SHR-STRT.                                     164 147
+   001157
+   001158                    COMPUTE TOT-SHR-NEW ROUNDED =                                         168
+   001159                      TOT-SHR-NEW + ENDOWMT-SHR-NEW.                                      168 151
+   001160
+   001161                0630-EXIT. EXIT.
+   001162
+   001163               ***************************************************************
+   001164               * PROCESSES THE SECOND FILE                                   *
+   001165               ***************************************************************
+   001166                0700-PROCESS-LE-FILE.
+   001167
+   001168                    MOVE TBL-ORCH-NME (ORCH-NDX) TO LE-ORCH-NME.                          98 97 79
+   001169                    MOVE TBL-FUND-NBR (FUND-NDX) TO LE-FUND-NBR.                          115 113 80
+   001170                    MOVE NEW-END-AMT TO LE-ENDOWMT-AMT.                                   135 81
+   001171
+   001172                    WRITE LOW-ENDOWMT-RECORD.                                             78
+   001173
+   001174                0700-EXIT. EXIT.
+   001175
+   001176               ***************************************************************
+   001177               * PRINT LE FILE                                               *
+   001178               ***************************************************************
+   001179                0710-PROCESS-PRINT-LE.
+   001180
+   001181                    PERFORM 0120-HEADERS-TWO.                                             611
+   001182
+   001183                    MOVE LE-ORCH-NME TO OUT-LE-ORCH-NME.                                  79 470
+   001184                    MOVE LE-FUND-NBR TO OUT-LE-FUND-NUM.                                  80 472
+   001185                    MOVE LE-ENDOWMT-AMT TO OUT-LE-END-AMT.                                81 478
+   001186
+   001187                    SEARCH ALL TBL-FUND-NTRY                                              110
+   001188                      AT END
+   001189      1                 DISPLAY 'NOTHING'
+   001190                        WHEN TBL-FUND-NBR (FUND-NDX) =                                    115 113
+   001191                         LE-FUND-NBR                                                      80
+   001192      1                     PERFORM 0720-PROCESS-LE-SHR                                   1209
+   001193                    END-SEARCH.
+   001194
+   001195                    WRITE REPORT-RECORD FROM RPT-LN3 AFTER 1.                             88 469
+   001196
+   001197                    ADD 1 TO LINE-CTR.                                                    129
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    24
+   LineID  PL SL  ----+-*A-1-B--+----2----+----3----+----4----+----5----+----6----+----7-|--+----8 Map and Cross Reference
+0  001198                    ADD 1 TO TRAN-CTR.                                                    132
+   001199
+   001200                    READ LOW-ENDOWMT-FILE                                                 74
+   001201      1               AT END MOVE 'Y' TO EOF-FLAG                                         123
+   001202                    END-READ.
+   001203
+   001204                0710-EXIT. EXIT.
+   001205
+   001206               ***************************************************************
+   001207               * PROCESS THE NAME AND SHR AMOUNTS FOR THE LE FILE            *
+   001208               ***************************************************************
+   001209                0720-PROCESS-LE-SHR.
+   001210
+   001211                    MOVE TBL-FUND-NME (FUND-NDX) TO OUT-LE-INST-NME.                      116 113 474
+   001212
+   001213                    COMPUTE ENDOWMT-SHR-NEW ROUNDED =                                     151
+   001214                      LE-ENDOWMT-AMT / TBL-FUND-SHR-PRC (FUND-NDX).                       81 117 113
+   001215
+   001216                    MOVE ENDOWMT-SHR-NEW TO OUT-LE-SHR-AMT.                               151 476
+   001217
+   001218                0720-EXIT. EXIT.
+   001219
+   001220               ***************************************************************
+   001221               * PROCESSES THE TOTALS FOR THE FIRST REPORT                   *
+   001222               ***************************************************************
+   001223                0800-PROCESS-TOTALS.
+   001224
+   001225                    MOVE TRAN-CTR TO OUT-TRAN-CTR.                                        132 386
+   001226                    MOVE TOT-ENDOWMT-AMT TO OUT-TOT-END-STR.                              158 403
+   001227                    MOVE TOT-ENDOWMT-CHG-AMT TO OUT-TOT-END-CHG.                          160 405
+   001228                    MOVE TOT-NEW-ENDOWMT-AMT TO OUT-TOT-END-NEW.                          162 407
+   001229
+   001230                    MOVE TOT-SHR-STR TO OUT-TOT-SHR-STR.                                  164 390
+   001231                    MOVE TOT-SHR-CHG TO OUT-TOT-SHR-CHG.                                  166 392
+   001232                    MOVE TOT-SHR-NEW TO OUT-TOT-SHR-NEW.                                  168 394
+   001233
+   001234                    WRITE REPORT-RECORD FROM FOOTER1 AFTER 1.                             88 372
+   001235                    WRITE REPORT-RECORD FROM TOT-LN1 AFTER 1.                             88 383
+   001236                    WRITE REPORT-RECORD FROM TOT-LN2 AFTER 1.                             88 399
+   001237
+   001238                0800-EXIT. EXIT.
+   001239
+   001240               ***************************************************************
+   001241               * RESETS ALL THE VALUES TO 0                                  *
+   001242               ***************************************************************
+   001243                0900-PROCESS-RESET.
+   001244
+   001245                    MOVE 'N' TO EOF-FLAG.                                                 123
+   001246                    MOVE 0 TO LINE-CTR.                                                   129
+   001247                    MOVE 0 TO TRAN-CTR.                                                   132
+   001248                    MOVE 0 TO PAGE-CTR.                                                   130
+   001249
+   001250                0900-EXIT. EXIT.
+   001251
+   001252
+   001253
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    25
+0An "M" preceding a data-name reference indicates that the data-name is modified by this reference.
+
+  Defined   Cross-reference of data names   References
+
+      134   CG-PCT-SUB . . . . . . . . . .  M678 679 680 681
+      484   CURRENT-DATE . . . . . . . . .  580
+      483   CURRENT-DATE-FIELDS. . . . . .  M579
+      254   CURRENT-DAY. . . . . . . . . .  M580
+      487   CURRENT-DAY. . . . . . . . . .  580
+      271   CURRENT-HOUR . . . . . . . . .  M581
+      425   CURRENT-HOUR . . . . . . . . .  M582
+      489   CURRENT-HOUR . . . . . . . . .  581 582
+      273   CURRENT-MINUTE . . . . . . . .  M581
+      427   CURRENT-MINUTE . . . . . . . .  M582
+      490   CURRENT-MINUTE . . . . . . . .  581 582
+      252   CURRENT-MONTH. . . . . . . . .  M580
+      486   CURRENT-MONTH. . . . . . . . .  580
+      492   CURRENT-MS
+      491   CURRENT-SECOND
+      488   CURRENT-TIME . . . . . . . . .  581 582
+      256   CURRENT-YEAR . . . . . . . . .  M580
+      485   CURRENT-YEAR . . . . . . . . .  580
+      175   DEP. . . . . . . . . . . . . .  869
+      190   DEP-ERR. . . . . . . . . . . .  714 818
+      493   DIFF-FROM-GMT
+      149   ENDOWMT-SHR-CHG. . . . . . . .  M1077 1085 M1098 1099 1132 M1150
+      151   ENDOWMT-SHR-NEW. . . . . . . .  M1081 1086 1135 M1147 1153 1159 M1213 1216
+      147   ENDOWMT-SHR-STRT . . . . . . .  M1073 1084 1129 M1144 1152 1156
+      123   EOF-FLAG . . . . . . . . . . .  M514 519 M523 M526 531 M535 M538 542 M557 561 M662 M685 M781 M1201 M1245
+      238   ERR-TRAN-LN. . . . . . . . . .  819 825 831 837 843
+      194   EXCH-ERR . . . . . . . . . . .  723 836 1008
+      181   EXCOUT . . . . . . . . . . . .  974
+      141   FLAG-VAL . . . . . . . . . . .  M901 905
+      372   FOOTER1. . . . . . . . . . . .  1234
+      226   FUND-ERR
+      218   FUND-ERR-LN1 . . . . . . . . .  740
+      225   FUND-ERR-LN2 . . . . . . . . .  741
+       61   FUND-FILE. . . . . . . . . . .  33 508 525 533 684
+      113   FUND-NDX . . . . . . . . . . .  M529 530 674 675 676 681 696 757 905 1074 1078 1082 1145 1148 1169 1190 1211
+                                            1214
+       64   FUND-RECORD
+      108   FUND-TBL
+       69   GAIN-NDX
+      250   HEADER1. . . . . . . . . . . .  599 621
+      269   HEADER2. . . . . . . . . . . .  600
+      282   HEADER3. . . . . . . . . . . .  601
+      296   HEADER4. . . . . . . . . . . .  602
+      311   HEADER5. . . . . . . . . . . .  603
+      423   HEADER6. . . . . . . . . . . .  622
+      436   HEADER7. . . . . . . . . . . .  623
+      455   HEADER8. . . . . . . . . . . .  624
+       48   IN-CAP-GAINS-PCT-FLG . . . . .  657
+       46   IN-ENDOWMT-AMT . . . . . . . .  654
+       58   IN-ENDOWMT-CHG-AMT . . . . . .  863 874 M903 M907 908 911 916 945 1078 1096 M1101 1102 1123
+       47   IN-ENDOWMT-USUF-LMT. . . . . .  655
+       68   IN-FUND-CAP-GNS-PCT. . . . . .  680
+       65   IN-FUND-NBR. . . . . . . . . .  674
+       66   IN-FUND-NME. . . . . . . . . .  675
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    26
+0 Defined   Cross-reference of data names   References
+
+0      67   IN-FUND-SHR-PRC. . . . . . . .  676
+       45   IN-INV-FUND-NBR. . . . . . . .  653
+       44   IN-ORCH-NME. . . . . . . . . .  652
+       56   IN-ORCH-NME. . . . . . . . . .  776 817 823 829 835 841
+       57   IN-TRAN-TYPE . . . . . . . . .  713 716 719 722 725 791 794 797 800 803 815 821 827 833 839 949 952 955 961 969
+                                            978
+       81   LE-ENDOWMT-AMT . . . . . . . .  M1170 1185 1214
+       80   LE-FUND-NBR. . . . . . . . . .  M1169 1184 1191
+       79   LE-ORCH-NME. . . . . . . . . .  M1168 1183
+      129   LINE-CTR . . . . . . . . . . .  591 M592 595 613 M614 617 M744 M848 M881 M923 M993 M1197 M1246
+       74   LOW-ENDOWMT-FILE . . . . . . .  31 510 547 554 556 564 1200
+       78   LOW-ENDOWMT-RECORD . . . . . .  1172
+      275   MEFC-HEAD
+      429   MEFC-HEAD
+      137   NEG-END-AMT
+      139   NEG-SHR-AMT
+      135   NEW-END-AMT. . . . . . . . . .  M862 875 883 M910 917 925 M944 948 997 M1012 M1034 M1055 1082 1104 1126 1170
+      336   NO-PROCESS
+      340   NO-PROCESS-SPACES. . . . . . .  M634
+      364   NO-PROCESS-SPACES2 . . . . . .  M635
+      361   NO-PROCESS2
+      200   ORCH-ERR
+       40   ORCH-FILE. . . . . . . . . . .  29 507 513 521 661
+       97   ORCH-NDX . . . . . . . . . . .  M517 518 652 653 654 656 658 695 710 711 730 735 738 758 M769 776 863 868 873
+                                            897 901 904 911 941 942 945 948 1011 1012 1017 1020 1033 1034 1039 1042 1054
+                                            1055 1060 1063 1074 1120 1145 1148 1168
+       43   ORCH-RECORD. . . . . . . . . .  652
+       93   ORCHS-TBL
+      334   OUT-CHG-SHR-AMT. . . . . . . .  M1085
+      251   OUT-CURRENT-DATE . . . . . . .  M580
+      270   OUT-CURRENT-TIMES. . . . . . .  M581
+      424   OUT-CURRENT-TIMES2 . . . . . .  M582
+      355   OUT-END-AMT. . . . . . . . . .  M873 M942
+      359   OUT-END-CHG-AMT. . . . . . . .  M874 M916 M1096
+      328   OUT-END-SHR-AMT. . . . . . . .  M1084 M1152
+      229   OUT-FUND-END-AMT . . . . . . .  M711
+      233   OUT-FUND-ERR-NEW . . . . . . .  M730
+      353   OUT-FUND-NME . . . . . . . . .  M696
+      351   OUT-FUND-NUM . . . . . . . . .  M695
+      231   OUT-FUND-TRAN-ERR. . . . . . .  M714 M717 M720 M723 M726
+      478   OUT-LE-END-AMT . . . . . . . .  M1185
+      472   OUT-LE-FUND-NUM. . . . . . . .  M1184
+      474   OUT-LE-INST-NME. . . . . . . .  M1211
+      470   OUT-LE-ORCH-NME. . . . . . . .  M1183
+      476   OUT-LE-SHR-AMT . . . . . . . .  M1216
+      367   OUT-NEW-END-AMT. . . . . . . .  M875 M917 M1011 M1033 M1054 M1104
+      343   OUT-NEW-SHR-AMT. . . . . . . .  M1086 M1153
+      326   OUT-ORCH-NME . . . . . . . . .  M868 M897 M941
+      239   OUT-ORCH-NME2. . . . . . . . .  M817 M823 M829 M835 M841
+      219   OUT-ORCH-NME3. . . . . . . . .  M710
+      263   OUT-PAGE-CTR . . . . . . . . .  M597 M619
+      333   OUT-PAR. . . . . . . . . . . .  M636 M1106
+      335   OUT-PAR-CLOSE. . . . . . . . .  M637 M1107
+      360   OUT-PAR-CLOSE2 . . . . . . . .  M639 M1109
+      358   OUT-PAR2 . . . . . . . . . . .  M638 M1108
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    27
+0 Defined   Cross-reference of data names   References
+
+0     405   OUT-TOT-END-CHG. . . . . . . .  M1227
+      407   OUT-TOT-END-NEW. . . . . . . .  M1228
+      403   OUT-TOT-END-STR. . . . . . . .  M1226
+      392   OUT-TOT-SHR-CHG. . . . . . . .  M1231
+      394   OUT-TOT-SHR-NEW. . . . . . . .  M1232
+      390   OUT-TOT-SHR-STR. . . . . . . .  M1230
+      386   OUT-TRAN-CTR . . . . . . . . .  M1225
+      337   OUT-TRAN-ERR . . . . . . . . .  M1008 M1030 M1051
+      244   OUT-TRAN-ERR-MSG . . . . . . .  M818 M824 M830 M836 M842
+      331   OUT-TRAN-TYPE. . . . . . . . .  M869 M898 M966 M974 M983
+      363   OUT-ZERO-DOL-ERR . . . . . . .  M1010 M1032 M1053
+      339   OUT-ZERO-ERR . . . . . . . . .  M1009 M1031 M1052
+      130   PAGE-CTR . . . . . . . . . . .  M596 597 M618 619 M1248
+      261   PAGE-HEADER
+      213   PAR-CLOSE. . . . . . . . . . .  1107 1109
+      212   PAR-OPEN . . . . . . . . . . .  1106 1108
+      330   PROCESS. . . . . . . . . . . .  336 340
+      356   PROCESS2 . . . . . . . . . . .  361 364
+      179   REINV. . . . . . . . . . . . .  898
+      198   REINV-ERR. . . . . . . . . . .  717 824
+       85   REPORT-FILE. . . . . . . . . .  32 511 565
+       88   REPORT-RECORD. . . . . . . . .  M599 M600 M601 M602 M603 M621 M622 M623 M624 M740 M741 M819 M825 M831 M837 M843
+                                            M877 M878 M919 M920 M989 M990 M1195 M1234 M1235 M1236
+        0   RETURN-CODE. . . . . . . . . .  567 M567
+      469   RPT-LN3. . . . . . . . . . . .  1195
+      325   RPTLN-1. . . . . . . . . . . .  877 919 989
+      348   RPTLN-2. . . . . . . . . . . .  878 920 990
+      146   SHAR-VALS
+      189   STORAGE-ERR
+      174   STORAGE-FLG-VAL
+      157   STORAGE-TOTAL
+      206   STORAGE-TRAN-ERRS
+      102   TBL-CAP-GAINS-PCT-FLG. . . . .  M658 901
+      100   TBL-ENDOWMT-AMT. . . . . . . .  M654 711 730 735 738 863 873 904 911 942 945 1011 1012 1017 1020 1033 1034 1039
+                                            1042 1054 1055 1060 1063 1074 1120 1145 1148
+      101   TBL-ENDOWMT-USUF-LMT . . . . .  M656 948
+      118   TBL-FUND-CAP-GAINS-PCT . . . .  M681 905
+      109   TBL-FUND-CTR . . . . . . . . .  111 M672
+      115   TBL-FUND-NBR . . . . . . . . .  112 M674 757 1169 1190
+      116   TBL-FUND-NME . . . . . . . . .  M675 696 1211
+      110   TBL-FUND-NTRY. . . . . . . . .  754 1187
+      117   TBL-FUND-SHR-PRC . . . . . . .  M676 1074 1078 1082 1145 1148 1214
+       99   TBL-INV-FUND-NBR . . . . . . .  M653 695 758
+       94   TBL-ORCH-CTR . . . . . . . . .  96 M649
+       98   TBL-ORCH-NME . . . . . . . . .  M652 710 776 868 897 941 1168
+       95   TBL-ORCH-NTRY. . . . . . . . .  773
+      158   TOT-ENDOWMT-AMT. . . . . . . .  M734 735 M1016 1017 M1038 1039 M1059 1060 M1119 1120 1226
+      160   TOT-ENDOWMT-CHG-AMT. . . . . .  M1122 1123 1227
+      383   TOT-LN1. . . . . . . . . . . .  1235
+      399   TOT-LN2. . . . . . . . . . . .  1236
+      162   TOT-NEW-ENDOWMT-AMT. . . . . .  M737 738 M1019 1020 M1041 1042 M1062 1063 M1125 1126 1228
+      166   TOT-SHR-CHG. . . . . . . . . .  M1131 1132 1231
+      168   TOT-SHR-NEW. . . . . . . . . .  M1134 1135 M1158 1159 1232
+      164   TOT-SHR-STR. . . . . . . . . .  M1128 1129 M1155 1156 1230
+      132   TRAN-CTR . . . . . . . . . . .  M743 M847 M880 M922 M992 M1198 1225 M1247
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    28
+0 Defined   Cross-reference of data names   References
+
+0     196   TRAN-ERR . . . . . . . . . . .  726 842 1030
+       51   TRAN-FILE. . . . . . . . . . .  30 509 537 546 780
+       55   TRAN-RECORD. . . . . . . . . .  776 817 823 829 835 841
+      183   TRANOUT. . . . . . . . . . . .  983
+      128   VARIABLES
+      192   WITH-ERR . . . . . . . . . . .  720 830 1051
+      177   WITHD. . . . . . . . . . . . .  966
+      210   ZERO-DOL-ERR . . . . . . . . .  1010 1032 1053
+      208   ZERO-ERR . . . . . . . . . . .  1009 1031 1052
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    29
+0Context usage is indicated by the letter preceding a procedure-name reference.
+ These letters and their meanings are:
+     A = ALTER (procedure-name)
+     D = GO TO (procedure-name) DEPENDING ON
+     E = End of range of (PERFORM) through (procedure-name)
+     G = GO TO (procedure-name)
+     P = PERFORM (procedure-name)
+     T = (ALTER) TO PROCEED TO (procedure-name)
+     U = USE FOR DEBUGGING (procedure-name)
+
+  Defined   Cross-reference of procedures   References
+
+      571   0000-EXIT
+      503   0000-MAIN
+      577   0100-DATE-AND-TIME . . . . . .  P505
+      584   0100-EXIT
+      606   0110-EXIT
+      589   0110-HEADERS-ONE . . . . . . .  P732 P816 P822 P828 P834 P840 P857 P894 P936
+      627   0120-EXIT
+      611   0120-HEADERS-TWO . . . . . . .  P1181
+      642   0130-EXIT
+      632   0130-PROCESS-CLEAR . . . . . .  P859 P895 P938
+      665   0200-EXIT
+      647   0200-PROCESS-ORCH. . . . . . .  P517
+      688   0300-EXIT
+      670   0300-PROCESS-FUNDS . . . . . .  P529
+      700   0310-EXIT
+      693   0310-FUND-FOUND. . . . . . . .  P759
+      747   0320-EXIT
+      705   0320-FUND-NOT-FOUND. . . . . .  P756
+      762   0330-EXIT
+      752   0330-SEARCH-FUND-TBL . . . . .  P777
+      784   0400-EXIT
+      767   0400-PROCESS-TRAN. . . . . . .  P541
+      808   0410-EXIT
+      789   0410-PROCESS-TRAN-TYPE . . . .  P698
+      850   0420-EXIT
+      813   0420-PROCESS-TRAN-TYPE-BAD . .  P775
+      887   0500-EXIT
+      855   0500-PROCESS-DEPOSIT . . . . .  P792
+      929   0510-EXIT
+      892   0510-PROCESS-REINVEST. . . . .  P795
+     1001   0520-EXIT
+      934   0520-PROCESS-WITHDRAWAL. . . .  P798 P801 P804
+     1023   0530-EXIT
+     1006   0530-PROCESS-NOT-EXCHANGE. . .  P953
+     1044   0540-EXIT
+     1028   0540-PROCESS-NOT-TRANS . . . .  P956
+     1065   0550-EXIT
+     1049   0550-PROCESS-NOT-WITH. . . . .  P950
+     1089   0600-EXIT
+     1070   0600-PROCESS-SHR-AMT . . . . .  P865 P913 P963 P971 P980
+     1112   0610-EXIT
+     1094   0610-PROCESS-NEG-AMT . . . . .  P964 P972 P981
+     1137   0620-EXIT
+     1117   0620-PROCESS-CALC-TOT. . . . .  P866 P914 P967 P975 P984
+     1161   0630-EXIT
+     1142   0630-PROCESS-BAD-SHR . . . . .  P1014 P1036 P1057
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    30
+0 Defined   Cross-reference of procedures   References
+
+0    1174   0700-EXIT
+     1166   0700-PROCESS-LE-FILE . . . . .  P884 P926 P998
+     1204   0710-EXIT
+     1179   0710-PROCESS-PRINT-LE. . . . .  P560
+     1218   0720-EXIT
+     1209   0720-PROCESS-LE-SHR. . . . . .  P1192
+     1238   0800-EXIT
+     1223   0800-PROCESS-TOTALS. . . . . .  P544
+     1250   0900-EXIT
+     1243   0900-PROCESS-RESET . . . . . .  P552
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    31
+0 Defined   Cross-reference of programs     References
+
+       19   ENDOWMT4
+1PP 5655-EC6 IBM Enterprise COBOL for z/OS  6.2.0 P190107       ENDOWMT4  Date 11/30/2020  Time 17:03:47   Page    32
+0
+          COPY/BASIS cross-reference of text-names, library names and dataset information
+
+  Text-name Library   File name                                    Concat   ISPF statistics
+  (Member)  (DDNAME)  (Dataset name)                               Level    Created         Changed
+
+  FUNDSTBL  SYSLIB    KC02322.CSCI465.COPYLIB                        0     2020/11/15   2020/11/29 21:18:41
+  LEREC     SYSLIB    KC02322.CSCI465.COPYLIB                        0     2020/11/16   2020/11/16 11:10:41
+  ORCHSTBL  SYSLIB    KC02322.CSCI465.COPYLIB                        0     2020/11/15   2020/11/18 17:18:39
+  TRANREC   SYSLIB    KC02322.CSCI465.COPYLIB                        0     2020/11/15   2020/11/15 22:15:55
+
+-* Statistics for COBOL program ENDOWMT4:
+ *    Source records = 1253
+ *    Data Division statements = 158
+ *    Procedure Division statements = 318
+ *    Generated COBOL statements = 0
+ *    Program complexity factor = 330
+0End of compilation 1,  program ENDOWMT4,  no statements flagged.
+0Return code 0
+1z/OS V2 R3 BINDER     17:03:49 MONDAY NOVEMBER 30, 2020
+ BATCH EMULATOR  JOB(KC03I4CA) STEP(JSTEP03 ) PGM= HEWL
+
+
+
+                                 *** O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+1PROCESSING OPTIONS:
+
+    ALIASES             NO
+    ALIGN2              NO
+    AMODE               UNSPECIFIED
+    CALL                YES
+    CASE                UPPER
+    COMPAT              UNSPECIFIED
+    COMPRESS            AUTO
+    DCBS                NO
+    DYNAM               NO
+    EXTATTR             UNSPECIFIED
+    EXITS:              NONE
+    FILL                NONE
+    GID                 UNSPECIFIED
+    HOBSET              NO
+    INFO                NO
+    LET                 04
+    LINECT              060
+    LIST                SUMMARY
+    LISTPRIV            NO
+    LONGPARM            NO
+    MAP                 NO
+    MAXBLK              032760
+    MODMAP              NO
+    MSGLEVEL            00
+    OVLY                NO
+    PRINT               YES
+    RES                 NO
+    REUSABILITY         UNSPECIFIED
+    RMODE               UNSPECIFIED
+    RMODEX              NO
+    SIGN                NO
+    STORENX             NOREPLACE
+    STRIPCL             NO
+    STRIPSEC            NO
+    SYMTRACE
+    TERM                NO
+    TRAP                ON
+    UID                 UNSPECIFIED
+    UPCASE              NO
+    WKSPACE             000000K,000000K
+    XCAL                NO
+    XREF                NO
+    ***END OF OPTIONS***
+
+
+
+
+1SAVE OPERATION SUMMARY:
+
+    MEMBER NAME         ENDOWMT4
+    LOAD LIBRARY        KC03I4C.CSCI465.LOADLIB
+    PROGRAM TYPE        PROGRAM OBJECT(FORMAT 3)
+    VOLUME SERIAL       KCTR43
+    DISPOSITION         REPLACED
+    TIME OF SAVE        17.03.50  NOV 30, 2020
+
+
+1SAVE MODULE ATTRIBUTES:
+
+    AC                  000
+    AMODE                31
+    COMPRESSION         NONE
+    DC                  NO
+    EDITABLE            YES
+    EXCEEDS 16MB        NO
+    EXECUTABLE          YES
+    LONGPARM            NO
+    MIGRATABLE          NO
+    OL                  NO
+    OVLY                NO
+    PACK,PRIME          NO,NO
+    PAGE ALIGN          NO
+    REFR                NO
+    RENT                NO
+    REUS                NO
+    RMODE               ANY
+    SCTR                NO
+    SIGN                NO
+    SSI
+    SYM GENERATED       NO
+    TEST                NO
+    XPLINK              NO
+    MODULE SIZE (HEX)   00005C78
+    DASD SIZE (HEX)     00010000
+
+
+1 ENTRY POINT AND ALIAS SUMMARY:
+
+  NAME:            ENTRY TYPE AMODE C_OFFSET CLASS NAME        STATUS
+
+  ENDOWMT4          MAIN_EP      31 00000000 C_CODE
+
+                          *** E N D   O F   O P E R A T I O N   S U M M A R Y   R E P O R T ***
+
+
+
+
+1z/OS V2 R3 BINDER     17:03:49 MONDAY NOVEMBER 30, 2020
+ BATCH EMULATOR  JOB(KC03I4CA) STEP(JSTEP03 ) PGM= HEWL
+ IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.
+
+
+
+1----------------------
+ MESSAGE SUMMARY REPORT
+ ----------------------
+  TERMINAL MESSAGES      (SEVERITY = 16)
+  NONE
+
+  SEVERE MESSAGES        (SEVERITY = 12)
+  NONE
+
+  ERROR MESSAGES         (SEVERITY = 08)
+  NONE
+
+  WARNING MESSAGES       (SEVERITY = 04)
+  NONE
+
+  INFORMATIONAL MESSAGES (SEVERITY = 00)
+  2008
+
+
+  **** END OF MESSAGE SUMMARY REPORT ****
+
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  1
+ 17:03                                              MONTHLY INVESTMENT TRANSACTIONS
+0                                                      ENDOWMENT SHARE   TRANSACTION       TRANSACTION CHANGE     NEW ENDOWMENT SHARE
+ ORCHESTRA NAME                                       AMOUNT AND VALUE          TYPE   SHARE AMOUNT AND VALUE        AMOUNT AND VALUE
+ -----------------------------------------------   -------------------  ------------   ----------------------     -------------------
+ Berlin Philharmonic                                       15,148.4760  DEPOSIT                   4,025.0050              19,173.4810
+0FUND NUMBER/NAME:   62/THOS JEFFERSON HIGH YLD            $136,184.80                            $36,184.80              $172,369.60
+ Vienna Philharmonic                                       94,986.8650  DEPOSIT                   5,587.7990             100,574.6650
+0FUND NUMBER/NAME:   55/VIENNA PHILH HIGH YIELD          $1,124,644.49                            $66,159.55            $1,190,804.04
+ Chicago Symphony Orchestra                               999,999.9900  WITHDRAWAL      (         7,213.5000)            992,786.4900
+0FUND NUMBER/NAME:   51/21ST CENT MONEY MKT FUND           $999,999.99                      (      $7,213.50)             $992,786.49
+ Boston Symphony Orchestra                                 51,799.7910  REINVESTMENT                 11.3960              51,811.1870
+0FUND NUMBER/NAME:    3/NEW YORK TAX FREE FUND             $999,999.99                               $272.48            $1,238,805.50
+ Kansas City Symphony
+ *** FUND NUMBER NOT FOUND ***                           $1,112,233.90  WITHDRAWAL NOT PROCESSED                        $1,112,233.90
+ New York Philharmonic                                    119,219.1130  DEPOSIT                      66.3190             119,285.4330
+0FUND NUMBER/NAME:   33/MONEY MKT SECURE FUND            $1,111,122.14                               $618.10            $1,111,740.24
+ Berlin State Orchestra                                    31,614.8900  REINVESTMENT                  6.0060              31,620.8970
+0FUND NUMBER/NAME:   77/FRANKLIN ROOSEVELT FUND          $1,111,122.14                               $211.74            $1,114,636.64
+ Grand Rapids Symphony Orchestra
+ *** FUND NUMBER NOT FOUND ***                             $928,415.70  DEPOSIT NOT PROCESSED                             $928,415.70
+ Seattle Symphony Orchestra                                86,303.7540  DEPOSIT                     678.6510              86,982.4060
+0FUND NUMBER/NAME:  101/WASHINGTON & ADAMS FUND          $1,108,140.21                             $8,713.89            $1,116,854.10
+ Symphony Orchestra of the Bavarian Radio            UNKNOWN ORCHESTRA  EXCHANGE OUT NOT PROCESSED
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  2
+ 17:03                                              MONTHLY INVESTMENT TRANSACTIONS
+0                                                      ENDOWMENT SHARE   TRANSACTION       TRANSACTION CHANGE     NEW ENDOWMENT SHARE
+ ORCHESTRA NAME                                       AMOUNT AND VALUE          TYPE   SHARE AMOUNT AND VALUE        AMOUNT AND VALUE
+ -----------------------------------------------   -------------------  ------------   ----------------------     -------------------
+ Orchestra of the German Opera Berlin                     294,780.4230  REINVESTMENT                 82.5380             294,862.9610
+0FUND NUMBER/NAME:   63/JAMES MONROE HIGH YLD            $1,108,140.21                               $622.34            $2,223,266.73
+ Orchestra of Paris                                        11,323.4470  REINVESTMENT                  2.6040              11,326.0520
+0FUND NUMBER/NAME:    4/HONG KONG INVESTORS FUND         $1,108,140.21                                $52.09              $226,521.04
+ National Orchestra of France                              29,221.8000  REINVESTMENT                  4.9670              29,226.7670
+0FUND NUMBER/NAME:   48/HONG KONG MONEY FUND             $1,108,140.21                                $38.50              $226,507.45
+ London Philharmonic Orchestra                              6,779.6590  WITHDRAWAL NOT PROCESSED     (0.0000)              6,779.6590
+0FUND NUMBER/NAME:   22/CITY OF CORTLAND BLDG               $99,999.98                                ($0.00)              $99,999.98
+ London Symphony Orchestra
+ *** FUND NUMBER NOT FOUND ***                           $1,104,812.33  DEPOSIT NOT PROCESSED                           $1,104,812.33
+ Philharmonia Orchestra                                     6,773.7230  DEPOSIT                     224.5700               6,998.2940
+0FUND NUMBER/NAME:   22/CITY OF CORTLAND BLDG               $99,912.42                             $3,312.42              $103,224.84
+ San Francisco Symphony                                    40,799.6730  WITHDRAWAL      (         1,125.2090)             39,674.4630
+0FUND NUMBER/NAME:    6/CITY OF DEKALB BLDG FUND         $1,000,000.00                      (     $27,578.89)             $972,421.11
+ Scottish National Orchestra                               56,085.2490  TRANSFER OUT NOT PROCESSED   (0.0000)             56,085.2490
+0FUND NUMBER/NAME:   46/JOHN PHILIP SOUSA FUND             $999,999.99                                ($0.00)             $999,999.99
+ National Orchestra of Ireland                            116,731.5170  TRANSFER OUT NOT PROCESSED   (0.0000)            116,731.5170
+0FUND NUMBER/NAME:    5/BRIDGE BUILDING FUND             $1,500,000.00                                ($0.00)           $1,500,000.00
+ Czech Philharmonic                                        84,459.4580  WITHDRAWAL NOT PROCESSED     (0.0000)             84,459.4580
+0FUND NUMBER/NAME:   55/VIENNA PHILH HIGH YIELD            $999,999.99                                ($0.00)             $999,999.99
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  3
+ 17:03                                              MONTHLY INVESTMENT TRANSACTIONS
+0                                                      ENDOWMENT SHARE   TRANSACTION       TRANSACTION CHANGE     NEW ENDOWMENT SHARE
+ ORCHESTRA NAME                                       AMOUNT AND VALUE          TYPE   SHARE AMOUNT AND VALUE        AMOUNT AND VALUE
+ -----------------------------------------------   -------------------  ------------   ----------------------     -------------------
+ Munich Philharmonic                                      141,930.2510  DEPOSIT                  41,543.7220             183,473.9740
+0FUND NUMBER/NAME:   59/CIVIL WAR REENACT FUND           $1,750,000.00                           $512,234.10            $2,262,234.10
+ Orchestra of the Vienna State Opera                      200,637.0470  REINVESTMENT                 34.1080             200,671.1560
+0FUND NUMBER/NAME:   24/FRANKLIN MONEY FUND              $1,750,000.00                               $321.30            $1,890,322.29
+ Detroit Symphony                                          41,684.0340  REINVESTMENT                 10.0040              41,694.0380
+0FUND NUMBER/NAME:   58/LONDON INVESTORS FUND            $1,750,000.00                               $240.00            $1,000,239.99
+ Cleveland Orchestra                                       10,392.1180  REINVESTMENT                  1.2470              10,393.3650
+0FUND NUMBER/NAME:   83/FEDERAL RESERVE FUND             $1,750,000.00                                $12.46              $103,829.72
+ St. Louis Symphony Orchestra                              12,579.7060  REINVESTMENT                  2.6420              12,582.3480
+0FUND NUMBER/NAME:   30/SINGAPORE INVESTORS FUND         $1,750,000.00                                $22.75              $108,334.02
+ Scottish National Orchestra                               56,085.2490  EXCHANGE OUT NOT PROCESSED   (0.0000)             56,085.2490
+0FUND NUMBER/NAME:   46/JOHN PHILIP SOUSA FUND             $999,999.99                                ($0.00)             $999,999.99
+ Hong Kong Symphony Orchestra                             270,457.6970  DEPOSIT                 431,083.6330             701,541.3310
+0FUND NUMBER/NAME:   13/ZURICH INVESTORS FUND            $1,950,000.00                         $3,108,113.00            $5,058,113.00
+ NHK Symphony Orchestra Tokyo                             104,210.0870  REINVESTMENT                 23.9680             104,234.0550
+0FUND NUMBER/NAME:   58/LONDON INVESTORS FUND            $1,950,000.00                               $575.00            $2,500,575.00
+ Beijing Philharmonic                                     140,926.8680  REINVESTMENT                 29.5950             140,956.4630
+0FUND NUMBER/NAME:  101/WASHINGTON & ADAMS FUND          $1,950,000.00                               $380.00            $1,809,880.99
+ Philharmonic Hamburg                                     436,999.2710  DEPOSIT                 441,453.3620             878,452.6340
+0FUND NUMBER/NAME:   10/20TH CENT MONEY MKT FUND         $6,000,000.00                         $6,061,154.67           $12,061,154.67
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  4
+ 17:03                                              MONTHLY INVESTMENT TRANSACTIONS
+0                                                      ENDOWMENT SHARE   TRANSACTION       TRANSACTION CHANGE     NEW ENDOWMENT SHARE
+ ORCHESTRA NAME                                       AMOUNT AND VALUE          TYPE   SHARE AMOUNT AND VALUE        AMOUNT AND VALUE
+ -----------------------------------------------   -------------------  ------------   ----------------------     -------------------
+ North German Radio Symphony Orchestra                    225,022.5020  WITHDRAWAL NOT PROCESSED     (0.0000)            225,022.5020
+0FUND NUMBER/NAME:   65/BERLIN PHILH HIGH YIELD          $2,500,000.00                                ($0.00)           $2,500,000.00
+ Sao Paulo Symphony Orchestra                             477,707.0060  REINVESTMENT                100.3180             477,807.3240
+0FUND NUMBER/NAME:   24/FRANKLIN MONEY FUND              $2,500,000.00                               $945.00            $4,500,945.00
+ Florida Philharmonic                                     395,591.6760  DEPOSIT                 130,322.6790             525,914.3550
+0FUND NUMBER/NAME:   63/JAMES MONROE HIGH YLD            $2,982,761.24                           $982,633.00            $3,965,394.24
+ Lucerne Festival Orchestra
+ *** FUND NUMBER NOT FOUND ***                          $11,112,816.24  TRANSFER OUT NOT PROCESSED                     $11,112,816.24
+ Beethoven Orchestra Bonn                                   6,760.0340  REINVESTMENT                  1.2840               6,761.3190
+0FUND NUMBER/NAME:   77/FRANKLIN ROOSEVELT FUND          $2,982,761.24                                $45.28              $238,336.51
+ Saito Kinen Orchestra                               UNKNOWN ORCHESTRA  REINVESTMENT NOT PROCESSED
+ Royal Philharmonic Orchestra                              68,243.8580  WITHDRAWAL NOT PROCESSED     (0.0000)             68,243.8580
+0FUND NUMBER/NAME:   21/HUSKIES HIGH YIELD FUND          $1,500,000.00                                ($0.00)           $1,500,000.00
+ Orchestra of Opera Lyon                                   16,155.3370  DEPOSIT                      77.4610              16,232.7990
+0FUND NUMBER/NAME:   22/CITY OF CORTLAND BLDG              $238,291.23                             $1,142.56              $239,433.79
+ Metropolitan Opera Orchestra
+ *** FUND NUMBER NOT FOUND ***                           $1,500,000.00  REINVESTMENT NOT PROCESSED                      $1,500,000.00
+ MET Orchestra                                            225,733.5730  REINVESTMENT                 56.4330             225,790.0070
+0FUND NUMBER/NAME:   65/BERLIN PHILH HIGH YIELD            $238,291.23                               $626.98            $2,508,526.98
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  5
+ 17:03                                              MONTHLY INVESTMENT TRANSACTIONS
+0                                                      ENDOWMENT SHARE   TRANSACTION       TRANSACTION CHANGE     NEW ENDOWMENT SHARE
+ ORCHESTRA NAME                                       AMOUNT AND VALUE          TYPE   SHARE AMOUNT AND VALUE        AMOUNT AND VALUE
+ -----------------------------------------------   -------------------  ------------   ----------------------     -------------------
+ Orpheus Chamber Orchestra
+ *** FUND NUMBER NOT FOUND ***                           $2,048,214.21  WITHDRAWAL NOT PROCESSED                        $2,048,214.21
+ Los Angeles Philharmonic
+ *** FUND NUMBER NOT FOUND ***                          $25,025,025.00  DEPOSIT NOT PROCESSED                          $25,025,025.00
+ Berlin Radio Symphony Orchestra                           27,196.0830  DEPOSIT                     118.1580              27,314.2410
+0FUND NUMBER/NAME:   31/CHICAGO INVESTORS FUND             $999,999.99                             $4,344.67            $1,004,344.66
+ Prague Philharmonic                                      580,720.0920  TRANSFER OUT    (           954.0370)            579,766.0550
+0FUND NUMBER/NAME:   30/SINGAPORE INVESTORS FUND         $5,000,000.00                      (      $8,214.26)           $4,991,785.74
+ Bayreuth Festival Orchestra                              397,323.2950  WITHDRAWAL      (           520.0550)            396,803.2400
+0FUND NUMBER/NAME:    3/NEW YORK TAX FREE FUND           $9,500,000.00                      (     $12,434.52)           $9,487,565.48
+ Camerata Academica Salzburg                               98,312.9390  REINVESTMENT                 11.7970              98,324.7360
+0FUND NUMBER/NAME:    2/GEOFFREY'S BBQ FUND              $9,500,000.00                               $115.97              $966,532.16
+ La Scala Orchestra Milan                                 152,565.8800  WITHDRAWAL      (         3,219.4750)            149,346.4050
+0FUND NUMBER/NAME:   13/ZURICH INVESTORS FUND            $1,100,000.00                      (     $23,212.42)           $1,076,787.58
+ NBC Symphony Orchestra                                   485,436.8930  DEPOSIT                     337.7250             485,774.6180
+0FUND NUMBER/NAME:   13/ZURICH INVESTORS FUND            $3,500,000.00                             $2,435.00            $3,502,435.00
+ Des Moines Symphony                                       83,534.5210  REINVESTMENT                 18.3770              83,552.8990
+0FUND NUMBER/NAME:    2/GEOFFREY'S BBQ FUND              $3,500,000.00                               $180.65              $821,325.00
+ Bamberg Symphony Orchestra                                15,148.4760  DEPOSIT                     478.7530              15,627.2290
+0FUND NUMBER/NAME:   62/THOS JEFFERSON HIGH YLD            $136,184.80                             $4,303.99              $140,488.79
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  6
+ 17:03                                              MONTHLY INVESTMENT TRANSACTIONS
+0                                                      ENDOWMENT SHARE   TRANSACTION       TRANSACTION CHANGE     NEW ENDOWMENT SHARE
+ ORCHESTRA NAME                                       AMOUNT AND VALUE          TYPE   SHARE AMOUNT AND VALUE        AMOUNT AND VALUE
+ -----------------------------------------------   -------------------  ------------   ----------------------     -------------------
+ Vienna Symphony Orchestra                                 94,986.8650  DEPOSIT                     735.9700              95,722.8360
+0FUND NUMBER/NAME:   55/VIENNA PHILH HIGH YIELD          $1,124,644.49                             $8,713.89            $1,133,358.38
+ Salzburg Festival Orchestra                               84,459.4580  WITHDRAWAL      (           684.2230)             83,775.2340
+0FUND NUMBER/NAME:   55/VIENNA PHILH HIGH YIELD            $999,999.99                      (      $8,101.21)             $991,898.78
+ Houston Symphony Orchestra                                69,463.4330  REINVESTMENT                 10.4190              69,473.8530
+0FUND NUMBER/NAME:   46/JOHN PHILIP SOUSA FUND             $999,999.99                               $185.78            $1,238,718.80
+ Dallas Symphony Orchestra                                 55,611.6950  REINVESTMENT                 12.7900              55,624.4850
+0FUND NUMBER/NAME:    4/HONG KONG INVESTORS FUND           $999,999.99                               $255.81            $1,112,489.71
+ Minnesota Orchestra                                      111,223.4370  REINVESTMENT                 25.5810             111,249.0190
+0FUND NUMBER/NAME:   83/FEDERAL RESERVE FUND               $999,999.99                               $255.56            $1,111,377.70
+ City of Bournemouth Symphony Orchestra                    30,307.9920  WITHDRAWAL      (           294.6890)             30,013.3030
+0FUND NUMBER/NAME:   31/CHICAGO INVESTORS FUND           $1,114,424.90                      (     $10,835.74)           $1,103,589.16
+ Royal Liverpool Philharmonic Orchestra                    42,239.1120  TRANSFER OUT    (            62.1620)             42,176.9500
+0FUND NUMBER/NAME:   21/HUSKIES HIGH YIELD FUND            $928,415.70                      (      $1,366.34)             $927,049.36
+ BBC Philharmonic                                          93,592.9230  DEPOSIT                   8,853.3130             102,446.2360
+0FUND NUMBER/NAME:   55/VIENNA PHILH HIGH YIELD          $1,108,140.21                           $104,823.23            $1,212,963.44
+ BBC Symphony Orchestra of Wales                           12,903.1310  DEPOSIT                   1,914.8060              14,817.9380
+0FUND NUMBER/NAME:   48/HONG KONG MONEY FUND                $99,999.27                            $14,839.75              $114,839.02
+ Royal Concertgebouw Orchestra                       UNKNOWN ORCHESTRA  DEPOSIT NOT PROCESSED
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  7
+ 17:03                                              MONTHLY INVESTMENT TRANSACTIONS
+0                                                      ENDOWMENT SHARE   TRANSACTION       TRANSACTION CHANGE     NEW ENDOWMENT SHARE
+ ORCHESTRA NAME                                       AMOUNT AND VALUE          TYPE   SHARE AMOUNT AND VALUE        AMOUNT AND VALUE
+ -----------------------------------------------   -------------------  ------------   ----------------------     -------------------
+ Juilliard School of Music Symphony Orchestra              90,683.1650  DEPOSIT                     135.1450              90,818.3110
+0FUND NUMBER/NAME:    6/CITY OF DEKALB BLDG FUND         $2,222,644.39                             $3,312.42            $2,225,956.81
+ Orchestra of St. Lukes                                    24,041.2890  EXCHANGE OUT    (         2,927.6950)             21,113.5940
+0FUND NUMBER/NAME:   24/FRANKLIN MONEY FUND                $226,468.95                      (     $27,578.89)             $198,890.06
+ Singapore Symphony Orchestra                              99,999.9800  WITHDRAWAL NOT PROCESSED     (0.0000)             99,999.9800
+0FUND NUMBER/NAME:   51/21ST CENT MONEY MKT FUND            $99,999.98                                ($0.00)              $99,999.98
+                                                ----------------------               ------------------------  ----------------------
+ TRANSACTIONS:  63               SHARE TOTALS:          7,526,894.8300                         1,051,082.1100          8,577,976.9600
+                                DOLLAR TOTALS:         $123,029,308.06                         $10,801,862.96         $133,831,171.02
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  1
+ 17:03                                                   LOW INVESTMENT REPORT
+0ORCHESTRA NAME                                   FUND NUMBER    FUND NAME                    CURRENT SHARE AMOUNT      CURRENT VALUE
+ ---------------------------------------------    -----------    -------------------------    --------------------    ---------------
+ Berlin Philharmonic                                       62    THOS JEFFERSON HIGH YLD               19,173.4810        $172,369.60
+ Chicago Symphony Orchestra                                51    21ST CENT MONEY MKT FUND             992,786.4900        $992,786.49
+ Orchestra of Paris                                         4    HONG KONG INVESTORS FUND              11,326.0520        $226,521.04
+ National Orchestra of France                              48    HONG KONG MONEY FUND                  29,226.7670        $226,507.45
+ London Philharmonic Orchestra                             22    CITY OF CORTLAND BLDG                  6,779.6590         $99,999.98
+ Philharmonia Orchestra                                    22    CITY OF CORTLAND BLDG                  6,998.2940        $103,224.84
+ San Francisco Symphony                                     6    CITY OF DEKALB BLDG FUND              39,674.4630        $972,421.11
+ Scottish National Orchestra                               46    JOHN PHILIP SOUSA FUND                56,085.2490        $999,999.99
+ Czech Philharmonic                                        55    VIENNA PHILH HIGH YIELD               84,459.4580        $999,999.99
+ Cleveland Orchestra                                       83    FEDERAL RESERVE FUND                  10,393.3650        $103,829.72
+ St. Louis Symphony Orchestra                              30    SINGAPORE INVESTORS FUND              12,582.3480        $108,334.02
+ Scottish National Orchestra                               46    JOHN PHILIP SOUSA FUND                56,085.2490        $999,999.99
+ Beethoven Orchestra Bonn                                  77    FRANKLIN ROOSEVELT FUND                6,761.3190        $238,336.51
+ Orchestra of Opera Lyon                                   22    CITY OF CORTLAND BLDG                 16,232.7990        $239,433.79
+ Camerata Academica Salzburg                                2    GEOFFREY'S BBQ FUND                   98,324.7360        $966,532.16
+ Des Moines Symphony                                        2    GEOFFREY'S BBQ FUND                   83,552.8990        $821,325.00
+011/30/2020                                       ORCHESTRAL INVESTMENTS COMPANY, INC.                                       PAGE:  2
+ 17:03                                                   LOW INVESTMENT REPORT
+0ORCHESTRA NAME                                   FUND NUMBER    FUND NAME                    CURRENT SHARE AMOUNT      CURRENT VALUE
+ ---------------------------------------------    -----------    -------------------------    --------------------    ---------------
+ Bamberg Symphony Orchestra                                62    THOS JEFFERSON HIGH YLD               15,627.2290        $140,488.79
+ Salzburg Festival Orchestra                               55    VIENNA PHILH HIGH YIELD               83,775.2340        $991,898.78
+ Royal Liverpool Philharmonic Orchestra                    21    HUSKIES HIGH YIELD FUND               42,176.9500        $927,049.36
+ BBC Symphony Orchestra of Wales                           48    HONG KONG MONEY FUND                  14,817.9380        $114,839.02
+ Orchestra of St. Lukes                                    24    FRANKLIN MONEY FUND                   21,113.5940        $198,890.06
+ Singapore Symphony Orchestra                              51    21ST CENT MONEY MKT FUND              99,999.9800         $99,999.98

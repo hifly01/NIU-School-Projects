@@ -1,0 +1,35 @@
+#ifndef BOOK_H
+#define BOOK_H
+
+//*****************************************************************
+// FILE:      Book.h
+// AUTHOR:    Charles Alms
+// LOGON ID:  z1797837
+// DUE DATE:  2/12/18
+// 
+// PURPOSE:   Contains the declaration for the Book class.
+//*****************************************************************
+
+class Book
+{
+   // Data members and method prototypes for the Book class go here
+	int isbn [11]{};
+	char title[41]{};
+	double price;
+	int stock;
+
+	public:
+		int getISBN();
+		double getPrice();
+		int getQuantity();
+		void setPrice(double price);
+		int fulfillOrder(int quantity);
+		void print();
+
+	Book()
+	{
+
+	}
+};
+
+#endif

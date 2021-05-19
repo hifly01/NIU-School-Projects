@@ -1,0 +1,100 @@
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+#include <fstream>
+#include "Verifier.h"
+
+using std::cout;
+using std::endl;
+using std::string;
+using std::cerr;
+using std::ifstream;
+using std::ios;
+
+Verifier::Verifier()
+{
+  int arr[9][9]={{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0}};  
+}
+
+void Verifier::readGrid(const char* file)
+{
+	ifstream inFile(file);
+
+	if(!inFile)
+	{
+		cerr<<"Error - unable to open input file\n";
+		exit(1);
+	}
+
+	while(inFile)
+	{
+
+		for(int i=0; i<9; i++)
+		{
+			for(int j=0; j<9; j++)
+			{
+				inFile>>arr[i][j];
+			}
+		}
+	}
+}
+
+void Verifier::printGrid()
+{
+	int counterCol=0;
+	int counterRow=0;
+
+	cout<<"---------------------------"<<endl;
+	for(int i=0; i<9; i++)
+	{
+		cout<<"| ";
+		for(int j=0; j<9; j++)
+		{
+			cout<<arr[i][j]+" ";
+			counterCol+=1;
+
+			if(counterCol%3==0)
+			{
+				cout<<" | ";
+			}
+		}
+		cout<<endl;
+		counterRow+=1;
+		if(counterRow%3==0)
+		{
+			cout<<"---------------------------"<<endl;
+		}
+	}
+}
+/*
+bool Verifier::verifySolution()
+{
+	//check all rows
+	for(int row=0; row<9; row++)
+	{
+		bool found[9]= {false};
+	}
+	//check all columns
+	//check all subgrids
+
+
+	for(int row=0; row<9; row++)
+	{
+		bool found[9]= {false};
+		for(int col=0; col<9; col++)
+		{
+			if(found[arr[row][col]-1])
+			{
+				return false;
+			}
+			else
+			{
+				found[arr[row][col]-1]==true;
+			}
+		}
+	}
+
+	return true;
+}
+
+*/
