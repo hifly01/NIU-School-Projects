@@ -1,4 +1,4 @@
-//KC03E59A JOB ,'Ryan Llam',MSGCLASS=H                                  00010000
+//KC03E59A JOB ,'Charles Alms',MSGCLASS=H                               00010000
 //STEP1    EXEC  PGM=ASSIST                                             00020000
 //STEPLIB    DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                    00030000
 //SYSPRINT   DD  SYSOUT=*                                               00040000
@@ -6,7 +6,7 @@
 ************************************************************            00050000
 *                                                                       00060000
 *  Program:     LAB2                                                    00070000
-*  Programmer:  Ryan Llamas                                             00080000
+*  Programmer:  Charles Alms                                            00080000
 *                                                                       00090000
 *  Register usage:  R2 - W NUM                                          00100099
 *                   R3 - X NUM                                          00110099
