@@ -1,4 +1,4 @@
-# NIU-School-Projects
+# NIU-School-Projects - Please read first
 Here are some of my school coding assignments that I have done at Northern Illinois University from 2016-2020
 
 This repository is for showing companies some of the assignments I have done. The classes I have taken are:
@@ -17,3 +17,5 @@ This repository is for showing companies some of the assignments I have done. Th
 *CSCI 480 Principles of Operating Systems - C++ 
 
 NOTE: some of my classes I do not have the programs for or do not have all of them. This is due to my laptop harddrive becoming corrupted and not everything was able to be recovered. 
+
+SECOND NOTE: I have worked with a partner in some classes. These are all mine and any parnter's work
