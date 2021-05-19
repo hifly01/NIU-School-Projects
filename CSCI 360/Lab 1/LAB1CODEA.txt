@@ -1,0 +1,26 @@
+//KC03E59A JOB ,'Ryan Llamas',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00010100
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00010200
+//SYSPRINT DD SYSOUT=*                                                  00010300
+//SYSIN DD *                                                            00010400
+********************************************************                00010500
+*                                                                       00010600
+* PROGRAM 1                                                             00011000
+* NAME: RYAN LLAMAS                                                     00020000
+*                                                                       00030000
+*********************************************************               00040000
+PROG1    CSECT                                                          00050000
+         USING PROG1,15                                                 00060000
+         L     1,LEFT                                                   00060303
+         L     2,RIGHT                                                  00060403
+         SR    1,2                                                      00060502
+         L     3,LEFT                                                   00060603
+         L     4,RIGHT                                                  00060703
+         AR    3,4                                                      00060801
+         XDUMP                                                          00060900
+*                                                                       00061000
+         BCR   B'1111',14                                               00061100
+*                                                                       00062000
+LEFT     DC    F'127'                                                   00070000
+RIGHT    DC    F'59'                                                    00080000
+         END   PROG1                                                    00090000

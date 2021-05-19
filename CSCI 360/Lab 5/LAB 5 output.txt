@@ -1,0 +1,342 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 22.03.03 JOB00631 ---- FRIDAY,    22 MAR 2019 ----
+ 22.03.03 JOB00631  IRR010I  USERID KC03E59  IS ASSIGNED TO THIS JOB.
+ 22.03.03 JOB00631  ICH70001I KC03E59  LAST ACCESS AT 22:02:46 ON FRIDAY, MARCH 22, 2019
+ 22.03.03 JOB00631  $HASP373 KCO3E59A STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 22.03.03 JOB00631  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 22.03.03 JOB00631  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 22.03.03 JOB00631  -KCO3E59A                      00     84 ******    .00     .0    440   0      0      0      0     0
+ 22.03.03 JOB00631  -KCO3E59A ENDED.  NAME-Ryan Llamas          TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 22.03.03 JOB00631  $HASP395 KCO3E59A ENDED
+0------ JES2 JOB STATISTICS ------
+-  22 MAR 2019 JOB EXECUTION DATE
+-          254 CARDS READ
+-          342 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           37 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KCO3E59A JOB ,'Ryan Llamas',MSGCLASS=H                                JOB00631
+         2 //STEP1 EXEC PGM=ASSIST                                                 00020000
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+         4 //SYSPRINT DD SYSOUT=*                                                  00040000
+         5 //SYSIN DD *                                                            00050000
+         6 //FT05F001 DD DSN=KC02314.SPRING19.CSCI360.HW5DATA,DISP=SHR             00185099
+ ICH70001I KC03E59  LAST ACCESS AT 22:02:46 ON FRIDAY, MARCH 22, 2019
+ IEF236I ALLOC. FOR KCO3E59A STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KCO3E59A STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03E59.KCO3E59A.JOB00631.D0000102.?         SYSOUT        
+ IEF285I   KC03E59.KCO3E59A.JOB00631.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING19.CSCI360.HW5DATA             RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2019081.2203
+ IEF032I STEP/STEP1   /STOP  2019081.2203 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        4K  SYS:    11580K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KCO3E59A/START 2019081.2203
+ IEF033I  JOB/KCO3E59A/STOP  2019081.2203 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *****************************************************                   00060000         
+                                       2 * Example Program                                                       00070000         
+                                       3 * NAME: Ryan Llamas, Partner Charles Alms z1797837  KC03D45             00080099         
+                                       4 * Registers:                                                            00090000         
+                                       5 *           1         HOLDS THE PARAMETERS                              00091099         
+                                       6 *           2         Will hold the address the table1                  00100015         
+                                       7 *           3         Will hold the end address of table1               00101015         
+                                       8 *           4         HOLDS TABLE 2 ADDRESS                             00102099         
+                                       9 *           5                                                           00103015         
+                                      10 *           6                                                           00104015         
+                                      11 *           7                                                           00105015         
+                                      12 *           8                                                           00106015         
+                                      13 *           9                                                           00107015         
+                                      14 *           10        Will be used for return from RETURN routine       00108022         
+                                      15 *           11                                                          00109022         
+                                      16 *           12                                                          00109119         
+                                      17 *           13        FORWARD POINTER                                   00109299         
+                                      18 *           14        USED FOR MAIN PROGRAM/BACK POINTER                00109399         
+                                      19 *           15        CALLS SUBROUTINES                                 00109499         
+                                      20 *                                                                       00109599         
+                                      21 *                                                                       00109699         
+                                      22 *****************************************************                   00110000         
+ 000000                               23 LAB4     CSECT                                                          00120000         
+ 000000 90EC D00C            0000C    24          STM   14,12,12(13)                                             00140299         
+ 000004 18CF                          25          LR    12,15             STANDARD LINKAGE                       00140399         
+ 000000                               26          USING LAB4,12                                                  00140499         
+ 000006 41E0 C1BC            001BC    27          LA    14,SAVE           SAVES REGISTERS                        00140699         
+ 00000A 50D0 E004            00004    28          ST    13,4(,14)                                                00140799         
+ 00000E 50E0 D008            00008    29          ST    14,8(,13)                                                00140899         
+ 000012 18DE                          30          LR    13,14                                                    00140999         
+ 000014 4110 C1B0            001B0    31          LA    1,PLIST           *REG 1 will now hold the parm list     00141099         
+ 000018 58F0 C040            00040    32          L     15,=V(BUILD)                                             00141399         
+ 00001C 05EF                          33          BALR  14,15             CALL BUILD                             00141499         
+ 00001E 5000 1004            00004    34          ST    0,4(0,1)          STORE END OF TABLE INTO R0             00141599         
+ 000022 4110 C1B0            001B0    35          LA    1,PLIST           LOAD PARAMETERS INTO R1                00141699         
+ 000026 58F0 C044            00044    36          L     15,=V(PRINT)      CALL PRINT                             00144099         
+ 00002A 05EF                          37          BALR  14,15                                                    00144199         
+ 00002C 4110 C1B0            001B0    38          LA    1,PLIST           LOAD PARAMETERS INTO R1                00144399         
+ 000030 58F0 C048            00048    39          L     15,=V(TALLY)      CALL TALLY                             00144499         
+ 000034 05EF                          40          BALR  14,15                                                    00144599         
+ 000036 58D0 D004            00004    41          L     13,4(,13)         EXIT LINAKGE                           00145099         
+ 00003A 98EC D00C            0000C    42          LM    14,12,12(13)                                             00146099         
+ 00003E 07FE                          43          BR    14                EXITS MAIN                             00150099         
+                                      44          LTORG                                                          00151099         
+ 000040 00000208                      45                =V(BUILD)                                                                 
+ 000044 00000370                      46                =V(PRINT)                                                                 
+ 000048 000004A8                      47                =V(TALLY)                                                                 
+ 00004C                               48 TABLE2   DS    8F'1'             DECLARES TABLE TO HOLD THE DIVIDERS    00151199         
+ 00006C                               49 ENDTABL2 DS    0H                END FOR TABLE2                         00151299         
+ 00006C                               50 TABLE1   DS    80F'-32'          TABLE FOR REAL VALUES                  00151499         
+ 0001AC                               51 ENDTABL1 DS    0H                END OF TABLE1                          00151599         
+ 0001AC 0000006C                      52 EOT      DC    A(TABLE1)         Will hold the first unused entry       00151699         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0001B0 0000006C                      53 PLIST    DC    A(TABLE1)         STORE TABLE1                           00151799         
+ 0001B4 000001AC                      54          DC    A(EOT)            STORE TABLE1 EOT                       00151899         
+ 0001B8 0000004C                      55          DC    A(TABLE2)         STORE TABLE2                           00151999         
+ 0001BC                               56 SAVE     DS    18F               Will hold saved registers              00152099         
+                                      57 ******************************************************                  00160000         
+                                      58 *  Will read from file and build the table. Will store address of       00160108         
+                                      59 *  last entry.                                                          00160208         
+                                      60 *      Registers:                                                       00160317         
+                                      61 *          1     USED FOR THE BUFFER                                    00160499         
+                                      62 *          2     Will have table1 address                               00160599         
+                                      63 *          3     Will need to have the end of the table addresse        00160628         
+                                      64 *          4     WILL HOLD TABLE2 ADDRESS                               00160799         
+                                      65 *          5     Will be used to get num with xdeci                     00160892         
+                                      66 *          6     Will keep track of when value reaches 80               00160999         
+                                      67 *          7     COUNTER                                                00161099         
+                                      68 *          8                                                            00161115         
+                                      69 *          9                                                            00161215         
+                                      70 *          10                                                           00161315         
+                                      71 *          11                                                           00161415         
+                                      72 *          12                                                           00161515         
+                                      73 *          13                                                           00161615         
+                                      74 *******************************************************                 00161808         
+ 000208                               75 BUILD    CSECT                                                          00162199         
+ 000208 90EC D00C            0000C    76          STM   14,12,12(13)                                             00162299         
+ 00020C 18CF                          77          LR    12,15            STANDARD LINKAGE                        00162399         
+ 000208                               78          USING BUILD,12                                                 00162499         
+ 00020E 9824 1000            00000    79          LM    2,4,0(1)         Unload parameters                       00162599         
+ 000212 41E0 C120            00328    80          LA    14,BUILDSAV      SAVES ALL REGISTERS                     00162799         
+ 000216 50D0 E004            00004    81          ST    13,4(0,14)       GRAB FORWARD AND BACK POINTERS          00162899         
+ 00021A 50E0 D008            00008    82          ST    14,8(0,13)                                               00162999         
+ 00021E 18DE                          83          LR    13,14                                                    00163099         
+ 000220 1B66                          84          SR    6,6              RESETS COUNTER                          00163399         
+ 000222 E000 C0CD 0050 002D5          85          XREAD CARD,80          *Reads from card                        00163618         
+ 000228 4740 C056            0025E    86 CHECK    BC    B'0100',SETLAST  *Checks if it is at end of line         00163736         
+ 00022C 4110 C0CD            002D5    87          LA    1,CARD           STORES CARD INTO R1                     00163999         
+ 000230 5350 1000            00000    88 BLOOP2   XDECI 5,0(0,1)         *Get num from card                      00164099         
+ 000234 4710 C04C            00254    89          BO    BLOOP            IF OVER GO TO BLOOP                     00164199         
+ 000238 5950 C0A8            002B0    90          C     5,=F'-12345678'  IF VALUE EQUALS -12345678 STOP          00164399         
+ 00023C 4780 C056            0025E    91          BE    SETLAST          IF IT IS GO TO SET LAST                 00164499         
+ 000240 5050 2000            00000    92          ST    5,0(0,2)         *Store the num in the ta                00164599         
+ 000244 4120 2004            00004    93          LA    2,4(0,2)         *move to next entry                     00164699         
+ 000248 5920 C0AC            002B4    94          C     2,=A(ENDTABL1)   CHECKS IF ITS AT EOT                    00164899         
+ 00024C 47A0 C056            0025E    95          BC    B'1010',SETLAST  IF IT IS GO TO SET LAST                 00164999         
+ 000250 47F0 C028            00230    96          B     BLOOP2                                                   00165046         
+ 000254 E000 C0CD 0050 002D5          97 BLOOP    XREAD CARD,80          READ CARD                               00165499         
+ 00025A 47F0 C020            00228    98          BC    B'1111',CHECK    *Unconditional loop to check read       00165516         
+ 00025E 1802                          99 SETLAST  LR    0,2                  *Sets last entry                    00165799         
+ 000260 E020 C0B8 0015 002C0         100          XPRNT =C' MAKEING LAST ADDRESS',21                             00165899         
+ 000266 1B77                         101          SR    7,7              RESET COUNTER                           00166099         
+ 000268 E000 C0CD 0050 002D5         102          XREAD CARD,80          READ CARD                               00166499         
+ 00026E 4740 C098            002A0   103 CHECK2   BC    B'0100',EXIT     IF ITS EMPTY STOP                       00166599         
+ 000272 4110 C0CD            002D5   104          LA    1,CARD           LOAD CARD INTO R1                       00166699         
+ 000276 5350 1000            00000   105 B2LOOP2  XDECI 5,0(0,1)         READ CARD AND STORE IN R5               00166799         
+ 00027A 4710 C08E            00296   106          BO    B2LOOP                                                   00167099         
+ 00027E 5050 4000            00000   107          ST    5,0(0,4)         STORE R5 INTO TABLE2                    00167299         
+ 000282 4140 4004            00004   108          LA    4,4(0,4)         GO TO NEXT POSITION IN TABLE2           00167399         
+ 000286 5A70 C0B0            002B8   109          A     7,=F'1'          INCREASE COUNTER                        00167599         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00028A 5970 C0B4            002BC   110          C     7,=F'6'          IF COUNTER = TABLE LENGTH               00167699         
+ 00028E 4780 C098            002A0   111          BE    EXIT             GO TO EXIT                              00167799         
+ 000292 47F0 C06E            00276   112          B     B2LOOP2                                                  00167899         
+ 000296 E000 C0CD 0050 002D5         113 B2LOOP   XREAD CARD,80          CHECK TO SEE IF END OF CARD             00168199         
+ 00029C 47F0 C066            0026E   114          BC    B'1111',CHECK2                                           00168299         
+ 0002A0 58D0 D004            00004   115 EXIT     L     13,4(,13)                                                00168699         
+ 0002A4 98EF D00C            0000C   116          LM    14,15,12(13)     EXIT LINKAGE                            00168799         
+ 0002A8 981C D018            00018   117          LM    1,12,24(13)                                              00168899         
+ 0002AC 07FE                         118          BR    14               *End of subroutine                      00168999         
+                                     119          LTORG                                                          00169099         
+ 0002B0 FF439EB2                     120                =F'-12345678'                                                             
+ 0002B4 000001AC                     121                =A(ENDTABL1)                                                              
+ 0002B8 00000001                     122                =F'1'                                                                     
+ 0002BC 00000006                     123                =F'6'                                                                     
+ 0002C0 40D4C1D2C5C9D5C7             124                =C' MAKEING LAST ADDRESS'                                                 
+ 0002D5                              125 CARD     DS    CL80             BUFFER                                  00169199         
+ 000325 5C                           126          DC    C'*'                                                     00169299         
+ 000328                              127 BUILDSAV DS    18F              SAVE SPACE                              00169399         
+                                     128 ******************************************************************      00169609         
+                                     129 * will print the entire table (up to the last entry in use)             00169728         
+                                     130 *                                                                       00169828         
+                                     131 *  Registers:                                                           00169999         
+                                     132 *         1                                                             00170028         
+                                     133 *         2      Will have table address                                00170128         
+                                     134 *         3      Will have last entry                                   00170228         
+                                     135 *         4                                                             00170399         
+                                     136 *         5      Will be used to increment through table adresses       00170449         
+                                     137 *         6      Will hold print address                                00170552         
+                                     138 *         7      Table NUM AMOUNT                                       00170697         
+                                     139 *         8      Counter to check if we print 5 nums per line           00170799         
+                                     140 *         9      temp to hold VAULE                                     00170899         
+                                     141 *         10                                                            00170928         
+                                     142 *         11                                                            00171028         
+                                     143 *         12                                                            00171199         
+                                     144 *         13                                                            00171299         
+                                     145 *                                                                       00171328         
+                                     146 *                                                                       00171428         
+                                     147 *                                                                       00171528         
+                                     148 ********************************************************************    00171628         
+ 000370                              149 PRINT    CSECT                                                          00171799         
+ 000370 90EC D00C            0000C   150          STM   14,12,12(13)                                             00171899         
+ 000374 18CF                         151          LR    12,15                                                    00171999         
+ 000370                              152          USING PRINT,12                                                 00172099         
+ 000376 9824 1000            00000   153          LM    2,4,0(1)         UNLOAD PARAMETERS                       00172199         
+ 00037A 41E0 C094            00404   154          LA    14,PRISAVE       SAVE REGISTERS                          00172299         
+ 00037E 50D0 E004            00004   155          ST    13,4(0,14)       GRAB FORWARD AND BACK POINTERS          00172399         
+ 000382 50E0 D008            00008   156          ST    14,8(0,13)                                               00172499         
+ 000386 18DE                         157          LR    13,14                                                    00172599         
+ 000388 E020 C078 001A 003E8         158          XPRNT =C'           List of Numbers',26                        00172799         
+ 00038E 1B88                         159          SR    8,8              *Set count to zero                      00172899         
+ 000390 4160 C0DD            0044D   160 PLOOP    LA    6,PRINTO+1       *Will hold the print line               00173199         
+ 000394 9240 C0DD      0044D         161          MVI   PRINTO+1,C' '        DESCRUCTIVE OVERLAP                 00173299         
+ 000398 D252 C0DE C0DD 0044E 0044D   162          MVC   PRINTO+2(83),PRINTO+1                                    00173399         
+ 00039E 5980 C070            003E0   163 PLOOP2   C     8,=F'7'          CHANGE 5 TO 1                           00174299         
+ 0003A2 4780 C054            003C4   164          BE    PRINT5           If register 4 = '5' then go to print5   00174399         
+ 0003A6 5890 2000            00000   165          L     9,0(0,2)         Will hold the address of nums           00174699         
+ 0003AA 5290 6000            00000   166          XDECO 9,0(0,6)         Put num in print address                00174799         
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0003AE 4120 2004            00004   167          LA    2,4(0,2)         Move to next num in table               00174899         
+ 0003B2 1923                         168          CR    2,3                                                      00174999         
+ 0003B4 47A0 C060            003D0   169          BC    B'1010',PRINTEND                                         00175099         
+ 0003B8 4160 600C            0000C   170          LA    6,12(0,6)        Move to next area in print              00175199         
+ 0003BC 5A80 C074            003E4   171          A     8,=F'1'          add one to counter                      00175299         
+ 0003C0 47F0 C02E            0039E   172          B     PLOOP2                                                   00175399         
+ 0003C4 E020 C0DC 0055 0044C         173 PRINT5   XPRNT PRINTO,85        Reset our counter                       00175599         
+ 0003CA 1B88                         174          SR    8,8              Print the 5 nums                        00175699         
+ 0003CC 47F0 C020            00390   175          B     PLOOP                                                    00175799         
+ 0003D0 E020 C0DC 0055 0044C         176 PRINTEND XPRNT PRINTO,85        PRINTS LINE                             00175999         
+ 0003D6 58D0 D004            00004   177          L     13,4(,13)                                                00176199         
+ 0003DA 98EC D00C            0000C   178          LM    14,12,12(13)                                             00176299         
+ 0003DE 07FE                         179          BR    14               EXITS PRINT SUBROUTINE                  00176399         
+                                     180          LTORG                                                          00176499         
+ 0003E0 00000007                     181                =F'7'                                                                     
+ 0003E4 00000001                     182                =F'1'                                                                     
+ 0003E8 4040404040404040             183                =C'           List of Numbers'                                            
+ 000404                              184 PRISAVE  DS    18F              SAVE SPACE                              00176599         
+ 00044C F0                           185 PRINTO   DC    CL1'0'           PRINT LINE                              00176799         
+ 00044D 4040404040404040             186          DC    CL84' '                                                  00176899         
+                                     187 *************************************************************           00176999         
+                                     188 *Registers:                                                             00177099         
+                                     189 *       1                                                               00177199         
+                                     190 *       2      Will have table1 Address                                 00177299         
+                                     191 *       3      Will have last entry                                     00177399         
+                                     192 *       4      HOLDS TABLE2                                             00177499         
+                                     193 *       5      HOLDS THE VALUE OF TABLE2                                00177599         
+                                     194 *       6      Will hold print address                                  00177699         
+                                     195 *       7      Table NUM AMOUNT                                         00177799         
+                                     196 *       8      COUNTER FOR TABLE2                                       00177899         
+                                     197 *       9      temp to hold VAULE                                       00177999         
+                                     198 *       10     HOLDS TABLE1                                             00178099         
+                                     199 *       11                                                              00178199         
+                                     200 *       12     HOLDS THE REMAINDER                                      00178299         
+                                     201 *       13     HOLDS THE VALUE                                          00178399         
+                                     202 *                                                                       00178499         
+                                     203 *                                                                       00178599         
+                                     204 *************************************************************           00178699         
+ 0004A8                              205 TALLY    CSECT                                                          00178799         
+ 0004A8 90EC D00C            0000C   206          STM   14,12,12(13)                                             00178899         
+ 0004AC 18CF                         207          LR    12,15             STANDARD LINKAGE                       00178999         
+ 0004A8                              208          USING TALLY,12                                                 00179099         
+ 0004AE 9824 1000            00000   209          LM    2,4,0(1)          UNLOAD PARAMETERS                      00179199         
+ 0004B2 41E0 C0C4            0056C   210          LA    14,TALLYSAV       SAVE REGISTERS                         00179299         
+ 0004B6 50D0 E004            00004   211          ST    13,4(,14)         GRAB FORWARD AND BACK POINTERS         00179399         
+ 0004BA 50E0 D008            00008   212          ST    14,8(,13)                                                00179499         
+ 0004BE 18DE                         213          LR    13,14                                                    00179599         
+                                     214 *                                                                       00179699         
+ 0004C0 1B66                         215          SR    6,6        SUBTACT ALL REGISTERS                         00179799         
+ 0004C2 1B88                         216          SR    8,8        Count for second table                        00179899         
+ 0004C4 1B99                         217          SR    9,9                                                      00179999         
+ 0004C6 18A2                         218          LR    10,2       LOAD TABLE INTO R10                           00180099         
+                                     219 *                                                                       00180299         
+ 0004C8 5850 4000            00000   220 GOBACK1  L     5,0(0,4)   The divisor                                   00180699         
+ 0004CC 5870 2000            00000   221 LOOP1    L     7,0(0,2)   The num                                       00180799         
+ 0004D0 5C60 C088            00530   222          M     6,=F'1'    Set up div                                    00180899         
+ 0004D4 1D65                         223          DR    6,5        DIVIDE TABLE1/TABLE2                          00180999         
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0004D6 5960 C08C            00534   224          C     6,=F'0'    CHECK TO SEE IF REMAINDER IS 0                00181099         
+ 0004DA 4780 C03A            004E2   225          BE    ADD        IF SO ADD                                     00181199         
+ 0004DE 47F0 C03E            004E6   226          B     SKIPIDY                                                  00181299         
+ 0004E2 5A90 C088            00530   227 ADD      A     9,=F'1'    PLUS 1 TO COUNTER                             00181399         
+ 0004E6 4120 2004            00004   228 SKIPIDY  LA    2,4(0,2)   MOVE POSITION OF TABLE1                       00181499         
+ 0004EA 1923                         229          CR    2,3        COMPARE TO EOT                                00181599         
+ 0004EC 47A0 C04C            004F4   230          BC    B'1010',TAB2MV  IF SO MOVE ON                            00181699         
+ 0004F0 47F0 C024            004CC   231          B     LOOP1                                                    00181799         
+ 0004F4 4140 4004            00004   232 TAB2MV   LA    4,4(0,4)    INCREASE TABLE2 TO NEXT POSITION             00181899         
+ 0004F8 5A80 C088            00530   233          A     8,=F'1'     ADD 1 TO COUNTER                             00182099         
+ 0004FC 5980 C090            00538   234          C     8,=F'7'     CHECKS TO SEE IF ITS AT THE EOT TABLE 2      00182199         
+ 000500 4780 C078            00520   235          BE    EXITT       IF SO EXIT                                   00182299         
+ 000504 47F0 C060            00508   236          B     PRINTT      GO TO PRINT LINE                             00182399         
+ 000508 5290 C09F            00547   237 PRINTT   XDECO 9,NUM       GRAB  COUNTER                                00182499         
+ 00050C 5250 C0B8            00560   238          XDECO 5,DIVISOR   GRAB DIVISER                                 00182599         
+ 000510 E020 C094 0030 0053C         239          XPRNT CRG,48      PRINT LINE                                   00182699         
+ 000516 1B99                         240          SR    9,9         RESET COUNTERS                               00182799         
+ 000518 1B66                         241          SR    6,6         RESET COUNTERS                               00182899         
+ 00051A 182A                         242          LR    2,10        LOAD R10 BACK INTO R2                        00182999         
+ 00051C 47F0 C020            004C8   243          B     GOBACK1     LOOP THROUGH AGAIN                           00183099         
+                                     244 *                                                                       00183199         
+ 000520 58D0 D004            00004   245 EXITT    L     13,4(,13)                                                00183299         
+ 000524 98EC D00C            0000C   246          LM    14,12,12(13)   EXIT LINKAGE                              00183399         
+ 000528 07FE                         247          BR    14                                                       00183499         
+                                     248 ********************************************************                00183599         
+                                     249          LTORG                                                          00183600         
+ 000530 00000001                     250                =F'1'                                                                     
+ 000534 00000000                     251                =F'0'                                                                     
+ 000538 00000007                     252                =F'7'                                                                     
+ 00053C F0                           253 CRG      DC    C'0'        PRINT LINE                                   00183799         
+ 00053D E388859985408199             254          DC    C'There are '                                            00183899         
+ 000547                              255 NUM      DS    CL12             HOLDS VALUE OF THE COUNTER              00183999         
+ 000553 4094A4A389979385             256          DC    C' mutiples of '                                         00184099         
+ 000560                              257 DIVISOR  DS    CL12             VALUE OF THE DIVIDERS                   00184199         
+ 00056C                              258 TALLYSAV DS    18F              SAVES REGISTERS                         00184299         
+                                     259 *                                                                       00184306         
+                                     260          END   LAB4              EXITS PROGRAM                          00184499         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   14296 HIGH:    1480 LEAVING:  477792 FREE BYTES. AVERAGE:       60 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,   261000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+ MAKEING LAST ADDRESS                                                                                                             
+           List of Numbers                                                                                                        
+0      -26924         290          97        3290         351          74        -350                                             
+0        -724        -104         -37          53       -8909        6300          46                                             
+0          13         591          10          26       -1869       -6299           3                                             
+0         333      -15141         868         662         859        -529          35                                             
+0        -288       -8942       27446       -6729         600        3548         -84                                             
+0        -840      -13931       32439       -5537          82         837          58                                             
+1       39770       22386       20537        7595       -4350        -374          21                                             
+0         -68        4734          78        -788       -3728       22483         310                                             
+0         514       18935       -5249         798       11008       14989         495                                             
+0          23        9503          65          76           4           6      -18467                                             
+0        -169         -58        5705      -16827        2995        5436         902                                             
+0         382         718                                                                                                         
+0There are           16 mutiples of            7                                                                                  
+0There are           10 mutiples of           13                                                                                  
+0There are           10 mutiples of          -10                                                                                  
+0There are           17 mutiples of            4                                                                                  
+0There are            8 mutiples of            9                                                                                  
+0There are           17 mutiples of           -5                                                                                  
+0*** EXECUTION TIME =    0.002 SECS.      7499 INSTRUCTIONS EXECUTED -  3749500 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

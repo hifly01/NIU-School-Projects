@@ -1,0 +1,94 @@
+//KC03E59A JOB ,'Ryan Llam',MSGCLASS=H                                  00010000
+//STEP1    EXEC  PGM=ASSIST                                             00020000
+//STEPLIB    DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                    00030000
+//SYSPRINT   DD  SYSOUT=*                                               00040000
+//SYSIN      DD  *                                                      00041042
+************************************************************            00050000
+*                                                                       00060000
+*  Program:     LAB2                                                    00070000
+*  Programmer:  Ryan Llamas                                             00080000
+*                                                                       00090000
+*  Register usage:  R2 - W NUM                                          00100099
+*                   R3 - X NUM                                          00110099
+*                   R4 - Y NUM                                          00111099
+*                   R5 - Z NUM                                          00112099
+*                   R6 - All numbers added (based on equation)          00113099
+*                   R7 - Number of lines                                00114099
+************************************************************            00120000
+MAIN      CSECT                                                         00130099
+          USING MAIN,15                                                 00131099
+          SR    2,2             Register 2 = 0                          00133099
+          SR    6,6             Register 6 = 0                          00133199
+          SR    7,7             Register 7 = 0                          00133299
+*                                                                       00133399
+          XREAD FILE,80         Read file                               00133499
+CHECKOF   BC    B'0100',EXIT    Go to exit if EOL reached               00133599
+*                                                                       00133639
+          XDECI 2,FILE          Convert to file to binary. Store in 2   00133799
+          XDECO 2,DATAW         Convert binary to char in print line    00133899
+*                                                                       00133999
+          XDECI 3,0(0,1)      Convert the next num to binary. Store 3   00134099
+          XDECO 3,DATAX         Convert binary to char in print line    00134199
+*                                                                       00134399
+          XDECI 4,0(0,1)      Convert next num to binary. Store in 4    00134499
+          XDECO 4,DATAY        Convert to print line                    00134599
+*                                                                       00134799
+          XDECI 5,0(0,1)   Convert next line to binary. Store in 5      00134899
+          XDECO 5,DATAZ    Put character form in print line             00134999
+*                                                                       00135099
+          SR    2,3        R2 = W - X                                   00135299
+          AR    2,4        R2 = (W-X)+Y                                 00135399
+          SR    2,5        R2 = (W-X+Y)-Z                               00135499
+          AR    6,2        Total = Total + R2                           00135599
+          XDECO 2,DATAE    Put total into print line                    00135699
+          XPRNT CRG,66     print it all, 66 bytes long                  00135799
+          A     7,=F'1'    add 1 for line total                         00135899
+          XREAD FILE,80          Read to next part of file              00135999
+          BC    B'1111',CHECKOF    loop up                              00136099
+EXIT      XDECO 6,DATAR          exit status, put total on print line   00136199
+          XDECO 7,LINENUM        put number of lines on print line      00136299
+          XPRNT CRG2,27          print 27 bytes                         00136399
+          BCR   B'1111',14       exit program                           00136499
+CRG       DC    C' '             carrage control character              00136599
+          DC    C' '                                                    00136699
+DATAW     DS    CL3              will hold data for w                   00136799
+          DC    10C' '                                                  00136899
+DATAX     DS    CL3       will hold data for x                          00136999
+          DC    10C' '                                                  00137099
+DATAY     DS    CL3       will hold data for y                          00137199
+          DC    10C' '                                                  00137299
+DATAZ     DS    CL3       will hold data for z                          00137399
+          DC    10C' '                                                  00137499
+DATAE     DS    CL3       will hold data for line equation              00137599
+          DC    10C' '                                                  00137699
+CRG2      DC    C' '      another carrage control character             00137799
+          DC    C' '                                                    00137899
+LINENUM   DS    CL3       will hold the number of lines used            00137999
+          DC    10C' '                                                  00138099
+DATAR     DS    CL3       will hold total result                        00138199
+          DC    10C' '                                                  00138299
+FILE      DS    CL80      are read buffer                               00138399
+          END   MAIN                                                    00139099
+/*                                                                      00140000
+//FT05F001   DD  *                                                      00150000
+   005   005   005   005                                                00160000
+   006   001   002   004                                                00170000
+     0    +7     2   -45                                                00180000
+   100   088   035    10                                                00190000
+     0     0     0     0                                                00200000
+    10   -10    10   -10                                                00210000
+   500   230     9    58                                                00220000
+   516   853     0    17                                                00230000
+   020     0   245   316                                                00240000
+   529   977   681     0                                                00250000
+   013   250    85   831                                                00260000
+     0   364   275     0                                                00270000
+   887   100   293   993                                                00280000
+   234   447   591    13                                                00290000
+   -89    -7    23   104                                                00300000
+   001   002   003   004                                                00310000
+   008   007   006   005                                                00320000
+   999   998   997   996                                                00330000
+/*                                                                      00340000
+//FT06F001   DD SYSOUT=*                                                00350000
+//                                                                      00360000

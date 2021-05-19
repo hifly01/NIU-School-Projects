@@ -1,0 +1,191 @@
+//KCO3E59A JOB ,'Ryan Llamas',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+*****************************************************                   00060000
+* Example Program                                                       00070000
+* NAME: Ryan Llamas, Partner Charles Alms z1797837                      00080000
+* Registers:                                                            00090000
+*           1         Will be used for XDEC -i and -o                   00091016
+*           2         Will hold the address the table1                  00100015
+*           3         Will hold the end address of table1               00101015
+*           4                                                           00102015
+*           5                                                           00103015
+*           6                                                           00104015
+*           7                                                           00105015
+*           8                                                           00106015
+*           9                                                           00107015
+*           10        Will be used for return from RETURN routine       00108022
+*           11                                                          00109022
+*           12                                                          00109119
+*           13                                                          00109219
+*           14        USED FOR MAIN PROGRAM                             00109399
+*                                                                       00109435
+*                                                                       00109535
+*****************************************************                   00110000
+LAB4     CSECT                                                          00120000
+         USING LAB4,15                                                  00130000
+*                                                                       00140000
+         LA    2,TABLE1          *Will hold the first address of table  00140134
+         BAL   10,BUILD          *Go to the build subroutine            00141022
+         BAL   10,PRINT          CALLS PRINT                            00142099
+         XPRNT =C'1',1                                                  00142199
+         BAL   10,ODDS           CALLS ODDS                             00143099
+         BR    14                EXITS MAIN                             00150099
+******************************************************                  00160000
+*  Will read from file and build the table. Will store address of       00160108
+*  last entry.                                                          00160208
+*      Registers:                                                       00160317
+*          1     USED FOR THE BUFFER                                    00160499
+*          2     Will have table address                                00160528
+*          3     Will need to have the end of the table addresse        00160628
+*          4     Will keep track of when value reaches 56               00160792
+*          5     Will be used to get num with xdeci                     00160892
+*          6                                                            00160915
+*          7                                                            00161092
+*          8                                                            00161115
+*          9                                                            00161215
+*          10                                                           00161315
+*          11                                                           00161415
+*          12                                                           00161515
+*          13                                                           00161615
+*******************************************************                 00161808
+BUILD    DS    0H                                                       00161910
+         STM   4,2,BUILDSAV     *Registers (0-2)U(4-15) are saved       00162092
+         SR    4,4              RESETS COUNTER                          00162199
+         XREAD CARD,80          *Reads from card                        00163018
+CHECK    BC    B'0100',SETLAST  *Checks if it is at end of line         00163136
+         LA    1,CARD                                                   00163242
+BLOOP2   XDECI 5,0(0,1)         *Get num from card                      00163392
+         BO    BLOOP                                                    00163493
+         ST    5,0(0,2)         *Store the num in the ta                00163599
+         LA    2,4(0,2)         *move to next entry                     00163699
+         A     4,=F'1'          INCREASE COUNTER                        00163799
+         C     4,=F'56'         CHECKS TO SEE IF COUNTER = LENGTH       00163899
+         BE    SETLAST                                                  00163999
+         B     BLOOP2                                                   00164046
+*                               * XDUMP                                 00164144
+BLOOP    XREAD CARD,80          * CHECKA                                00164246
+         BC    B'1111',CHECK    *Unconditional loop to check read       00164316
+*                                                                       00164404
+SETLAST  LR    3,2              *Sets last entry                        00164535
+         S     3,=F'4'          *at end of table, so back a col         00164625
+         LM    4,2,BUILDSAV     *restore registers                      00164796
+         BR    10               *End of subroutine                      00164836
+******************************************************************      00164909
+* will print the entire table (up to the last entry in use)             00165028
+*                                                                       00165128
+*  Registers:                                                           00165228
+*         1                                                             00165328
+*         2      Will have table address                                00165428
+*         3      Will have last entry                                   00165528
+*         4      Counter to check if we print 5 nums per line           00165649
+*         5      Will be used to increment through table adresses       00165749
+*         6      Will hold print address                                00165852
+*         7      Table NUM AMOUNT                                       00165997
+*         8                                                             00166028
+*         9      temp to hold VAULE                                     00166199
+*         10                                                            00166228
+*         11                                                            00166328
+*         12                                                            00166499
+*         13                                                            00166599
+*                                                                       00166628
+*                                                                       00166728
+*                                                                       00166828
+********************************************************************    00166928
+PRINT    DS    0H                                                       00167014
+         XPRNT =C'           List of Numbers',26                        00167199
+         STM   0,15,PRINTSAV    SAVES ALL REGISTERS                     00167299
+         SR    4,4              *Set count to zero                      00167399
+         SR    7,7              SET COUNTER TO 0                        00167499
+PLOOP    LA    6,PRINTO+1       *Will hold the print line               00167599
+         MVI   PRINTO+1,C' '        DESCRUCTIVE OVERLAP                 00167699
+         MVC   PRINTO+2(59),PRINTO+1                                    00167799
+*                                                                       00167880
+PLOOP2   C     4,=F'5'          CHANGE 5 TO 1                           00169299
+         BE    PRINT5           If register 4 = '5' then go to print5   00169491
+         L     9,0(0,2)         Will hold the address of nums           00169699
+         XDECO 9,0(0,6)         Put num in print address                00169799
+         LA    6,12(0,6)        Move to next area in print              00169999
+         LA    2,4(0,2)         Move to next num in table               00170099
+         A     4,=F'1'          add one to counter                      00170199
+         A     7,=F'1'          INCREASE COUNTER BY 1                   00170299
+         C     7,=F'56'         CHECKS IF COUNTER IS = TO LENGTH        00170399
+         BE    PRINTEND                                                 00170499
+         B     PLOOP2                                                   00170899
+PRINT5   XPRNT PRINTO,61        Reset our counter                       00170999
+         SR    4,4              Print the 5 nums                        00171099
+         B     PLOOP                                                    00171180
+*                                                                       00171280
+PRINTEND XPRNT PRINTO,61        PRINTS LINE                             00171399
+         LM    0,15,PRINTSAV    *restore registers                      00171499
+         BR    10               EXITS PRINT SUBROUTINE                  00171599
+*************************************************************           00171699
+*Registers:                                                             00171799
+*       1                                                               00171899
+*       2      Will have table address                                  00171999
+*       3      Will have last entry                                     00172099
+*       4      Counter to check if we print 5 nums per line             00172199
+*       5      Will be used to increment through table adresses         00172299
+*       6      Will hold print address                                  00172399
+*       7      Table NUM AMOUNT                                         00172499
+*       8                                                               00172599
+*       9      temp to hold VAULE                                       00172699
+*       10                                                              00172799
+*       11                                                              00172899
+*       12     HOLDS THE REMAINDER                                      00172999
+*       13     HOLDS THE VALUE                                          00173099
+*                                                                       00173199
+*                                                                       00173299
+*************************************************************           00173399
+ODDS     DS    0H                                                       00173499
+         XPRNT =C'           List of even Nums',28                      00173599
+         STM   0,15,PRINTSAV    SAVES ALL REGISTERS                     00173699
+         SR    4,4              *Set count to zero                      00173799
+         SR    7,7              RESETS COUNTER                          00173899
+         SR    12,12            CLEARS REGISTERS FOR DIVIDING           00173999
+         SR    13,13                                                    00174099
+OLOOP    LA    6,PRINTO+1       *Will hold the print line               00174199
+         MVI   PRINTO+1,C' '                                            00174299
+         MVC   PRINTO+2(71),PRINTO+1                                    00174399
+*                                                                       00174499
+OLOOP2   C     4,=F'6'          CHANGE 5 TO 1                           00174599
+         BE    PRINT5O          If register 4 = '5' then go to print5   00174699
+         L     9,0(0,2)         Will hold the address of nums           00174799
+         LR    13,9             LOADS VALUE INTO R13                    00174899
+         M     12,=F'1'         SETS THE VALUE TO A POSITIVE VALUE      00174999
+         D     12,=F'2'         DIVIDES THE NUMBER BY 2                 00175099
+         C     12,=F'0'         CHECKS TO SEE IF THE REMAINDER = 0      00175199
+         BE    SKIP                                                     00175299
+         XDECO 9,0(0,6)         Put num in print address                00175399
+         LA    6,12(0,6)        Move to next area in print              00175499
+         A     4,=F'1'           add one to counter                     00175599
+SKIP     LA    2,4(0,2)          Move to next num in table              00175699
+         A     7,=F'1'           INCREASE LENGTH COUNTER                00175799
+         C     7,=F'56'          CHECK TO SEE IF LENGTH =56             00175899
+         BE    PRINTENO                                                 00175999
+         B     OLOOP2                                                   00176099
+PRINT5O  XPRNT PRINTO,73         Reset our counter                      00176199
+         SR    4,4               Print the 5 nums                       00176299
+         B     OLOOP                                                    00176399
+*                                                                       00176499
+PRINTENO XPRNT PRINTO,73                                                00176599
+         LM    0,15,PRINTSAV     *restore registers                     00176699
+         BR    10                                                       00176799
+**************************************************************88        00176899
+         LTORG                                                          00176900
+CARD     DS    CL80              BUFFER                                 00177099
+         DC    C'*'                                                     00177157
+BUILDSAV DS    15F               Will hold saved registers              00177299
+PRINTSAV DS    16F                                                      00177334
+TABLE1   DS    56F'-12'          DECLARES TABLE WITH 56 SPACES = -12    00177499
+TEMP     DS    CL12                                                     00177599
+PRINTO   DC    C'0'        Will be usez for printing the line. Carrage  00177691
+         DS    CL65                                                     00177799
+*                                                                       00178006
+         END   LAB4              EXITS PROGRAM                          00178199
+*                                                                       00178206
+/*                                                                      00179000
+//FT05F001 DD DSN=KC02314.SPRING19.CSCI360.HW4DATA,DISP=SHR             00180000
+//                                                                      00190000

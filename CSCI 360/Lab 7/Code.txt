@@ -1,0 +1,389 @@
+//KCO3D45A JOB ,'CHARLES ALMS',MSGCLASS=H                               00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+*********************************************************               00060000
+*Example Program                                                        00070000
+*NAME: Charles Alms z1797837, partner Ryan LLamas z1850256              00080000
+*Registers:    1 WILL HOLD PARMLIST                                     00090000
+*                                                                       00100000
+*                                                                       00110000
+*                                                                       00120000
+*                                                                       00130000
+*********************************************************               00140000
+ENTRY    DSECT                        DSECT FOR THE TABLE               00150000
+ID       DC    F'0'                                                     00152000
+FNAME    DS    10C                                                      00153000
+LNAME    DS    10C                                                      00154000
+SCORE    DS    PL3                                                      00154200
+DATE     DS    PL5                                                      00154400
+*********************************************************               00155000
+ASSIGN7  CSECT                                                          00156000
+         STM   14,12,12(13)                                             00157000
+         LR    12,15                                                    00158000
+         USING ASSIGN7,12             ENTRY LINKAGE                     00159000
+         LA    14,SAVE                                                  00159100
+         ST    13,4(,14)                                                00159200
+         ST    14,8(,13)                                                00159300
+         LR    13,14                                                    00159400
+*                                                                       00159500
+         LA    1,PLIST                LOAD PLIST INTO R1                00159600
+         LA    10,TABLE               LOAD TABLE INTO R10               00159700
+         L     15,=V(BUILD)           CALL BUILD                        00159800
+         BALR  14,15                                                    00159900
+*                                                                       00160000
+         ST    10,0(0,1)              STORE TABLE INTO PARAMLIST        00160100
+         ST    0,4(0,1)               STORE EOT INTO PARAMLIST          00160200
+         L     11,4(0,1)              LOAD THE EOT INTO R11             00160300
+*                                                                       00160500
+         L     15,=V(PRINT)           CALL PRINT                        00160600
+         BALR  14,15                                                    00160700
+*                                                                       00160800
+         ST    10,0(0,1)              RESET TABLE ADDRESS               00160900
+         L     15,=V(UPDATE)          CALL UPDATE                       00161000
+         BALR  14,15                                                    00161100
+*                                                                       00161200
+         ST    10,0(0,1)              RESET TABLE                       00161300
+         ST    11,4(0,1)              STORE EOT INTO R11                00161400
+         L     15,=V(PRINT)           CALL PRINT AGAIN                  00161500
+         BALR  14,15                                                    00161600
+*                                                                       00161700
+         L     13,4(,13)              EXIT                              00161800
+         LM    14,12,12(13)                                             00161900
+         BR    14                                                       00162000
+         LTORG                                                          00162100
+CARD     DS    CL80                                                     00162200
+TABLE    DS    50CL32                                                   00162300
+TABLEEND DS    0H                                                       00162400
+EOT      DC    A(TABLE)                                                 00162500
+PLIST    DC    A(TABLE)               PARAMETER LIST                    00162602
+         DC    A(EOT)                 HOLDS THE TABLE,                  00162702
+         DC    A(CARD)                EOT, CARD                         00162802
+SAVE     DS    18F                                                      00162900
+********************************************************                00163000
+BUILD    CSECT                                                          00163100
+         STM   14,12,12(13)                                             00163200
+         LR    12,15                                                    00163300
+         USING BUILD,12               ENTRY LINKAGE                     00163400
+         USING ENTRY,7                                                  00163500
+         LA    14,BUILDSAV                                              00163600
+         ST    13,4(,14)                                                00163700
+         ST    14,8(,13)                                                00163800
+         LR    13,14                                                    00163900
+*                                                                       00164000
+         LM    7,9,0(1)               LOAD PARAMLIST                    00164102
+LOOP1    XREAD 0(0,9),80              READ THE CARD                     00164202
+         BC    B'0100',END            IF END OF CARD STOP               00164302
+         LA    1,0(0,9)               LOAD R1 WITH ADDRESS OF CARD      00164402
+         TRT   0(80,1),SCANTAB        CALL SCANTABLE                    00164502
+         BC    B'1000',LOOP1                                            00164600
+         LR    3,1                    LOAD 3 WITH FIRST VALUE           00164702
+         TRT   0(80,1),SPACES         SCAN TILL FIND A SPACE            00164802
+         LR    4,1                    LOAD LAST VALUE WITH R4           00164902
+         SR    4,3                    SUBTACT TO FIND LENGTH            00165002
+         BCTR  4,0                                                      00165100
+         PACK  IDTEMP(8),0(8,3)       PACK THE ID                       00165202
+         CVB   11,IDTEMP              CONVERT TO BINARY                 00165302
+         ST    11,ID                  STORY IT N R11                    00165402
+         C     11,=X'5F5E0FF'         IF ID=99999999 END                00165602
+         BE    END                    SCAN FOR NEXT LETTER              00165702
+         TRT   0(80,1),SCANTAB        CHECKS IF TRANSLATE FAILS         00165802
+         BZ    LOOP1                  LOAD TEH ADDRESS OF FIRST VALUE   00165902
+         LR    3,1                    INTO R3                           00166002
+         TRT   0(80,1),SPACES         LOAD LAST VALUE INTO R4           00166102
+         LR    4,1                    SUBTRACT FOR LENGTH               00166202
+         SR    4,3                                                      00166300
+         BCTR  4,0                                                      00166400
+         EX    4,EFNAME               CALL FNAME INSTRUCTION            00166503
+         TR    FNAME(10),LOWER        MAKE EVERYTHING LOWERCASE         00166603
+         TR    FNAME(1),UPPER         MAKE FIRST VALUE UPPER CASE       00166703
+         TRT   0(80,1),SCANTAB        CALL SCAN TABLE AGAIN             00166803
+         BZ    LOOP1                                                    00166900
+         LR    3,1                    LOAD 3 WITH FIRST VALUE           00167003
+         TRT   0(80,1),SPACES         SCAN TILL FIND A SPACE            00167103
+         LR    4,1                    LOAD LAST VALUE WITH R4           00167203
+         SR    4,3                    SUBTACT TO FIND LENGTH            00167303
+         BCTR  4,0                    CHECK IF TRANSLATE FAILS          00167403
+         EX    4,ELNAME               CALL LNAME INSTRUCTION            00167503
+         TR    LNAME(10),LOWER        MAKE EVERYTHING LOWERCASE         00167603
+         TR    LNAME(1),UPPER         MAKE FIRST VALUE UPPER CASE       00167703
+         TRT   0(80,1),SCANTAB        CALL SCAN TABLE AGAIN             00167803
+         BZ    LOOP1                  CHECK IF TRANSLATE FAILS          00167903
+         LR    3,1                    LOAD 3 WITH FIRST VALUE           00168003
+         TRT   0(80,1),SPACES         SCAN TILL FIND A SPACE            00168103
+         LR    4,1                    LOAD LAST VALUE WITH R4           00168203
+         SR    4,3                    SUBTACT TO FIND LENGTH            00168303
+         BCTR  4,0                                                      00168400
+         EX    4,ESCORE               CALL SCORE INSTRUCTION            00168503
+         TRT   0(80,1),SCANTAB        CALL SCAN TABLE AGAIN             00168703
+         BZ    LOOP1                  CHECK IF TRANSLATE FAILS          00168803
+         LR    3,1                    LOAD 3 WITH FIRST VALUE           00168903
+         TRT   0(80,1),SPACES         SCAN TILL FIND A SPACE            00169003
+         LR    4,1                    LOAD LAST VALUE WITH R4           00169104
+         SR    4,3                    SUBTACT TO FIND LENGTH            00169204
+         BCTR  4,0                                                      00169300
+         MVC   DATETEM(2),0(3)        COPY FIRST 2 VALUES OF DATE       00170304
+         MVC   DATETEM+2(2),3(3)      COPY NEXT 2 VALUES OF DATE        00170504
+         MVC   DATETEM+4(4),6(3)      COPY NEXT 4 VALUES OF DATE        00170704
+         PACK  DATE(5),DATETEM        PACK EVERYTHING TOGETHER          00170904
+         LA    7,32(0,7)              GO TO NEXT LINE                   00171104
+         B     LOOP1                                                    00171200
+END      LR    0,7                    CHANGED THE STORE EOT INTO R0     00171304
+         L     13,4(,13)                                                00171400
+         LM    14,15,12(13)           EXIT LINKAGE                      00171504
+         LM    1,12,24(13)                                              00171600
+         BR    14                                                       00171700
+         LTORG                                                          00171800
+*                                                                       00171900
+IDTEMP   DS    D                      TEMP DOUBLE WORD FOR PACKING ID   00172104
+EFNAME   MVC   FNAME(0),0(3)          EX INSTRUCTION FOR FNAME          00172204
+ELNAME   MVC   LNAME(0),0(3)          EX INSTRUCTION FOR LNAME          00172304
+ESCORE   PACK  SCORE(3),0(1,3)        EX INSTRUCTION FOR SCORE          00172404
+SCANTAB  DC    256X'00'                                                 00172800
+         ORG   SCANTAB+C'A'           SCAN TABLE                        00172904
+         DC    9X'01'                 FIND A-I                          00173004
+         ORG                                                            00173100
+         ORG   SCANTAB+C'J'                                             00173200
+         DC    9X'01'                 FIND J-R                          00173305
+         ORG                                                            00173400
+         ORG   SCANTAB+C'S'                                             00173500
+         DC    8X'01'                 FIND S-Z                          00173605
+         ORG                                                            00173700
+         ORG   SCANTAB+C'a'                                             00173800
+         DC    9X'01'                 FIND a-i                          00173905
+         ORG                                                            00174000
+         ORG   SCANTAB+C'j'                                             00174100
+         DC    9X'01'                 FIND j-r                          00174205
+         ORG                                                            00174300
+         ORG   SCANTAB+C's'                                             00174400
+         DC    9X'01'                 FIND s-z                          00174505
+         ORG                                                            00174600
+         ORG   SCANTAB+C'0'                                             00174700
+         DC    10X'01'                FIND 0-9                          00174805
+         ORG                                                            00174900
+SPACES   DC    256X'00'                                                 00175000
+         ORG   SPACES+X'40'           FIND ALL SPACES                   00175105
+         DC    X'01'                                                    00175200
+         ORG                                                            00175300
+*                                                                       00175400
+LOWER    DC    256C' '                LOOK FOR LOWER CASE LETTERS       00175508
+         ORG   LOWER+C'a'             FIND a-i                          00175608
+         DC    CL9'abcdefghi'         SET IT TO LOWERCASE               00175708
+         ORG                                                            00175808
+         ORG   LOWER+C'j'             FIND j-r                          00175908
+         DC    CL9'jklmnopqr'         SET IT TO LOWERCASE               00176008
+         ORG                                                            00176108
+         ORG   LOWER+C's'             FIND s-z                          00176208
+         DC    CL8'stuvwxyz'          SET IT TO LOWERCASE               00176308
+         ORG                                                            00176408
+         ORG   LOWER+C'A'             FIND A-I                          00176508
+         DC    CL9'abcdefghi'         SET IT TO LOWERCASE               00176608
+         ORG                                                            00176708
+         ORG   LOWER+C'J'             FIND J-R                          00176808
+         DC    CL9'jklmnopqr'         SET IT TO LOWERCASE               00176908
+         ORG                                                            00177008
+         ORG   LOWER+C'S'             FIND S-Z                          00177108
+         DC    CL8'stuvwxyz'          SET IT TO LOWERCASE               00177208
+         ORG                                                            00177308
+*                                                                       00177400
+UPPER    DC    256X'00'                                                 00177500
+         ORG   UPPER+C'a'             SETS ALL VALUES TO UPPERCASE      00177606
+         DC    CL9'ABCDEFGHI'         SET TO UPPERCASE                  00177709
+         ORG                                                            00177809
+         ORG   UPPER+C'j'             FIND j-r                          00177909
+         DC    CL9'JKLMNOPQR'         SET TO UPPERCASE                  00178009
+         ORG                                                            00178109
+         ORG   UPPER+C's'             FIND s-z                          00178209
+         DC    CL8'STUVWXYZ'          SET TO UPPERCASE                  00178309
+         ORG                                                            00178409
+         ORG   UPPER+C'A'             FIND A-I                          00178509
+         DC    CL9'ABCDEFGHI'         SET TO UPPERCASE                  00178609
+         ORG                                                            00178709
+         ORG   UPPER+C'J'             FIND J-R                          00178809
+         DC    CL9'JKLMNOPQR'         SET TO UPPERCASE                  00178909
+         ORG                                                            00179009
+         ORG   UPPER+C'S'             FIND S-Z                          00179109
+         DC    CL8'STUVWXYZ'          SET TO UPPERCASE                  00179209
+         ORG                                                            00179309
+*                                                                       00179400
+DATETEM  DS    D'0'                   DOUBLE TEMP FOR DATE              00179507
+BUILDSAV DS    18F                                                      00179600
+*********************************************************               00179700
+PRINT    CSECT                                                          00179800
+         STM   14,12,12(13)                                             00179900
+         LR    12,15                                                    00180000
+         USING PRINT,12               ENTRY LINKAGE                     00180100
+         USING ENTRY,7                                                  00180200
+         LA    14,PRINTSAV                                              00180300
+         ST    13,4(,14)                                                00180400
+         ST    14,8(,13)                                                00180500
+         LR    13,14                                                    00180600
+*                                                                       00180700
+         LM    7,8,0(1)                                                 00180800
+         XPRNT HEADER,70                                                00180910
+         CR    7,8                    IF AT EOT                         00181100
+         BC    B'1000',END2           LEAVE                             00181200
+PLOOP    L     11,ID                  LOAD BINARV VALUE FOR ID          00181510
+         CVD   11,PIDTEMP             CONVERT TO DECIMAL IN PIDTEMP     00181610
+         MVC   PID(10),=X'40212020202020202020'  FORMAT FOR GETTING ID  00181710
+         ED    PID(10),PIDTEMP+3                                        00181800
+         MVC   PLNAME(10),LNAME       COPY LAST NAME                    00182000
+         MVC   PFNAME(10),FNAME       COPY FIRST NAME                   00182100
+         MVC   PSCORE(7),=X'402020202020' FORMAT FOR SCORE              00182210
+         ED    PSCORE(7),SCORE            COPY SCORE                    00182300
+         MVC   PDATE(14),=X'40202020612020612020202020'  DD/MM/YYYY     00182507
+         ED    PDATE(14),DATE            COPY DATE                      00182700
+         XPRNT PLINE,78               PRINT THE ID,NAMES,SCORE,DATE     00182810
+         LA    7,32(0,7)              GO TO NEXT ADDRESS                00183200
+         CR    7,8                    SEE IF EOT                        00183300
+         BC    B'1010',END2           END IF SO                         00183400
+         BC    B'1111',PLOOP          OTEHRWISE GO BACK TO MAIN LOOP    00183510
+END2     L     13,4(,13)                                                00184110
+         LM    14,12,12(13)           EXIT LINKAGE                      00184210
+         BR    14                                                       00184310
+         LTORG                                                          00184410
+*                                                                       00184600
+HEADER   DC    C' '                   HEADER FOR PRINTING               00184711
+         DC    CL9'ID NUMBER'                                           00184800
+         DC    7C' '                                                    00184911
+         DC    CL10'LAST NAME'                                          00185011
+         DC    8C' '                                                    00185111
+         DC    CL10'FIRST NAME'                                         00185200
+         DC    9C' '                                                    00185311
+         DC    CL5'SCORE'                                               00185400
+         DC    7C' '                                                    00185500
+         DC    CL4'DATE'                                                00185600
+PIDTEMP  DS    D                      TEMP VALUE FOR PRINTING ID        00185711
+PLINE    DC    C' '                   PRINT LINE                        00185811
+PID      DS    CL8                                                      00185911
+         DC    8C' '                                                    00186011
+PLNAME   DS    CL10                                                     00186111
+         DC    8C' '                                                    00186211
+PFNAME   DS    CL10                                                     00186311
+         DC    8C' '                                                    00186411
+PSCORE   DS    PL3                                                      00186511
+         DC    8C' '                                                    00186611
+PDATE    DS    CL11                                                     00186800
+PAGELINE DC    CL7' PAGE '                                              00186900
+PAGENUM  DC    F'1'                                                     00187000
+PRINTSAV DS    18F                                                      00187100
+********************************************************                00187200
+UPDATE   CSECT                                                          00187300
+         STM   14,12,12(13)                                             00187400
+         LR    12,15                                                    00187500
+         USING UPDATE,12              ENTRY LINKAGE                     00187600
+         USING ENTRY,7                                                  00187700
+         LA    14,UPDATESA                                              00187900
+         ST    13,4(,14)                                                00188000
+         ST    14,8(,13)                                                00188100
+         LR    13,14                                                    00188200
+*                                                                       00188300
+         LM    7,9,0(1)               LOAD PLIST                        00188407
+         LR    10,8                   LOAD EOT INTO R10                 00188507
+         LR    5,7                    LOAD TABLE INTO R5                00188607
+ULOOP1   XREAD 0(0,9),80              READ CARD                         00188707
+         BC    B'0100',UEND           IF END OF CARD STOP               00188807
+         LA    1,0(0,9)               LOAD CARD INTO R1                 00188907
+         TRT   0(80,1),SCANTAB2       CALL SCAN TABLE AGAIN             00189007
+         BC    B'1000',ULOOP1         CHECK IF TRANSLATE FAILS          00189107
+         LR    3,1                    LOAD 3 WITH FIRST VALUE INTO R3   00189207
+         TRT   0(80,1),SPACES2        SCAN TILL FIND A SPACE            00189307
+         LR    4,1                    LOAD LAST VALUE WITH R4           00189407
+         SR    4,3                    SUBTACT TO FIND LENGTH            00189507
+         BCTR  4,0                                                      00189600
+         PACK  IDTAB2D(8),0(8,3)      PACK THE ID NUMBER                00189707
+         CVB   11,IDTAB2D             CONVERT ID TO BINARY              00189807
+         ST    11,IDTAB2F             STORE IDTAB INTO R11              00189907
+ULOOP2   C     11,ID                  COMPARE R11 TO ID                 00190007
+         BC    B'0110',NEXTID                                           00190300
+         L     6,=F'1'                                                  00190400
+         TRT   0(80,1),SCANTAB2       CALL SCAN TABLE AGAIN             00190707
+         BC    B'1000',ULOOP1         CHECK IF TRANSLATE FAILS          00190807
+         LR    3,1                    LOAD 3 WITH FIRST VALUE           00190907
+         TRT   0(80,1),SPACES2        SCAN TILL FIND A SPACE            00191007
+         LR    4,1                    LOAD LAST VALUE WITH R4           00191107
+         SR    4,3                    SUBTACT TO FIND LENGTH            00191207
+         BCTR  4,0                                                      00191300
+         MVC   DATETEM2(2),0(3)       COPY FIRST 2 DIGITS OF DATE       00191407
+         MVC   DATETEM2+2(2),3(3)     COPY NEXT 2 DIGITS OF DATE        00191507
+         MVC   DATETEM2+4(4),6(3)     COPY YEAR                         00191607
+         TRT   0(80,1),SCANTAB2       CALL SCAN TABLE AGAIN             00192607
+         BC    B'1000',ULOOP1         CHECK IF TRANSLATE FAILS          00192707
+         LR    3,1                    LOAD 3 WITH FIRST VALUE           00192807
+         TRT   0(80,1),SPACES2        SCAN TILL FIND A SPACE            00192907
+         LR    4,1                    LOAD LAST VALUE WITH R4           00193007
+         SR    4,3                    SUBTACT TO FIND LENGTH            00193107
+         BCTR  4,0                                                      00193200
+         EX    4,UESCORE              EXECUTE SCORE                     00193307
+         CP    USCORE,SCORE           COMPARE SCORE WITH USCORE         00193407
+         BC    B'1100',PEQUAL         IF EQUAL OR LOWER, RESTART        00193507
+         BC    B'1111',JUMP1          ELSE JUMP                         00193607
+PEQUAL   XPRNT =C' Not changed whatsoever',22   IF SCORE NOT CHANGED    00193712
+         B     NEXTU                                                    00193800
+JUMP1    BC    B'0010',PHIGH          IF SCORE IS HIGHER                00193907
+         XPRNT =C' Not found',10      IF SCORE IS NOT FOUND             00194007
+         B     NEXTID                                                   00194100
+PHIGH    XPRNT =C' Score Updated',13  IF SCORE is higher update         00194207
+         PACK  DATE(5),DATETEM2       COPY THE DATE OVER                00194607
+         B     NEXTU                                                    00195000
+NEXTID   LA    7,32(0,7)              NEXT LINE IN TABLE                00195107
+         CR    7,10                   COMPARE TABLE TO EOT              00195207
+         BC    B'1010',NEXTU                                            00195300
+         B     ULOOP2                                                   00195400
+NEXTU    C     6,=F'0'                BOOL STATEMENT                    00195507
+         BE    PRINTNF                0 = NOT FOUND                     00195607
+         L     6,=F'0'                1 MEANS FOUND                     00195707
+         B     JUMP3                                                    00195800
+PRINTNF  XPRNT =C' Not found',10                                        00195900
+JUMP3    LA    8,32(0,8)              NEXT LINE OF UPDATE SCORE         00196007
+         LR    7,5                    LOAD BEGINING OF TABLE INTO R7    00196107
+         B     ULOOP1                                                   00196200
+*                                                                       00196300
+UEND     L     13,4(,13)                                                00196400
+         LM    14,12,12(13)           EXIT                              00196507
+         BR    14                                                       00196600
+         LTORG                                                          00196700
+UESCORE  PACK  USCORE(3),0(1,3)       EXECUTE FOR SCORE                 00196807
+SCANTAB2 DC    256X'00'                                                 00196900
+         ORG   SCANTAB2+C'A'                                            00197000
+         DC    9X'01'                                                   00197100
+         ORG                                                            00197200
+         ORG   SCANTAB2+C'J'                                            00197300
+         DC    9X'01'                 SAME TABLE AS THE PRINT SCANTAB   00197407
+         ORG                                                            00197500
+         ORG   SCANTAB2+C'S'                                            00197600
+         DC    8X'01'                                                   00197700
+         ORG                                                            00197800
+         ORG   SCANTAB2+C'a'                                            00197900
+         DC    9X'01'                                                   00198000
+         ORG                                                            00198100
+         ORG   SCANTAB2+C'j'                                            00198200
+         DC    9X'01'                                                   00198300
+         ORG                                                            00198400
+         ORG   SCANTAB2+C's'                                            00198500
+         DC    9X'01'                                                   00198600
+         ORG                                                            00198700
+         ORG   SCANTAB2+C'0'                                            00198800
+         DC    10X'01'                                                  00198900
+         ORG                                                            00199000
+SPACES2  DC    256X'00'                                                 00199100
+         ORG   SPACES2+X'40'          SAME TABLE AS SPACES FROM PRINT   00199207
+         DC    X'01'                                                    00199300
+         ORG                                                            00199400
+*                                                                       00199500
+*                                                                       00199600
+BOOL     DC    F'0'                   BOOL VARIABLE                     00200007
+CRG      DC    C' '                                                     00202100
+TEMPP    DS    F                                                        00202200
+USCORE   DS    PL3                                                      00202300
+IDTAB2D  DS    D                      TEMP DOUBLE WORD FOR ID           00202407
+IDTAB2F  DS    F                                                        00202500
+DATETEM2 DS    D'0'                                                     00202600
+UPDATESA DS    18F                                                      00202700
+*********************************************************               00202800
+        END   ASSIGN7                                                   00202900
+*/                                                                      00203000
+//FT05F001  DD  DSN=KC02314.SPRING19.CSCI360.HW7DATA,DISP=SHR           00203100
+//                                                                      00204000
+*                                                                       00210000

@@ -1,0 +1,76 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 15.08.47 JOB00351 ---- WEDNESDAY, 16 JAN 2019 ----
+ 15.08.47 JOB00351  IRR010I  USERID KC03E59  IS ASSIGNED TO THIS JOB.
+ 15.08.47 JOB00351  ICH70001I KC03E59  LAST ACCESS AT 14:58:37 ON WEDNESDAY, JANUARY 16, 2019
+ 15.08.47 JOB00351  $HASP373 KC03E59A STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 15.08.47 JOB00351  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 15.08.47 JOB00351  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 15.08.47 JOB00351  -KC03E59A                      00     36 ******    .00     .0     75   0      0      0      0     0
+ 15.08.47 JOB00351  -KC03E59A ENDED.  NAME-Ryan Llamas          TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 15.08.47 JOB00351  $HASP395 KC03E59A ENDED
+0------ JES2 JOB STATISTICS ------
+-  16 JAN 2019 JOB EXECUTION DATE
+-           26 CARDS READ
+-           76 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-            6 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03E59A JOB ,'Ryan Llamas',MSGCLASS=H                                JOB00351
+         2 //STEP1 EXEC PGM=ASSIST                                                 00020000
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+         4 //SYSPRINT DD SYSOUT=*                                                  00040000
+         5 //SYSIN DD *                                                            00050000
+ ICH70001I KC03E59  LAST ACCESS AT 14:58:37 ON WEDNESDAY, JANUARY 16, 2019
+ IEF236I ALLOC. FOR KC03E59A STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF142I KC03E59A STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03E59.KC03E59A.JOB00351.D0000102.?         SYSOUT        
+ IEF285I   KC03E59.KC03E59A.JOB00351.D0000101.?         SYSIN         
+ IEF373I STEP/STEP1   /START 2019016.1508
+ IEF032I STEP/STEP1   /STOP  2019016.1508 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        0K  SYS:    11360K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03E59A/START 2019016.1508
+ IEF033I  JOB/KC03E59A/STOP  2019016.1508 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ****************************************************                    00060000         
+                                       2 * EXAMPLE PROGRAM                                                       00070000         
+                                       3 *                                                                       00071000         
+                                       4 *                                                                       00072000         
+                                       5 * NAME: Ryan Llamas                                                     00080000         
+                                       6 *                                                                       00090000         
+                                       7 * Register Usage                                                        00100000         
+                                       8 *                                                                       00110000         
+                                       9 * 2    Total                                                            00120000         
+                                      10 * 6    Counter                                                          00130000         
+                                      11 * 15   Base register                                                    00140000         
+                                      12 *                                                                       00150000         
+                                      13 ********************************************************                00160000         
+ 000000                               14 MAIN     CSECT                                                          00170000         
+ 000000                               15          USING MAIN,15                                                  00180000         
+ 000000 1B22                          16          SR    2,2     Total = ZERO                                     00190000         
+ 000002 1B66                          17          SR    6,6     Counter = ZERO                                   00200000         
+ 000004 E160 0000 0000 00000          18          XDUMP                                                          00210000         
+ 00000A 07FE                          19          BR    14                                                       00220000         
+                                      20          END   MAIN                                                     00230000         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:     348 HIGH:     320 LEAVING:  492900 FREE BYTES. AVERAGE:       31 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,    21000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+0BEGIN XSNAP - CALL     1 AT C000000A USER REGISTERS                                                                              
+0 REGS 0-7      F4F4F4F4    F4F4F4F4    00000000    F4F4F4F4    F4F4F4F4    F4F4F4F4    00000000    F4F4F4F4                      
+  REGS 8-15     F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    00000010    FFFE7960    00000000                      
+0                                                                                                                                 
+0*** EXECUTION TIME =    0.000 SECS.         4 INSTRUCTIONS EXECUTED -     4000 INSTRUCTIONS/SEC ***                              
+0*** FIRST CARD NOT READ: NO CARDS READ:FILE UNOPENED                                                                             
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

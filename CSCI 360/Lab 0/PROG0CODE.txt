@@ -1,0 +1,27 @@
+//KC03E59A JOB ,'Ryan Llamas',MSGCLASS=H                                00010001
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+****************************************************                    00060000
+* EXAMPLE PROGRAM                                                       00070000
+*                                                                       00071000
+*                                                                       00072000
+* NAME: Ryan Llamas                                                     00080000
+*                                                                       00090000
+* Register Usage                                                        00100000
+*                                                                       00110000
+* 2    Total                                                            00120000
+* 6    Counter                                                          00130000
+* 15   Base register                                                    00140000
+*                                                                       00150000
+********************************************************                00160000
+MAIN     CSECT                                                          00170000
+         USING MAIN,15                                                  00180000
+         SR    2,2     Total = ZERO                                     00190000
+         SR    6,6     Counter = ZERO                                   00200000
+         XDUMP                                                          00210000
+         BR    14                                                       00220000
+         END   MAIN                                                     00230000
+/*                                                                      00240000
+//                                                                      00250000

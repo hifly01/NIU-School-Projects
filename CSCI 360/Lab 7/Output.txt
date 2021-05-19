@@ -1,0 +1,536 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 20.24.42 JOB04917 ---- TUESDAY,   09 APR 2019 ----
+ 20.24.42 JOB04917  IRR010I  USERID KC03E59  IS ASSIGNED TO THIS JOB.
+ 20.24.42 JOB04917  ICH70001I KC03E59  LAST ACCESS AT 20:21:30 ON TUESDAY, APRIL 9, 2019
+ 20.24.42 JOB04917  $HASP373 KCO3D45A STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 20.24.43 JOB04917  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 20.24.43 JOB04917  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 20.24.43 JOB04917  -KCO3D45A                      00    100 ******    .00     .0    377   0      0      0      0     0
+ 20.24.43 JOB04917  -KCO3D45A ENDED.  NAME-CHARLES ALMS         TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 20.24.43 JOB04917  $HASP395 KCO3D45A ENDED
+0------ JES2 JOB STATISTICS ------
+-  09 APR 2019 JOB EXECUTION DATE
+-          387 CARDS READ
+-          536 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           58 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KCO3D45A JOB ,'CHARLES ALMS',MSGCLASS=H                               JOB04917
+         2 //STEP1 EXEC PGM=ASSIST                                                 00020000
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+         4 //SYSPRINT DD SYSOUT=*                                                  00040000
+         5 //SYSIN DD *                                                            00050000
+         6 //FT05F001  DD  DSN=KC02314.SPRING19.CSCI360.HW7DATA,DISP=SHR           00203100
+ ICH70001I KC03E59  LAST ACCESS AT 20:21:30 ON TUESDAY, APRIL 9, 2019
+ IEF236I ALLOC. FOR KCO3D45A STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KCO3D45A STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03E59.KCO3D45A.JOB04917.D0000102.?         SYSOUT        
+ IEF285I   KC03E59.KCO3D45A.JOB04917.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING19.CSCI360.HW7DATA             RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2019099.2024
+ IEF032I STEP/STEP1   /STOP  2019099.2024 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   272K  EXT:        4K  SYS:    11596K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KCO3D45A/START 2019099.2024
+ IEF033I  JOB/KCO3D45A/STOP  2019099.2024 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *********************************************************               00060000         
+                                       2 *Example Program                                                        00070000         
+                                       3 *NAME: Charles Alms z1797837, partner Ryan LLamas z1850256              00080000         
+                                       4 *Registers:    1 WILL HOLD PARMLIST                                     00090000         
+                                       5 *                                                                       00100000         
+                                       6 *                                                                       00110000         
+                                       7 *                                                                       00120000         
+                                       8 *                                                                       00130000         
+                                       9 *********************************************************               00140000         
+ 000000                               10 ENTRY    DSECT                        DSECT FOR THE TABLE               00150000         
+ 000000 00000000                      11 ID       DC    F'0'                                                     00152000         
+ 000004                               12 FNAME    DS    10C                                                      00153000         
+ 00000E                               13 LNAME    DS    10C                                                      00154000         
+ 000018                               14 SCORE    DS    PL3                                                      00154200         
+ 00001B                               15 DATE     DS    PL5                                                      00154400         
+                                      16 *********************************************************               00155000         
+ 000000                               17 ASSIGN7  CSECT                                                          00156000         
+ 000000 90EC D00C            0000C    18          STM   14,12,12(13)                                             00157000         
+ 000004 18CF                          19          LR    12,15                                                    00158000         
+ 000000                               20          USING ASSIGN7,12             ENTRY LINKAGE                     00159000         
+ 000006 41E0 C704            00704    21          LA    14,SAVE                                                  00159100         
+ 00000A 50D0 E004            00004    22          ST    13,4(,14)                                                00159200         
+ 00000E 50E0 D008            00008    23          ST    14,8(,13)                                                00159300         
+ 000012 18DE                          24          LR    13,14                                                    00159400         
+                                      25 *                                                                       00159500         
+ 000014 4110 C6F8            006F8    26          LA    1,PLIST                LOAD PLIST INTO R1                00159600         
+ 000018 41A0 C0B4            000B4    27          LA    10,TABLE               LOAD TABLE INTO R10               00159700         
+ 00001C 58F0 C058            00058    28          L     15,=V(BUILD)           CALL BUILD                        00159800         
+ 000020 05EF                          29          BALR  14,15                                                    00159900         
+                                      30 *                                                                       00160000         
+ 000022 50A0 1000            00000    31          ST    10,0(0,1)              STORE TABLE INTO PARAMLIST        00160100         
+ 000026 5000 1004            00004    32          ST    0,4(0,1)               STORE EOT INTO PARAMLIST          00160200         
+ 00002A 58B0 1004            00004    33          L     11,4(0,1)              LOAD THE EOT INTO R11             00160300         
+                                      34 *                                                                       00160500         
+ 00002E 58F0 C05C            0005C    35          L     15,=V(PRINT)           CALL PRINT                        00160600         
+ 000032 05EF                          36          BALR  14,15                                                    00160700         
+                                      37 *                                                                       00160800         
+ 000034 50A0 1000            00000    38          ST    10,0(0,1)              RESET TABLE ADDRESS               00160900         
+ 000038 58F0 C060            00060    39          L     15,=V(UPDATE)          CALL UPDATE                       00161000         
+ 00003C 05EF                          40          BALR  14,15                                                    00161100         
+                                      41 *                                                                       00161200         
+ 00003E 50A0 1000            00000    42          ST    10,0(0,1)              RESET TABLE                       00161300         
+ 000042 50B0 1004            00004    43          ST    11,4(0,1)              STORE EOT INTO R11                00161400         
+ 000046 58F0 C05C            0005C    44          L     15,=V(PRINT)           CALL PRINT AGAIN                  00161500         
+ 00004A 05EF                          45          BALR  14,15                                                    00161600         
+                                      46 *                                                                       00161700         
+ 00004C 58D0 D004            00004    47          L     13,4(,13)              EXIT                              00161800         
+ 000050 98EC D00C            0000C    48          LM    14,12,12(13)                                             00161900         
+ 000054 07FE                          49          BR    14                                                       00162000         
+                                      50          LTORG                                                          00162100         
+ 000058 00000750                      51                =V(BUILD)                                                                 
+ 00005C 00000CD0                      52                =V(PRINT)                                                                 
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000060 00000E60                      53                =V(UPDATE)                                                                
+ 000064                               54 CARD     DS    CL80                                                     00162200         
+ 0000B4                               55 TABLE    DS    50CL32                                                   00162300         
+ 0006F4                               56 TABLEEND DS    0H                                                       00162400         
+ 0006F4 000000B4                      57 EOT      DC    A(TABLE)                                                 00162500         
+ 0006F8 000000B4                      58 PLIST    DC    A(TABLE)               PARAMETER LIST                    00162602         
+ 0006FC 000006F4                      59          DC    A(EOT)                 HOLDS THE TABLE,                  00162702         
+ 000700 00000064                      60          DC    A(CARD)                EOT, CARD                         00162802         
+ 000704                               61 SAVE     DS    18F                                                      00162900         
+                                      62 ********************************************************                00163000         
+ 000750                               63 BUILD    CSECT                                                          00163100         
+ 000750 90EC D00C            0000C    64          STM   14,12,12(13)                                             00163200         
+ 000754 18CF                          65          LR    12,15                                                    00163300         
+ 000750                               66          USING BUILD,12               ENTRY LINKAGE                     00163400         
+ 000000                               67          USING ENTRY,7                                                  00163500         
+ 000756 41E0 C538            00C88    68          LA    14,BUILDSAV                                              00163600         
+ 00075A 50D0 E004            00004    69          ST    13,4(,14)                                                00163700         
+ 00075E 50E0 D008            00008    70          ST    14,8(,13)                                                00163800         
+ 000762 18DE                          71          LR    13,14                                                    00163900         
+                                      72 *                                                                       00164000         
+ 000764 9879 1000            00000    73          LM    7,9,0(1)               LOAD PARAMLIST                    00164102         
+ 000768 E000 9000 0050 00000          74 LOOP1    XREAD 0(0,9),80              READ THE CARD                     00164202         
+ 00076E 4740 C0F8            00848    75          BC    B'0100',END            IF END OF CARD STOP               00164302         
+ 000772 4110 9000            00000    76          LA    1,0(0,9)               LOAD R1 WITH ADDRESS OF CARD      00164402         
+ 000776 DD4F 1000 C12A 00000 0087A    77          TRT   0(80,1),SCANTAB        CALL SCANTABLE                    00164502         
+ 00077C 4780 C018            00768    78          BC    B'1000',LOOP1                                            00164600         
+ 000780 1831                          79          LR    3,1                    LOAD 3 WITH FIRST VALUE           00164702         
+ 000782 DD4F 1000 C22A 00000 0097A    80          TRT   0(80,1),SPACES         SCAN TILL FIND A SPACE            00164802         
+ 000788 1841                          81          LR    4,1                    LOAD LAST VALUE WITH R4           00164902         
+ 00078A 1B43                          82          SR    4,3                    SUBTACT TO FIND LENGTH            00165002         
+ 00078C 0640                          83          BCTR  4,0                                                      00165100         
+ 00078E F277 C110 3000 00860 00000    84          PACK  IDTEMP(8),0(8,3)       PACK THE ID                       00165202         
+ 000794 4FB0 C110            00860    85          CVB   11,IDTEMP              CONVERT TO BINARY                 00165302         
+ 000798 50B0 7000            00000    86          ST    11,ID                  STORY IT N R11                    00165402         
+ 00079C 59B0 C108            00858    87          C     11,=X'5F5E0FF'         IF ID=99999999 END                00165602         
+ 0007A0 4780 C0F8            00848    88          BE    END                    SCAN FOR NEXT LETTER              00165702         
+ 0007A4 DD4F 1000 C12A 00000 0087A    89          TRT   0(80,1),SCANTAB        CHECKS IF TRANSLATE FAILS         00165802         
+ 0007AA 4780 C018            00768    90          BZ    LOOP1                  LOAD TEH ADDRESS OF FIRST VALUE   00165902         
+ 0007AE 1831                          91          LR    3,1                    INTO R3                           00166002         
+ 0007B0 DD4F 1000 C22A 00000 0097A    92          TRT   0(80,1),SPACES         LOAD LAST VALUE INTO R4           00166102         
+ 0007B6 1841                          93          LR    4,1                    SUBTRACT FOR LENGTH               00166202         
+ 0007B8 1B43                          94          SR    4,3                                                      00166300         
+ 0007BA 0640                          95          BCTR  4,0                                                      00166400         
+ 0007BC 4440 C118            00868    96          EX    4,EFNAME               CALL FNAME INSTRUCTION            00166503         
+ 0007C0 DC09 7004 C32A 00004 00A7A    97          TR    FNAME(10),LOWER        MAKE EVERYTHING LOWERCASE         00166603         
+ 0007C6 DC00 7004 C42A 00004 00B7A    98          TR    FNAME(1),UPPER         MAKE FIRST VALUE UPPER CASE       00166703         
+ 0007CC DD4F 1000 C12A 00000 0087A    99          TRT   0(80,1),SCANTAB        CALL SCAN TABLE AGAIN             00166803         
+ 0007D2 4780 C018            00768   100          BZ    LOOP1                                                    00166900         
+ 0007D6 1831                         101          LR    3,1                    LOAD 3 WITH FIRST VALUE           00167003         
+ 0007D8 DD4F 1000 C22A 00000 0097A   102          TRT   0(80,1),SPACES         SCAN TILL FIND A SPACE            00167103         
+ 0007DE 1841                         103          LR    4,1                    LOAD LAST VALUE WITH R4           00167203         
+ 0007E0 1B43                         104          SR    4,3                    SUBTACT TO FIND LENGTH            00167303         
+ 0007E2 0640                         105          BCTR  4,0                    CHECK IF TRANSLATE FAILS          00167403         
+ 0007E4 4440 C11E            0086E   106          EX    4,ELNAME               CALL LNAME INSTRUCTION            00167503         
+ 0007E8 DC09 700E C32A 0000E 00A7A   107          TR    LNAME(10),LOWER        MAKE EVERYTHING LOWERCASE         00167603         
+ 0007EE DC00 700E C42A 0000E 00B7A   108          TR    LNAME(1),UPPER         MAKE FIRST VALUE UPPER CASE       00167703         
+ 0007F4 DD4F 1000 C12A 00000 0087A   109          TRT   0(80,1),SCANTAB        CALL SCAN TABLE AGAIN             00167803         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0007FA 4780 C018            00768   110          BZ    LOOP1                  CHECK IF TRANSLATE FAILS          00167903         
+ 0007FE 1831                         111          LR    3,1                    LOAD 3 WITH FIRST VALUE           00168003         
+ 000800 DD4F 1000 C22A 00000 0097A   112          TRT   0(80,1),SPACES         SCAN TILL FIND A SPACE            00168103         
+ 000806 1841                         113          LR    4,1                    LOAD LAST VALUE WITH R4           00168203         
+ 000808 1B43                         114          SR    4,3                    SUBTACT TO FIND LENGTH            00168303         
+ 00080A 0640                         115          BCTR  4,0                                                      00168400         
+ 00080C 4440 C124            00874   116          EX    4,ESCORE               CALL SCORE INSTRUCTION            00168503         
+ 000810 DD4F 1000 C12A 00000 0087A   117          TRT   0(80,1),SCANTAB        CALL SCAN TABLE AGAIN             00168703         
+ 000816 4780 C018            00768   118          BZ    LOOP1                  CHECK IF TRANSLATE FAILS          00168803         
+ 00081A 1831                         119          LR    3,1                    LOAD 3 WITH FIRST VALUE           00168903         
+ 00081C DD4F 1000 C22A 00000 0097A   120          TRT   0(80,1),SPACES         SCAN TILL FIND A SPACE            00169003         
+ 000822 1841                         121          LR    4,1                    LOAD LAST VALUE WITH R4           00169104         
+ 000824 1B43                         122          SR    4,3                    SUBTACT TO FIND LENGTH            00169204         
+ 000826 0640                         123          BCTR  4,0                                                      00169300         
+ 000828 D201 C530 3000 00C80 00000   124          MVC   DATETEM(2),0(3)        COPY FIRST 2 VALUES OF DATE       00170304         
+ 00082E D201 C532 3003 00C82 00003   125          MVC   DATETEM+2(2),3(3)      COPY NEXT 2 VALUES OF DATE        00170504         
+ 000834 D203 C534 3006 00C84 00006   126          MVC   DATETEM+4(4),6(3)      COPY NEXT 4 VALUES OF DATE        00170704         
+ 00083A F247 701B C530 0001B 00C80   127          PACK  DATE(5),DATETEM        PACK EVERYTHING TOGETHER          00170904         
+ 000840 4170 7020            00020   128          LA    7,32(0,7)              GO TO NEXT LINE                   00171104         
+ 000844 47F0 C018            00768   129          B     LOOP1                                                    00171200         
+ 000848 1807                         130 END      LR    0,7                    CHANGED THE STORE EOT INTO R0     00171304         
+ 00084A 58D0 D004            00004   131          L     13,4(,13)                                                00171400         
+ 00084E 98EF D00C            0000C   132          LM    14,15,12(13)           EXIT LINKAGE                      00171504         
+ 000852 981C D018            00018   133          LM    1,12,24(13)                                              00171600         
+ 000856 07FE                         134          BR    14                                                       00171700         
+                                     135          LTORG                                                          00171800         
+ 000858 05F5E0FF                     136                =X'5F5E0FF'                                                               
+                                     137 *                                                                       00171900         
+ 000860                              138 IDTEMP   DS    D                      TEMP DOUBLE WORD FOR PACKING ID   00172104         
+ 000868 D200 7004 3000 00004 00000   139 EFNAME   MVC   FNAME(0),0(3)          EX INSTRUCTION FOR FNAME          00172204         
+ 00086E D200 700E 3000 0000E 00000   140 ELNAME   MVC   LNAME(0),0(3)          EX INSTRUCTION FOR LNAME          00172304         
+ 000874 F220 7018 3000 00018 00000   141 ESCORE   PACK  SCORE(3),0(1,3)        EX INSTRUCTION FOR SCORE          00172404         
+ 00087A 0000000000000000             142 SCANTAB  DC    256X'00'                                                 00172800         
+ 00093B                              143          ORG   SCANTAB+C'A'           SCAN TABLE                        00172904         
+ 00093B 0101010101010101             144          DC    9X'01'                 FIND A-I                          00173004         
+ 00097A                              145          ORG                                                            00173100         
+ 00094B                              146          ORG   SCANTAB+C'J'                                             00173200         
+ 00094B 0101010101010101             147          DC    9X'01'                 FIND J-R                          00173305         
+ 00097A                              148          ORG                                                            00173400         
+ 00095C                              149          ORG   SCANTAB+C'S'                                             00173500         
+ 00095C 0101010101010101             150          DC    8X'01'                 FIND S-Z                          00173605         
+ 00097A                              151          ORG                                                            00173700         
+ 0008FB                              152          ORG   SCANTAB+C'a'                                             00173800         
+ 0008FB 0101010101010101             153          DC    9X'01'                 FIND a-i                          00173905         
+ 00097A                              154          ORG                                                            00174000         
+ 00090B                              155          ORG   SCANTAB+C'j'                                             00174100         
+ 00090B 0101010101010101             156          DC    9X'01'                 FIND j-r                          00174205         
+ 00097A                              157          ORG                                                            00174300         
+ 00091C                              158          ORG   SCANTAB+C's'                                             00174400         
+ 00091C 0101010101010101             159          DC    9X'01'                 FIND s-z                          00174505         
+ 00097A                              160          ORG                                                            00174600         
+ 00096A                              161          ORG   SCANTAB+C'0'                                             00174700         
+ 00096A 0101010101010101             162          DC    10X'01'                FIND 0-9                          00174805         
+ 00097A                              163          ORG                                                            00174900         
+ 00097A 0000000000000000             164 SPACES   DC    256X'00'                                                 00175000         
+ 0009BA                              165          ORG   SPACES+X'40'           FIND ALL SPACES                   00175105         
+ 0009BA 01                           166          DC    X'01'                                                    00175200         
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000A7A                              167          ORG                                                            00175300         
+                                     168 *                                                                       00175400         
+ 000A7A 4040404040404040             169 LOWER    DC    256C' '                LOOK FOR LOWER CASE LETTERS       00175508         
+ 000AFB                              170          ORG   LOWER+C'a'             FIND a-i                          00175608         
+ 000AFB 8182838485868788             171          DC    CL9'abcdefghi'         SET IT TO LOWERCASE               00175708         
+ 000B7A                              172          ORG                                                            00175808         
+ 000B0B                              173          ORG   LOWER+C'j'             FIND j-r                          00175908         
+ 000B0B 9192939495969798             174          DC    CL9'jklmnopqr'         SET IT TO LOWERCASE               00176008         
+ 000B7A                              175          ORG                                                            00176108         
+ 000B1C                              176          ORG   LOWER+C's'             FIND s-z                          00176208         
+ 000B1C A2A3A4A5A6A7A8A9             177          DC    CL8'stuvwxyz'          SET IT TO LOWERCASE               00176308         
+ 000B7A                              178          ORG                                                            00176408         
+ 000B3B                              179          ORG   LOWER+C'A'             FIND A-I                          00176508         
+ 000B3B 8182838485868788             180          DC    CL9'abcdefghi'         SET IT TO LOWERCASE               00176608         
+ 000B7A                              181          ORG                                                            00176708         
+ 000B4B                              182          ORG   LOWER+C'J'             FIND J-R                          00176808         
+ 000B4B 9192939495969798             183          DC    CL9'jklmnopqr'         SET IT TO LOWERCASE               00176908         
+ 000B7A                              184          ORG                                                            00177008         
+ 000B5C                              185          ORG   LOWER+C'S'             FIND S-Z                          00177108         
+ 000B5C A2A3A4A5A6A7A8A9             186          DC    CL8'stuvwxyz'          SET IT TO LOWERCASE               00177208         
+ 000B7A                              187          ORG                                                            00177308         
+                                     188 *                                                                       00177400         
+ 000B7A 0000000000000000             189 UPPER    DC    256X'00'                                                 00177500         
+ 000BFB                              190          ORG   UPPER+C'a'             SETS ALL VALUES TO UPPERCASE      00177606         
+ 000BFB C1C2C3C4C5C6C7C8             191          DC    CL9'ABCDEFGHI'         SET TO UPPERCASE                  00177709         
+ 000C7A                              192          ORG                                                            00177809         
+ 000C0B                              193          ORG   UPPER+C'j'             FIND j-r                          00177909         
+ 000C0B D1D2D3D4D5D6D7D8             194          DC    CL9'JKLMNOPQR'         SET TO UPPERCASE                  00178009         
+ 000C7A                              195          ORG                                                            00178109         
+ 000C1C                              196          ORG   UPPER+C's'             FIND s-z                          00178209         
+ 000C1C E2E3E4E5E6E7E8E9             197          DC    CL8'STUVWXYZ'          SET TO UPPERCASE                  00178309         
+ 000C7A                              198          ORG                                                            00178409         
+ 000C3B                              199          ORG   UPPER+C'A'             FIND A-I                          00178509         
+ 000C3B C1C2C3C4C5C6C7C8             200          DC    CL9'ABCDEFGHI'         SET TO UPPERCASE                  00178609         
+ 000C7A                              201          ORG                                                            00178709         
+ 000C4B                              202          ORG   UPPER+C'J'             FIND J-R                          00178809         
+ 000C4B D1D2D3D4D5D6D7D8             203          DC    CL9'JKLMNOPQR'         SET TO UPPERCASE                  00178909         
+ 000C7A                              204          ORG                                                            00179009         
+ 000C5C                              205          ORG   UPPER+C'S'             FIND S-Z                          00179109         
+ 000C5C E2E3E4E5E6E7E8E9             206          DC    CL8'STUVWXYZ'          SET TO UPPERCASE                  00179209         
+ 000C7A                              207          ORG                                                            00179309         
+                                     208 *                                                                       00179400         
+ 000C80                              209 DATETEM  DS    D'0'                   DOUBLE TEMP FOR DATE              00179507         
+ 000C88                              210 BUILDSAV DS    18F                                                      00179600         
+                                     211 *********************************************************               00179700         
+ 000CD0                              212 PRINT    CSECT                                                          00179800         
+ 000CD0 90EC D00C            0000C   213          STM   14,12,12(13)                                             00179900         
+ 000CD4 18CF                         214          LR    12,15                                                    00180000         
+ 000CD0                              215          USING PRINT,12               ENTRY LINKAGE                     00180100         
+ 000000                              216          USING ENTRY,7                                                  00180200         
+ 000CD6 41E0 C148            00E18   217          LA    14,PRINTSAV                                              00180300         
+ 000CDA 50D0 E004            00004   218          ST    13,4(,14)                                                00180400         
+ 000CDE 50E0 D008            00008   219          ST    14,8(,13)                                                00180500         
+ 000CE2 18DE                         220          LR    13,14                                                    00180600         
+                                     221 *                                                                       00180700         
+ 000CE4 9878 1000            00000   222          LM    7,8,0(1)                                                 00180800         
+ 000CE8 E020 C09D 0046 00D6D         223          XPRNT HEADER,70                                                00180910         
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000CEE 1978                         224          CR    7,8                    IF AT EOT                         00181100         
+ 000CF0 4780 C070            00D40   225          BC    B'1000',END2           LEAVE                             00181200         
+ 000CF4 58B0 7000            00000   226 PLOOP    L     11,ID                  LOAD BINARV VALUE FOR ID          00181510         
+ 000CF8 4EB0 C0E8            00DB8   227          CVD   11,PIDTEMP             CONVERT TO DECIMAL IN PIDTEMP     00181610         
+ 000CFC D209 C0F1 C080 00DC1 00D50   228          MVC   PID(10),=X'40212020202020202020'  FORMAT FOR GETTING ID  00181710         
+ 000D02 DE09 C0F1 C0EB 00DC1 00DBB   229          ED    PID(10),PIDTEMP+3                                        00181800         
+ 000D08 D209 C101 700E 00DD1 0000E   230          MVC   PLNAME(10),LNAME       COPY LAST NAME                    00182000         
+ 000D0E D209 C113 7004 00DE3 00004   231          MVC   PFNAME(10),FNAME       COPY FIRST NAME                   00182100         
+ 000D14 D206 C125 C08A 00DF5 00D5A   232          MVC   PSCORE(7),=X'402020202020' FORMAT FOR SCORE              00182210         
+ 000D1A DE06 C125 7018 00DF5 00018   233          ED    PSCORE(7),SCORE            COPY SCORE                    00182300         
+ 000D20 D20D C130 C090 00E00 00D60   234          MVC   PDATE(14),=X'40202020612020612020202020'  DD/MM/YYYY     00182507         
+ 000D26 DE0D C130 701B 00E00 0001B   235          ED    PDATE(14),DATE            COPY DATE                      00182700         
+ 000D2C E020 C0F0 004E 00DC0         236          XPRNT PLINE,78               PRINT THE ID,NAMES,SCORE,DATE     00182810         
+ 000D32 4170 7020            00020   237          LA    7,32(0,7)              GO TO NEXT ADDRESS                00183200         
+ 000D36 1978                         238          CR    7,8                    SEE IF EOT                        00183300         
+ 000D38 47A0 C070            00D40   239          BC    B'1010',END2           END IF SO                         00183400         
+ 000D3C 47F0 C024            00CF4   240          BC    B'1111',PLOOP          OTEHRWISE GO BACK TO MAIN LOOP    00183510         
+ 000D40 58D0 D004            00004   241 END2     L     13,4(,13)                                                00184110         
+ 000D44 98EC D00C            0000C   242          LM    14,12,12(13)           EXIT LINKAGE                      00184210         
+ 000D48 07FE                         243          BR    14                                                       00184310         
+                                     244          LTORG                                                          00184410         
+ 000D50 4021202020202020             245                =X'40212020202020202020'                                                  
+ 000D5A 402020202020                 246                =X'402020202020'                                                          
+ 000D60 4020202061202061             247                =X'40202020612020612020202020'                                            
+                                     248 *                                                                       00184600         
+ 000D6D 40                           249 HEADER   DC    C' '                   HEADER FOR PRINTING               00184711         
+ 000D6E C9C440D5E4D4C2C5             250          DC    CL9'ID NUMBER'                                           00184800         
+ 000D77 40404040404040               251          DC    7C' '                                                    00184911         
+ 000D7E D3C1E2E340D5C1D4             252          DC    CL10'LAST NAME'                                          00185011         
+ 000D88 4040404040404040             253          DC    8C' '                                                    00185111         
+ 000D90 C6C9D9E2E340D5C1             254          DC    CL10'FIRST NAME'                                         00185200         
+ 000D9A 4040404040404040             255          DC    9C' '                                                    00185311         
+ 000DA3 E2C3D6D9C5                   256          DC    CL5'SCORE'                                               00185400         
+ 000DA8 40404040404040               257          DC    7C' '                                                    00185500         
+ 000DAF C4C1E3C5                     258          DC    CL4'DATE'                                                00185600         
+ 000DB8                              259 PIDTEMP  DS    D                      TEMP VALUE FOR PRINTING ID        00185711         
+ 000DC0 40                           260 PLINE    DC    C' '                   PRINT LINE                        00185811         
+ 000DC1                              261 PID      DS    CL8                                                      00185911         
+ 000DC9 4040404040404040             262          DC    8C' '                                                    00186011         
+ 000DD1                              263 PLNAME   DS    CL10                                                     00186111         
+ 000DDB 4040404040404040             264          DC    8C' '                                                    00186211         
+ 000DE3                              265 PFNAME   DS    CL10                                                     00186311         
+ 000DED 4040404040404040             266          DC    8C' '                                                    00186411         
+ 000DF5                              267 PSCORE   DS    PL3                                                      00186511         
+ 000DF8 4040404040404040             268          DC    8C' '                                                    00186611         
+ 000E00                              269 PDATE    DS    CL11                                                     00186800         
+ 000E0B 40D7C1C7C54040               270 PAGELINE DC    CL7' PAGE '                                              00186900         
+ 000E14 00000001                     271 PAGENUM  DC    F'1'                                                     00187000         
+ 000E18                              272 PRINTSAV DS    18F                                                      00187100         
+                                     273 ********************************************************                00187200         
+ 000E60                              274 UPDATE   CSECT                                                          00187300         
+ 000E60 90EC D00C            0000C   275          STM   14,12,12(13)                                             00187400         
+ 000E64 18CF                         276          LR    12,15                                                    00187500         
+ 000E60                              277          USING UPDATE,12              ENTRY LINKAGE                     00187600         
+ 000000                              278          USING ENTRY,7                                                  00187700         
+ 000E66 41E0 C378            011D8   279          LA    14,UPDATESA                                              00187900         
+ 000E6A 50D0 E004            00004   280          ST    13,4(,14)                                                00188000         
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000E6E 50E0 D008            00008   281          ST    14,8(,13)                                                00188100         
+ 000E72 18DE                         282          LR    13,14                                                    00188200         
+                                     283 *                                                                       00188300         
+ 000E74 9879 1000            00000   284          LM    7,9,0(1)               LOAD PLIST                        00188407         
+ 000E78 18A8                         285          LR    10,8                   LOAD EOT INTO R10                 00188507         
+ 000E7A 1857                         286          LR    5,7                    LOAD TABLE INTO R5                00188607         
+ 000E7C E000 9000 0050 00000         287 ULOOP1   XREAD 0(0,9),80              READ CARD                         00188707         
+ 000E82 4740 C106            00F66   288          BC    B'0100',UEND           IF END OF CARD STOP               00188807         
+ 000E86 4110 9000            00000   289          LA    1,0(0,9)               LOAD CARD INTO R1                 00188907         
+ 000E8A DD4F 1000 C14E 00000 00FAE   290          TRT   0(80,1),SCANTAB2       CALL SCAN TABLE AGAIN             00189007         
+ 000E90 4780 C01C            00E7C   291          BC    B'1000',ULOOP1         CHECK IF TRANSLATE FAILS          00189107         
+ 000E94 1831                         292          LR    3,1                    LOAD 3 WITH FIRST VALUE INTO R3   00189207         
+ 000E96 DD4F 1000 C24E 00000 010AE   293          TRT   0(80,1),SPACES2        SCAN TILL FIND A SPACE            00189307         
+ 000E9C 1841                         294          LR    4,1                    LOAD LAST VALUE WITH R4           00189407         
+ 000E9E 1B43                         295          SR    4,3                    SUBTACT TO FIND LENGTH            00189507         
+ 000EA0 0640                         296          BCTR  4,0                                                      00189600         
+ 000EA2 F277 C360 3000 011C0 00000   297          PACK  IDTAB2D(8),0(8,3)      PACK THE ID NUMBER                00189707         
+ 000EA8 4FB0 C360            011C0   298          CVB   11,IDTAB2D             CONVERT ID TO BINARY              00189807         
+ 000EAC 50B0 C368            011C8   299          ST    11,IDTAB2F             STORE IDTAB INTO R11              00189907         
+ 000EB0 59B0 7000            00000   300 ULOOP2   C     11,ID                  COMPARE R11 TO ID                 00190007         
+ 000EB4 4760 C0D8            00F38   301          BC    B'0110',NEXTID                                           00190300         
+ 000EB8 5860 C110            00F70   302          L     6,=F'1'                                                  00190400         
+ 000EBC DD4F 1000 C14E 00000 00FAE   303          TRT   0(80,1),SCANTAB2       CALL SCAN TABLE AGAIN             00190707         
+ 000EC2 4780 C01C            00E7C   304          BC    B'1000',ULOOP1         CHECK IF TRANSLATE FAILS          00190807         
+ 000EC6 1831                         305          LR    3,1                    LOAD 3 WITH FIRST VALUE           00190907         
+ 000EC8 DD4F 1000 C24E 00000 010AE   306          TRT   0(80,1),SPACES2        SCAN TILL FIND A SPACE            00191007         
+ 000ECE 1841                         307          LR    4,1                    LOAD LAST VALUE WITH R4           00191107         
+ 000ED0 1B43                         308          SR    4,3                    SUBTACT TO FIND LENGTH            00191207         
+ 000ED2 0640                         309          BCTR  4,0                                                      00191300         
+ 000ED4 D201 C370 3000 011D0 00000   310          MVC   DATETEM2(2),0(3)       COPY FIRST 2 DIGITS OF DATE       00191407         
+ 000EDA D201 C372 3003 011D2 00003   311          MVC   DATETEM2+2(2),3(3)     COPY NEXT 2 DIGITS OF DATE        00191507         
+ 000EE0 D203 C374 3006 011D4 00006   312          MVC   DATETEM2+4(4),6(3)     COPY YEAR                         00191607         
+ 000EE6 DD4F 1000 C14E 00000 00FAE   313          TRT   0(80,1),SCANTAB2       CALL SCAN TABLE AGAIN             00192607         
+ 000EEC 4780 C01C            00E7C   314          BC    B'1000',ULOOP1         CHECK IF TRANSLATE FAILS          00192707         
+ 000EF0 1831                         315          LR    3,1                    LOAD 3 WITH FIRST VALUE           00192807         
+ 000EF2 DD4F 1000 C24E 00000 010AE   316          TRT   0(80,1),SPACES2        SCAN TILL FIND A SPACE            00192907         
+ 000EF8 1841                         317          LR    4,1                    LOAD LAST VALUE WITH R4           00193007         
+ 000EFA 1B43                         318          SR    4,3                    SUBTACT TO FIND LENGTH            00193107         
+ 000EFC 0640                         319          BCTR  4,0                                                      00193200         
+ 000EFE 4440 C148            00FA8   320          EX    4,UESCORE              EXECUTE SCORE                     00193307         
+ 000F02 F922 C35C 7018 011BC 00018   321          CP    USCORE,SCORE           COMPARE SCORE WITH USCORE         00193407         
+ 000F08 47C0 C0B0            00F10   322          BC    B'1100',PEQUAL         IF EQUAL OR LOWER, RESTART        00193507         
+ 000F0C 47F0 C0BA            00F1A   323          BC    B'1111',JUMP1          ELSE JUMP                         00193607         
+ 000F10 E020 C130 0016 00F90         324 PEQUAL   XPRNT =C' Not changed ',22   IF SCORE NOT CHANGED    00193712         
+ 000F16 47F0 C0E6            00F46   325          B     NEXTU                                                    00193800         
+ 000F1A 4720 C0C8            00F28   326 JUMP1    BC    B'0010',PHIGH          IF SCORE IS HIGHER                00193907         
+ 000F1E E020 C118 000A 00F78         327          XPRNT =C' Not found',10      IF SCORE IS NOT FOUND             00194007         
+ 000F24 47F0 C0D8            00F38   328          B     NEXTID                                                   00194100         
+ 000F28 E020 C122 000D 00F82         329 PHIGH    XPRNT =C' Score Updated',13  IF SCORE is higher update         00194207         
+ 000F2E F247 701B C370 0001B 011D0   330          PACK  DATE(5),DATETEM2       COPY THE DATE OVER                00194607         
+ 000F34 47F0 C0E6            00F46   331          B     NEXTU                                                    00195000         
+ 000F38 4170 7020            00020   332 NEXTID   LA    7,32(0,7)              NEXT LINE IN TABLE                00195107         
+ 000F3C 197A                         333          CR    7,10                   COMPARE TABLE TO EOT              00195207         
+ 000F3E 47A0 C0E6            00F46   334          BC    B'1010',NEXTU                                            00195300         
+ 000F42 47F0 C050            00EB0   335          B     ULOOP2                                                   00195400         
+ 000F46 5960 C114            00F74   336 NEXTU    C     6,=F'0'                BOOL STATEMENT                    00195507         
+ 000F4A 4780 C0F6            00F56   337          BE    PRINTNF                0 = NOT FOUND                     00195607         
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000F4E 5860 C114            00F74   338          L     6,=F'0'                1 MEANS FOUND                     00195707         
+ 000F52 47F0 C0FC            00F5C   339          B     JUMP3                                                    00195800         
+ 000F56 E020 C118 000A 00F78         340 PRINTNF  XPRNT =C' Not found',10                                        00195900         
+ 000F5C 4180 8020            00020   341 JUMP3    LA    8,32(0,8)              NEXT LINE OF UPDATE SCORE         00196007         
+ 000F60 1875                         342          LR    7,5                    LOAD BEGINING OF TABLE INTO R7    00196107         
+ 000F62 47F0 C01C            00E7C   343          B     ULOOP1                                                   00196200         
+                                     344 *                                                                       00196300         
+ 000F66 58D0 D004            00004   345 UEND     L     13,4(,13)                                                00196400         
+ 000F6A 98EC D00C            0000C   346          LM    14,12,12(13)           EXIT                              00196507         
+ 000F6E 07FE                         347          BR    14                                                       00196600         
+                                     348          LTORG                                                          00196700         
+ 000F70 00000001                     349                =F'1'                                                                     
+ 000F74 00000000                     350                =F'0'                                                                     
+ 000F78 40D596A3408696A4             351                =C' Not found'                                                            
+ 000F82 40E28396998540E4             352                =C' Score Updated'                                                        
+ 000F90 40D596A340838881             353                =C' Not changed whatsoever'                                               
+ 000FA8 F220 C35C 3000 011BC 00000   354 UESCORE  PACK  USCORE(3),0(1,3)       EXECUTE FOR SCORE                 00196807         
+ 000FAE 0000000000000000             355 SCANTAB2 DC    256X'00'                                                 00196900         
+ 00106F                              356          ORG   SCANTAB2+C'A'                                            00197000         
+ 00106F 0101010101010101             357          DC    9X'01'                                                   00197100         
+ 0010AE                              358          ORG                                                            00197200         
+ 00107F                              359          ORG   SCANTAB2+C'J'                                            00197300         
+ 00107F 0101010101010101             360          DC    9X'01'                 SAME TABLE AS THE PRINT SCANTAB   00197407         
+ 0010AE                              361          ORG                                                            00197500         
+ 001090                              362          ORG   SCANTAB2+C'S'                                            00197600         
+ 001090 0101010101010101             363          DC    8X'01'                                                   00197700         
+ 0010AE                              364          ORG                                                            00197800         
+ 00102F                              365          ORG   SCANTAB2+C'a'                                            00197900         
+ 00102F 0101010101010101             366          DC    9X'01'                                                   00198000         
+ 0010AE                              367          ORG                                                            00198100         
+ 00103F                              368          ORG   SCANTAB2+C'j'                                            00198200         
+ 00103F 0101010101010101             369          DC    9X'01'                                                   00198300         
+ 0010AE                              370          ORG                                                            00198400         
+ 001050                              371          ORG   SCANTAB2+C's'                                            00198500         
+ 001050 0101010101010101             372          DC    9X'01'                                                   00198600         
+ 0010AE                              373          ORG                                                            00198700         
+ 00109E                              374          ORG   SCANTAB2+C'0'                                            00198800         
+ 00109E 0101010101010101             375          DC    10X'01'                                                  00198900         
+ 0010AE                              376          ORG                                                            00199000         
+ 0010AE 0000000000000000             377 SPACES2  DC    256X'00'                                                 00199100         
+ 0010EE                              378          ORG   SPACES2+X'40'          SAME TABLE AS SPACES FROM PRINT   00199207         
+ 0010EE 01                           379          DC    X'01'                                                    00199300         
+ 0011AE                              380          ORG                                                            00199400         
+                                     381 *                                                                       00199500         
+                                     382 *                                                                       00199600         
+ 0011B0 00000000                     383 BOOL     DC    F'0'                   BOOL VARIABLE                     00200007         
+ 0011B4 40                           384 CRG      DC    C' '                                                     00202100         
+ 0011B8                              385 TEMPP    DS    F                                                        00202200         
+ 0011BC                              386 USCORE   DS    PL3                                                      00202300         
+ 0011C0                              387 IDTAB2D  DS    D                      TEMP DOUBLE WORD FOR ID           00202407         
+ 0011C8                              388 IDTAB2F  DS    F                                                        00202500         
+ 0011D0                              389 DATETEM2 DS    D'0'                                                     00202600         
+ 0011D8                              390 UPDATESA DS    18F                                                      00202700         
+                                     391 *********************************************************               00202800         
+                                     392         END   ASSIGN7                                                   00202900         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   24748 HIGH:    1956 LEAVING:  466864 FREE BYTES. AVERAGE:       67 BYTES/STMT ***            
+1*** ASSEMBLY TIME =    0.000 SECS,   393000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+ ID NUMBER       LAST NAME         FIRST NAME         SCORE       DATE                                                            
+   00418467      Adams             Sharon              1941       28/11/2018                                                      
+   63346500      Allen             Ronald              7246       15/12/2018                                                      
+   91695724      Baker             Brian               4705        3/01/2019                                                      
+   69624464      Campbell          George             39133       12/12/2018                                                      
+   57058145      Carter            Susan               3182       30/11/2018                                                      
+   32816827      Clark             Kevin               4047        2/12/2018                                                      
+   48275436      Evans             Charles             6624       15/11/2018                                                      
+   23914604      Garcia            Kimberly             547       31/12/2018                                                      
+   39020153      Gonzalez          Daniel              1859        1/01/2019                                                      
+   74218716      Hall              Maria                106       25/11/2018                                                      
+   97189895      Harris            Jennifer           50446       13/11/2018                                                      
+   54471726      Hernandez         Helen               2350       14/12/2018                                                      
+   56676299      Jones             Kimberley           9441        1/02/2019                                                      
+   70359894      King              Richard             5038       15/03/2019                                                      
+   87033811      Lee               Kevin               8373       11/02/2019                                                      
+   76734664      Martin            Elizabeth           2111       30/12/2018                                                      
+   51417711      Martinez          Jennifer            8295       28/02/2019                                                      
+   82536868      Miller            Thomas              9826        1/03/2019                                                      
+   00372859      Nelson            Daniel              4309       11/11/2018                                                      
+   87239741      Parker            Kevin               4057       28/01/2019                                                      
+   75290778      Perez             Sandra              9109       27/02/2019                                                      
+   21901842      Roberts           Jason               3168       23/12/2018                                                      
+   02880106      Robinson          Steven              1410       25/12/2018                                                      
+   90408942      Rodriguez         Michelle            4283        1/12/2018                                                      
+   58906729      Taylor            George              2871        4/03/2019                                                      
+   43705350      Thomas            Mark                9138       10/12/2018                                                      
+   96292623      Walker            Steven              3709       20/02/2019                                                      
+   40849954      Williams          Ruth               24449       15/02/2019                                                      
+   87561840      Wilson            Jeff               23024        5/03/2019                                                      
+   49667376      Wright            Ruth                1702       12/01/2019                                                      
+   39316308      Young             Mark                5293       22/02/2019                                                      
+ Score Update                                                                                                                     
+ Not found                                                                                                                        
+ Score Update                                                                                                                     
+ Score Update                                                                                                                     
+ Not changed                                                                                                            
+ Score Update                                                                                                                     
+ Score Update                                                                                                                     
+ Score Update                                                                                                                     
+ Not found                                                                                                                        
+ Not found                                                                                                                        
+ Score Update                                                                                                                     
+ Score Update                                                                                                                     
+ Not changed                                                                                                           
+ Score Update                                                                                                                     
+ ID NUMBER       LAST NAME         FIRST NAME         SCORE       DATE                                                            
+   00418467      Adams             Sharon              1941       27/03/2019                                                      
+   63346500      Allen             Ronald              7246       15/12/2018                                                      
+   91695724      Baker             Brian               4705       24/03/2019                                                      
+   69624464      Campbell          George             39133       12/12/2018                                                      
+   57058145      Carter            Susan               3182       30/11/2018                                                      
+   32816827      Clark             Kevin               4047        2/12/2018                                                      
+   48275436      Evans             Charles             6624       15/11/2018                                                      
+   23914604      Garcia            Kimberly             547       30/03/2019                                                      
+   39020153      Gonzalez          Daniel              1859        1/01/2019                                                      
+   74218716      Hall              Maria                106       25/11/2018                                                      
+   97189895      Harris            Jennifer           50446       13/11/2018                                                      
+   54471726      Hernandez         Helen               2350       14/12/2018                                                      
+   56676299      Jones             Kimberley           9441        1/02/2019                                                      
+1  70359894      King              Richard             5038       21/03/2019                                                      
+   87033811      Lee               Kevin               8373       11/02/2019                                                      
+   76734664      Martin            Elizabeth           2111       30/12/2018                                                      
+   51417711      Martinez          Jennifer            8295       28/02/2019                                                      
+   82536868      Miller            Thomas              9826        1/03/2019                                                      
+   00372859      Nelson            Daniel              4309       11/11/2018                                                      
+   87239741      Parker            Kevin               4057       28/01/2019                                                      
+   75290778      Perez             Sandra              9109       25/03/2019                                                      
+   21901842      Roberts           Jason               3168       23/12/2018                                                      
+   02880106      Robinson          Steven              1410       25/12/2018                                                      
+   90408942      Rodriguez         Michelle            4283        1/12/2018                                                      
+   58906729      Taylor            George              2871        4/03/2019                                                      
+   43705350      Thomas            Mark                9138       10/12/2018                                                      
+   96292623      Walker            Steven              3709       20/02/2019                                                      
+   40849954      Williams          Ruth               24449       15/02/2019                                                      
+   87561840      Wilson            Jeff               23024        5/03/2019                                                      
+   49667376      Wright            Ruth                1702       19/03/2019                                                      
+   39316308      Young             Mark                5293       26/03/2019                                                      
+0*** EXECUTION TIME =    0.001 SECS.      4940 INSTRUCTIONS EXECUTED -  4940000 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

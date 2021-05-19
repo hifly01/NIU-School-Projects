@@ -1,0 +1,281 @@
+//KCO3D45A JOB ,'CHARLES ALMS',MSGCLASS=H                               00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+*********************************************************               00060000
+*Example Program                                                        00070000
+*NAME: Charles Alms z1797837, partner Ryan LLamas z1850256              00080000
+*Registers:    1 WILL HOLD PARMLIST                                     00090099
+*                                                                       00100099
+*                                                                       00110000
+*                                                                       00120000
+*                                                                       00130000
+*********************************************************               00140000
+ENTRY    DSECT                        DSECT FOR THE TABLE               00141099
+CRG      DC    C' '                   GIVE A SPACE AT THE BEGINING      00142099
+WORDS    DS    CL30                   HOLDS  THE DESCRIPTION            00143099
+NUMBERS  DS    PL3                    HOLDS THE NUMBERS                 00144099
+*********************************************************               00145043
+ASSIGN6  CSECT                                                          00150000
+         STM   14,12,12(13)                                             00160000
+         LR    12,15                                                    00170000
+         USING ASSIGN6,12             ENTRY LINKAGE                     00180099
+         LA    14,SAVE                                                  00190000
+         ST    13,4(,14)                                                00200000
+         ST    14,8(,13)                                                00210000
+         LR    13,14                                                    00220000
+         XPRNT =C' Hermans Business Ventures',26                        00220109
+*                                                                       00221000
+         LA    1,PLIST                LOAD PARAMATER LIST               00222099
+         LA    2,TABLE                LOAD TABLE                        00231099
+         L     15,=V(BUILD)                                             00240099
+         BALR  14,15                  CALL BUILD                        00250099
+*                                                                       00260002
+         ST    0,4(0,1)               STORE EOT INTO THE PLIST          00260199
+*        LA    1,PLIST                                                  00261081
+*        LA    2,TABLE                                                  00262081
+         L     15,=V(PRINT)                                             00270076
+         BALR  14,15                  CALL PRINT                        00280099
+*                                                                       00290000
+*        LA    1,PLIST                                                  00300000
+         L     15,=V(STATS)                                             00310099
+         BALR  14,15                  CALL STATS                        00320099
+*                                                                       00330000
+         L     13,4(,13)                                                00340000
+         LM    14,12,12(13)           EXIT LINKAGE                      00350099
+         BR    14                                                       00360000
+         LTORG                                                          00370000
+TABLE    DS    20CL32                 DECLARE TABLE                     00370199
+TABLEEND DS    0H                                                       00370232
+EOT      DC    A(TABLE)               END OF TABLE                      00370399
+*                                                                       00370432
+PLIST    DC    A(TABLE)               STORE TABLE                       00370599
+         DC    A(EOT)                 AND EOT IN PLIST                  00370699
+SAVE     DS    18F                                                      00370803
+*********************************************************               00440000
+* REG:  1 WILL HOLD PARM LIST                                           00450099
+*       2 WILL HOLD TABLE                                               00460099
+*       3 WILL EVENTUALY HOLD END OF LINE                               00470099
+*       5 WILL BE USED RESTORE TABLE ADDRESS                            00480099
+*       0 WILL HOLD EOT                                                 00490099
+*                                                                       00500000
+*********************************************************               00510000
+BUILD    CSECT                                                          00520005
+         STM   14,12,12(13)                                             00530000
+         LR    12,15                                                    00540000
+         USING BUILD,12                                                 00550000
+         USING ENTRY,2                                                  00551008
+         LA    14,BUILDAV                                               00560023
+         ST    13,4(,14)                                                00570000
+         ST    14,8(,13)                                                00580000
+         LR    13,14                                                    00590000
+*                                                                       00600000
+         LM    2,3,0(1)       LOAD PAPAMETERS FROM 1                    00601099
+*        LR    5,2            PERSERVE REG 2 ADDRESS                    00602099
+         XREAD CARD,80        READ THE CARD                             00610099
+CHECK    BC    B'0100',END                                              00620000
+         MVC   WORDS(30),CARD         MOVE 30 CHARACTERS FROM CARD      00640099
+         PACK  NUMBERS(3),CARD+32(5)   ZONE TO PACK                     00651099
+         LA    2,33(,2)                MOVE TO NEXT TABLE               00652099
+         XREAD CARD,80                 READ THE CARD                    00660299
+         BC    B'1111',CHECK                                            00660331
+END      LR    0,2                     PUT THE EOT IN 2                 00660499
+*        LR    2,5                     RESTORE REG 2                    00660599
+         L     13,4(,13)                                                00661066
+         LM    14,15,12(13)           EXIT LINKAGE                      00670099
+         LM    1,12,24(13)                                              00680031
+         DROP  2                                                        00690057
+         BR    14                     *End of subroutine                00691099
+         LTORG                                                          00700031
+CARD     DS    CL80                                                     00701031
+BUILDAV  DS    18F                                                      00702031
+********************************************************                00710023
+* REG: 1 WILL HOLD TABLE                                                00710199
+*      2 WILL BE TABLE                                                  00710299
+*      3 WILL BE EOT                                                    00710399
+*                                                                       00710499
+*                                                                       00710599
+*                                                                       00710699
+*                                                                       00710799
+********************************************************                00710899
+PRINT    CSECT                                                          00710933
+         STM   14,12,12(13)                                             00711033
+         LR    12,15                                                    00711133
+         USING PRINT,12                                                 00711233
+         USING ENTRY,2                                                  00711340
+         LA    14,PRINTSAV                                              00711433
+         ST    13,4(,14)                                                00711533
+         ST    14,8(,13)                                                00711633
+         LR    13,14                                                    00711733
+*                                                                       00711833
+         LM    2,3,0(1)                UNLOAD PARAMETERS                00711999
+PLOOP    MVC   PWORDS,WORDS            MOVE CHARACTERS FROM WORDS       00712099
+         MVC   PNUM,NUMBERS            MOVE NUMBERS TO PNUM             00712199
+         MVC   PNUMOUT(7),=X'402021204B2020'  MOVE NUM TO EDIT          00712299
+         EDMK  PNUMOUT(7),PNUM                                          00712399
+         BC    B'0100',CHECK2        SEE IF NEG                         00712499
+BACK     S     1,=F'1'               PUT THE DOLLAR SIGN IN PLACE       00712599
+         MVI   0(1),C'$'                                                00712644
+         XPRNT CRG2,41                  PRINT THE NUM                   00712799
+         A     1,=F'1'                  RESET THE REG LOCATION          00712899
+         MVC   PNUMOUT+7,=C'  '         CLEARING PNUMOUT                00712999
+         LA    2,33(0,2)                MOVE UP TABLE                   00713099
+         CR    2,3                      CHECK IF AT END                 00713199
+         BC    B'1010',END2                                             00713284
+         BC    B'1111',PLOOP                                            00713384
+CHECK2   MVC   PNUMOUT+7,=C' DB'     NEG SO PRINT DB                    00713499
+         BC    B'1111',BACK                                             00713599
+*                                                                       00713633
+END2     L     13,4(,13)                                                00713784
+         LM    14,12,12(13)                                             00713899
+*        LM    1,12,24(13)                                              00713999
+         DROP  2                                                        00714067
+         BR    14                                                       00714133
+         LTORG                                                          00714233
+PNUM     DS    PL3    WILL HOLD PACKED VALUE                            00714399
+CRG2     DC    C' '   PLINE                                             00714499
+PWORDS   DS    CL30   WILL HOLD THE DESC                                00714599
+PNUMOUT  DS    CL7    HOLD ACTUAL VALUE                                 00714699
+PRINTSAV DS    18F                                                      00714733
+********************************************************                00714899
+*  REG:   1 WILL PARAMETERS                                             00714999
+*         2 WILL BE TABLE                                               00715099
+*         3 IS EOT                                                      00715199
+*                                                                       00715299
+*                                                                       00715399
+*                                                                       00715499
+*                                                                       00715599
+********************************************************                00715699
+STATS    CSECT                                                          00715799
+         STM   14,12,12(13)                                             00715899
+         LR    12,15                                                    00715999
+         USING STATS,12                                                 00716099
+         USING ENTRY,2                                                  00716199
+         LA    14,STATSAV                                               00716299
+         ST    13,4(,14)                                                00716399
+         ST    14,8(,13)                                                00716499
+         LR    13,14                                                    00716599
+**************************************                                  00716699
+         LM    2,3,0(1)                                                 00716799
+*                                                                       00719399
+SLOOP    MVC   SWORDS(30),WORDS   PUT WORDS IN SWORDS                   00719599
+         ZAP   SNUM,NUMBERS       MAKE SNUM ZERO AND ADD NUM            00719699
+         AP    TOTAL,P1     ADD ONE TO THE TOTAL VENTURES               00719899
+         AP    PRICE,SNUM   WILL TOTAL ALL NUMS UP, POS OR NEG          00719999
+         MVC   SNUMOUT(7),=X'402021204B2020' MOVE SNUM TO PRINT FORM    00720099
+         ED    SNUMOUT(7),SNUM                                          00720199
+         BC    B'0100',NEG   NEG GO HERE                                00720299
+         BC    B'0010',POS   POS GO HERE                                00720399
+*                                                                       00720499
+SLOOP2   LA    2,33(0,2)     MOVE TO NEXT TABLE                         00720599
+         CR    2,3           SEE IF AT THE END OF TAB                   00720699
+         BC    B'1010',END3                                             00720799
+         BC    B'1111',SLOOP                                            00720899
+*                                                                       00720999
+NEG      CP    LOW,SNUM             IF LOWEST GO TO BRANCH              00721199
+         BC    B'0010',LOWLOOP                                          00721299
+NEG2     AP    NEGNUM,P1            ADD ONE FOR ONE NEG NUM             00721399
+         BC    B'1111',SLOOP2                                           00721499
+*                                                                       00721599
+POS      CP    HIGH,SNUM            IF HIGHEST GO TO BRANCH             00721699
+         BC    B'0100',HIGHLP                                           00721799
+POS2     AP    POSNUM,P1            ADD ONE TO POS NUM                  00721899
+         BC    B'1111',SLOOP2                                           00721999
+***************************                                             00722099
+LOWLOOP  MVC   LOWWORD,SWORDS       MOVE THE CHARACTER DESC             00722199
+         AP    LOW,SNUM             LOWEST VALUE STORED                 00722299
+         BC    B'1111',NEG2                                             00722399
+*                                                                       00722499
+HIGHLP   MVC   HIGHWORD(30),SWORDS  MOVE WORD DESC                      00722599
+         AP    HIGH,SNUM            STORE THE HIGHEST VALUE             00722699
+         BC    B'1111',POS2                                             00722799
+******************************************************                  00722899
+END3     MVC   TOTALO(4),=X'40202020'     IN SHORT, EDIT AND PRINT ALL  00722999
+         ED    TOTALO(4),TOTAL            VALUES                        00723099
+         XPRNT PLINE1,28                                                00723199
+*                                                                       00723299
+         MVC   NEGNUMO(4),=X'40202020'                                  00723399
+         ED    NEGNUMO(4),NEGNUM                                        00723499
+         XPRNT PLINE2,28                                                00723599
+*                                                                       00723699
+         MVC   POSNUMO(4),=X'40202020'                                  00723799
+         ED    POSNUMO(4),POSNUM                                        00723899
+         XPRNT PLINE3,28                                                00723999
+*                                                                       00724099
+         MVC   PRICEOUT(11),=X'40202020202120204B2020'                  00724199
+         EDMK  PRICEOUT(11),PRICE                                       00724299
+         S     1,=F'1'                                                  00724399
+         MVI   0(1),C'$'        USED TO MAKE A DOLLAR SIGN              00724499
+         XPRNT PLINE4,40                                                00724599
+*                                                                       00724699
+         DP    PRICE,TOTAL      DIVIDE THE TOTAL BY TOTAL VEN           00724799
+         AP    QOT,PRICE(3)     GET THE QUOTIENT                        00724999
+         MVC   QOTOUT(8),=X'402021204B2020' EDIT AND PRINT QUO          00725099
+         EDMK  QOTOUT(8),QOT                                            00725199
+         S     1,=F'1'                                                  00725299
+         MVI   0(1),C'$'                    DOLLAR SIGN PRINT           00725399
+         XPRNT PLINE5,40                                                00725499
+*                                                                       00725599
+         MVC   HIGHO(30),HIGHWORD                                       00725699
+         MVI   HIGHO,C'L'                                               00725799
+         XPRNT PLINE6,55                                                00725899
+*                                                                       00725999
+         MVC   LOWO(30),LOWWORD                                         00726099
+         XPRNT PLINE7,56                                                00726199
+*                                                                       00726299
+         L     13,4(,13)                  STANDARD EXIT                 00726399
+         LM    14,12,12(13)                                             00726499
+         LM    1,12,24(13)                                              00726599
+         DROP  2                                                        00726699
+         BR    14                                                       00726799
+         LTORG                                                          00726899
+*                                                                       00726999
+TOTAL    DC    PL2'0'                                                   00727099
+NEGNUM   DC    PL2'0'                                                   00727199
+POSNUM   DC    PL2'0'                                                   00727299
+P1       DC    PL2'1'                                                   00727399
+SNUM     DC    PL3'0'                                                   00727499
+PRICE    DC    PL5'0'  HOLDS THE PRICE TOTAL                            00727599
+QOT      DC    PL3'0'  HOLDS THE QUOTIENT                               00727699
+HIGH     DC    PL3'0'  HOLDS HIGHEST VALUE                              00727799
+LOW      DC    PL3'0'  HOLD LOWEST VALUE                                00727899
+CHAR     DC    C'P00P' ...IF ITS NOT BROKENT DONT FIX IT?               00727999
+SWORDS   DS    CL30    HOLDS THE WORDS FROM EACH TABLE                  00728099
+SNUMOUT  DS    CL6     PRNT VERSION OF WORD                             00728199
+HIGHWORD DS    CL30    PRINTS HIGHEST WORD                              00728299
+LOWWORD  DS    CL30    PRINTS LOWEST WORD                               00728399
+*                                                                       00728499
+PLINE1   DC    C' '                      ALL OUT PRINT LINES            00728599
+         DC    CL22'THE TOTAL AMOUNT: '                                 00728699
+TOTALO   DS    CL4                                                      00728799
+PLINE2   DC    C' '                                                     00728899
+         DC    CL22'THE TOTAL NEGATIVES: '                              00728999
+NEGNUMO  DS    CL4                                                      00729099
+*                                                                       00729199
+PLINE3   DC    C' '                                                     00729299
+         DC    CL22'THE TOTAL POSITIVES: '                              00729399
+POSNUMO  DS    CL4                                                      00729499
+*                                                                       00729599
+PLINE4   DC    C' '                                                     00729699
+         DC    CL27'THE TOTAL FOR ALL VENTURES:'                        00729799
+PRICEOUT DS    CL11                                                     00729899
+*                                                                       00729999
+PLINE5   DC    C' '                                                     00730099
+         DC    CL31'THE AVERAGE:'                                       00730199
+QOTOUT   DS    CL8                                                      00730299
+*                                                                       00730399
+PLINE6   DC    C' '                                                     00730499
+         DC    CL21'THE MOST PROFITABLE: '                              00730599
+HIGHO    DS    CL30                                                     00730699
+*                                                                       00730799
+PLINE7   DC    C' '                                                     00730899
+         DC    CL25'THE LEAST PROFITABLE:'                              00730999
+LOWO     DS    CL30                                                     00731099
+*                                                                       00731199
+STATSAV  DS    18F                                                      00731299
+********************************************************                00731333
+         END   ASSIGN6                                                  00731406
+*/                                                                      00731500
+//FT05F001  DD  DSN=KC02314.SPRING19.CSCI360.HW6DATA,DISP=SHR           00732000
+//                                                                      00740000

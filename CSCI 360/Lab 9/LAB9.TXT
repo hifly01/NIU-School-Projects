@@ -1,0 +1,43 @@
+//KC03D45A JOB ,'CHARLES ALMS',MSGCLASS=H                               00010000
+//STEP1   EXEC  PGM=ASSIST,PARM='MACRO=H'                               00020000
+//STEPLIB   DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                     00030000
+//SYSPRINT  DD  SYSOUT=*                                                00040000
+//SYSIN     DD  *                                                       00050000
+****************************************************************        00060000
+* PARTNER: RYAN LLAMS Z1850256                                          00070000
+*                                                                       00080000
+* R2     HOLDS THE FIRST STRING                                         00081002
+* R3     HOLDS THE SECOND STRING                                        00082002
+*                                                                       00083002
+* CONDITION CODE = 0 IF THE TWO STRINGS ARE EQUAL.                      00085002
+* CONDITION CODE = 1 IF &FIRST < &SECOND.                               00086002
+* CONDITION CODE = 2 IF &FIRST > &SECOND.                               00087002
+****************************************************************        00090000
+         MACRO                                                          00091001
+         STRCMP &FIRST,&SECOND                                          00091101
+         AIF   ('&FIRST' EQ '').ERROR    CHECK IF FIRST IS EMPTY        00091205
+         AIF   ('&SECOND' EQ '').ERROR   CHECK IF SECOND IS EMPTY       00091305
+         STM   2,3,S&SYSNDX     STORE FIRST/SECOND AND SAVE AREA        00091406
+         B     T&SYSNDX                                                 00091501
+S&SYSNDX DS    2F               SAVE AREA                               00091604
+T&SYSNDX LA    2,&FIRST         LOAD &FIRST INTO R2                     00091704
+         LA    3,&SECOND        LOAD &SECOND INTO R3                    00091804
+L&SYSNDX CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND   00091901
+         BC    B'0111',E&SYSNDX IF SO GO TO END                         00092005
+         CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS         00092101
+         BC    B'1000',E&SYSNDX IF SO GO TO END                         00092205
+         CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS       00092307
+         BC    B'1000',E&SYSNDX IF SO GO TO END                         00092407
+         LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST            00092501
+         LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND           00092601
+         BC    B'1111',L&SYSNDX BRANCH BACK TO THE TOP LOOP             00092705
+E&SYSNDX LM    2,3,S&SYSNDX     LOAD THE SAVE AREA                      00092806
+         MEXIT                  EXIT                                    00092908
+.ERROR   MNOTE 'MISSING ARGUMENT'   ERROR OUTPUT FOR MISSING VALUE      00093008
+         MEND                   END OF MACRO                            00093108
+****************************************************************        00094000
+*                                                                       00095003
+//          DD DSN=KC02314.SPRING19.CSCI360.HW9.DRIVER,DISP=SHR         00100011
+//FT05F001  DD DUMMY                                                    00110000
+//FT06F001  DD SYSOUT=*                                                 00120000
+//                                                                      00130000

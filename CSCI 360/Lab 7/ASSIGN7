@@ -1,0 +1,138 @@
+//KCO3D45A JOB ,'CHARLES ALMS',MSGCLASS=H                               00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+*********************************************************               00060000
+*Example Program                                                        00070000
+*NAME: Charles Alms z1797837, partner Ryan LLamas z1850256              00080000
+*Registers:    1 WILL HOLD PARMLIST                                     00090000
+*                                                                       00100000
+*                                                                       00110000
+*                                                                       00120000
+*                                                                       00130000
+*********************************************************               00140000
+ENTRY    DSECT                        DSECT FOR THE TABLE               00150000
+CRG      DC    C' '                                                     00151000
+ID       DS    F                                                        00152000
+FNAME    DS    10C                                                      00153000
+LNAME    DS    10C                                                      00154000
+SCORE    DS    PL3                                                      00154200
+DATE     DS    PL5                                                      00154400
+*********************************************************               00155000
+ASSIGN7  CSECT                                                          00156000
+         STM   14,12,12(13)                                             00157000
+         LR    12,15                                                    00158000
+         USING ASSIGN7,12             ENTRY LINKAGE                     00159000
+         LA    14,SAVE                                                  00159100
+         ST    13,4(,14)                                                00159200
+         ST    14,8(,13)                                                00159300
+         LR    13,14                                                    00159400
+*                                                                       00159500
+         LA    1,PLIST                                                  00159600
+         LA    2,TABLE                                                  00159700
+         L     15,=V(BUILD)                                             00159800
+         BALR  14,15                                                    00159900
+*                                                                       00160000
+         LA    1,PLIST                                                  00160100
+         LA    2,TABLE                                                  00160200
+         L     15,=V(PRINT)                                             00160300
+         BALR  14,15                                                    00160400
+*                                                                       00160500
+         L     13,4(,13)                                                00160600
+         L     14,12(,13)                                               00160700
+         LM    0,12,20(13)                                              00160800
+         BR    14                                                       00160900
+         LTORG                                                          00161000
+TABLE    DS    50CL32                                                   00161100
+TABLEEND DS    0H                                                       00161200
+EOT      DC    A(TABLE)                                                 00161300
+PLIST    DC    A(TABLE)                                                 00161400
+         DC    A(EOT)                                                   00161500
+SAVE     DS    18F                                                      00161600
+********************************************************                00161700
+BUILD    CSECT                                                          00161800
+         STM   14,12,12(13)                                             00161900
+         LR    12,15                                                    00162000
+         USING BUILD,12               ENTRY LINKAGE                     00162100
+         USING ENTRY,2                                                  00162200
+         LA    14,BUILDSAV                                              00162300
+         ST    13,4(,14)                                                00162400
+         ST    14,8(,13)                                                00162500
+         LR    13,14                                                    00162600
+*                                                                       00162700
+         LM    2,3,0(1)                                                 00162800
+*        LR    5,2                                                      00162901
+         XREAD CARD,80                                                  00163000
+CHECK    BC    B'0100',END                                              00163100
+         MVC   ID(8),CARD                                               00163200
+         XDUMP ID,8                                                     00163301
+         L     7,ID                                                     00163400
+         C     7,=F'99999999'         CHECK TO SEE IF AT LAST VALUE     00163500
+         BC    B'1000',END                                              00163600
+         MVC   FNAME(10),CARD+12                                        00163700
+         MVC   LNAME(10),CARD+24                                        00163800
+         PACK  SCORE(3),CARD+30(6)                                      00163900
+         PACK  DATE(6),CARD+36(10)                                      00164000
+*                                                                       00164100
+         LA    2,37(,2)                                                 00164200
+         XREAD CARD,80                                                  00164300
+         BC    B'1111',CHECK                                            00164400
+END      LR    0,2                                                      00164500
+*                                                                       00164600
+         L     13,4(,13)                                                00164700
+         LM    14,15,12(13)                                             00164800
+         DROP  2                                                        00164900
+         BR    14                                                       00165000
+         LTORG                                                          00165100
+CARD     DS    CL80                                                     00165200
+BUILDSAV DS    18F                                                      00165300
+********************************************************                00165400
+PRINT    CSECT                                                          00165500
+         STM   14,12,12(13)                                             00165600
+         LR    12,15                                                    00165700
+         USING PRINT,12               ENTRY LINKAGE                     00165800
+         USING ENTRY,2                                                  00165900
+         LA    14,PRINTSAV                                              00166000
+         ST    13,4(,14)                                                00166100
+         ST    14,8(,13)                                                00166200
+         LR    13,14                                                    00166300
+*                                                                       00166400
+         LM    2,3,0(1)                                                 00166500
+PLOOP    MVC   PID,ID                                                   00166600
+         MVC   PFNAME,FNAME                                             00166700
+         MVC   PLNAME,LNAME                                             00166800
+         MVC   PSCORE,SCORE                                             00166900
+         MVC   PSCOREO(6),=X'402020202020'                              00167000
+         ED    PSCOREO(6),PSCORE                                        00167100
+         MVC   PDATE,DATE                                               00167200
+         MVC   PDATEO(11),=X'4021206120206120202020'                    00167300
+         ED    PDATEO(11),PDATE                                         00167400
+         XPRNT PLINE,65                                                 00167500
+         LA    2,33(0,2)                                                00167600
+         CR    2,3                                                      00167700
+         BC    B'1010',END2                                             00167800
+         BC    B'1111',PLOOP                                            00167900
+*                                                                       00168000
+END2     L     13,4(,13)                                                00168300
+         LM    14,15,12(13)                                             00168400
+         DROP  2                                                        00168500
+         BR    14                                                       00168600
+         LTORG                                                          00168700
+*                                                                       00168800
+PLINE    DC    C' '                                                     00168900
+PID      DS    F                                                        00169000
+PFNAME   DS    10C                                                      00169100
+PLNAME   DS    10C                                                      00169200
+PSCORE   DS    PL3                                                      00169300
+PSCOREO  DS    PL6                                                      00169400
+PDATE    DS    PL5                                                      00169500
+PDATEO   DS    PL11                                                     00169600
+PRINTSAV DS    18F                                                      00169700
+********************************************************                00169800
+         END   ASSIGN7                                                  00170000
+*/                                                                      00180000
+//FT05F001  DD  DSN=KC02314.SPRING19.CSCI360.HW7DATA,DISP=SHR           00190000
+//                                                                      00200000
+*                                                                       00210000
+*                                                                       00220000

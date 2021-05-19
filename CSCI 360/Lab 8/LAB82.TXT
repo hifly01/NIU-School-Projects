@@ -1,0 +1,438 @@
+//KCO3D45A JOB ,'Ryan Llamas',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+********************************************************                00060000
+*NAME: Charles Alms z1797837, partner Ryan LLamas z1850256              00070000
+*Registers:                                                             00080000
+*********************************************************               00090000
+ENTRY    DSECT                                                          00091000
+STUDID   DS    XL4           HOLDS THE ID NUMBER                        00091199
+PASSWORD DS    XL8           HOLDS THE PASSWORD                         00091299
+DTRINFO  DS    XL3           HOLDS THE DAY,TIME,ROOM NUMBER             00091399
+*********************************************************               00092000
+* R0     HOLDS END OF TABLE                                             00093099
+* R1     HOLDS PARAMETER LIST                                           00094099
+* R10    HOLDS THE TABLE                                                00095099
+* R13    USED FOR CALLING THE SUB ROUTINES                              00096099
+* R14    USED FOR CALLING THE SUB ROUTINES                              00097099
+* R15    CALLS SUB ROUTINE                                              00098099
+**********************************************************              00099299
+LAB8     CSECT                                                          00100000
+         STM   14,12,12(13)                                             00110000
+         LR    12,15                                                    00120000
+         USING LAB8,12                                                  00130000
+         LA    14,MAINSAVE                                              00140000
+         ST    13,4(,14)          ENTRY LINKAGE                         00150099
+         ST    14,8(,13)                                                00160000
+         LR    13,14                                                    00170000
+*                                                                       00190000
+         LA    1,PARMLIST         LOADS PARAMETERS INTO R1              00191099
+         LA    10,TABLE           Perserve the start of table           00192099
+         L     15,=V(BUILD)                                             00193000
+         BALR  14,15              CALLS BUILD                           00194099
+*                                                                       00200000
+         ST    0,4(0,1)           STORES EOT INTO R0                    00202099
+         XPRNT =C' ',1                                                  00202199
+         XPRNT =C' BEFORE SORT',12                                      00202299
+         XPRNT =C' ',1                                                  00202399
+         XPRNT CGC2,56                                                  00202499
+         L     15,=V(PRINT)                                             00202500
+         BALR  14,15              CALLS PRINT                           00202699
+*                                                                       00202799
+         ST    10,0(0,1)          RESTORES 10 AS THE TABLE              00202899
+         L     15,=V(SORT)                                              00202999
+         BALR  14,15              CALLS SORT                            00203099
+*                                                                       00203199
+         XPRNT =C' ',1                                                  00203299
+         XPRNT =C' AFTER SORT',11                                       00203399
+         XPRNT =C' ',1                                                  00203499
+         XPRNT CGC2,56                                                  00203599
+         L     15,=V(PRINT)                                             00203699
+         BALR  14,15              CALLS PRINT AGAIN                     00203799
+*                                                                       00204000
+         L     13,4(,13)                                                00210000
+         LM    14,12,12(13)       EXIT LINKAGE                          00220099
+         BR    14                 ENDS MAIN                             00230099
+         LTORG                                                          00240000
+TABLE    DS    20CL15             TABLE TO HOLD 20 VALUES               00240199
+TABLEEND DS    0H                                                       00240200
+EOT      DC    A(TABLE)                                                 00240300
+PARMLIST DC    A(TABLE)           PARAMETER LIST HOLDS TABLE AND EOT    00241099
+         DC    A(EOT)                                                   00242000
+CGC2     DC    C'-'               HEADER                                00242199
+         DC    C'ID NUMBER'                                             00243199
+         DC    4C' '                                                    00244099
+         DC    C'PASSWORD'                                              00245099
+         DC    8C' '                                                    00246099
+         DC    C'DAY'                                                   00247099
+         DC    12C' '                                                   00248099
+         DC    C'TIME'                                                  00249099
+         DC    3C' '                                                    00249199
+         DC    C'ROOM'                                                  00249299
+MAINSAVE DS    18F                                                      00250000
+************************************************                        00250100
+* R0     HOLDS EOT                                                      00250299
+* R5     HOLDS ALL TEH DAY, TIME, AND ROOM NUMBER INFO                  00250399
+* R10    HOLDS THE TABLE                                                00250499
+* R11    HOLDS THE EOT                                                  00250599
+* R12    STORES THE SUB ROUTINE                                         00250699
+* R13    USED FOR CALLING SUBROUTINE                                    00250799
+* R14    USED FOR CALLING SUB ROUTINE                                   00250899
+************************************************                        00250999
+BUILD    CSECT                                                          00251000
+         STM   14,12,12(13)                                             00252000
+         LR    12,15                                                    00253000
+         USING BUILD,12                                                 00254000
+         USING ENTRY,10           DCECT IS IN R10                       00255099
+         LA    14,BUILDSAV                                              00256000
+         ST    13,4(,14)          ENTRY LINKAGE                         00257099
+         ST    14,8(,13)                                                00258000
+         LR    13,14                                                    00259000
+*                                                                       00259100
+         LM    10,11,0(1)         LOAD PARAMETER LIST INTO R10 AND 11   00259299
+         XREAD CARD,80            READ THE CARD                         00259399
+LOOP     BC    B'0100',END                                              00259400
+*                                                                       00259500
+         PACK  TEMP(8),CIDNUM     PACK THE ID                           00259699
+         CVB   3,TEMP             CONVERT ID TO BINARY                  00259899
+         STCM  3,B'1111',STUDID   STORE ID INTO STUDID                  00259999
+*                                                                       00260000
+         MVC   PASSWORD(8),CPASSWOR  GET PASSWORD                       00260400
+         XC    PASSWORD(4),STUDID    FIRST 4 BYTES                      00260500
+         XC    PASSWORD+4(4),STUDID  NEXT 4 BYTES FOR HASHING PASSWORD  00260600
+*                                                                       00260700
+         CLC   CDAY(6),=C'Monday'    COMPARE DAY TO MONDAY              00261099
+         BC    B'1000',MON           BRANCH IF TRUE                     00261199
+         CLC   CDAY(7),=C'Tuesday'   COMPARE TO TUESDAY                 00261299
+         BC    B'1000',TUES          BRANCH IF TRUE                     00261399
+         CLC   CDAY(9),=C'Wednesday' COMPARE TO WEDNESDAY               00261499
+         BC    B'1000',WEDNES        BRANCH IF TRUE                     00261599
+         CLC   CDAY(8),=C'Thursday'  COMPARE TO THURSDAY                00261699
+         BC    B'1000',THURS         BRANCH IF TRUE                     00261799
+         CLC   CDAY(6),=C'Friday'    COMPARE TO FRIDAY                  00261899
+         BC    B'1000',FRI           BRANCH IF TRUE                     00261999
+         CLC   CDAY(8),=C'Saturday'  COMPARE TO SATURDAY                00262099
+         BC    B'1000',SAT           BRANCH IF TRUE                     00262199
+         CLC   CDAY(6),=C'Sunday'    COMPARE TO SUNDAY                  00262299
+         BC    B'1000',SUN           BRANCH IF TRUE                     00262399
+*                                                                       00262400
+CON      PACK  TEMP(8),DAYZ          PACK THE DAY INTO TEMP             00262599
+         CVB   5,TEMP                CONVERT TEMP TO BINARY             00262699
+         SLL   5,21                  MOVE IT OVER TO THE VERY LEFT      00262799
+*                                                                       00262800
+         PACK  TEMP(8),CHOUR         STORE HOUR TO TEMP                 00262999
+         CVB   6,TEMP                CONVERT TEMP TO BINARY             00263099
+         SLL   6,16                  MOVE IT OVER TO AFTER TH DAY       00263199
+*                                                                       00263200
+         PACK  TEMP(8),CMIN          PACK THE MIN INTO TEMP             00263399
+         CVB   7,TEMP                CONVERT IT TO BINARY               00263499
+         SLL   7,10                  MOVE IT OVER NEXT TO HOUR          00263599
+*                                                                       00263600
+         PACK  TEMP(8),CROOMNUM      PACK THE ROOM NUMBER INTO TEMP     00263799
+         CVB   8,TEMP                CONVERT IT TO BINARY               00263899
+*                                                                       00263900
+         AR    5,6                   ADD THE REGISTERS TOGETHER         00265799
+         AR    5,7                   TO GET THE DY, HOUR, MIN, ROOM     00265899
+         AR    5,8                   ALL IN ONE REGISTER 5              00265999
+*                                                                       00266700
+         STCM  5,B'0111',DTRINFO     STORE R5 INTO THE DSECT            00266899
+         LA    10,15(0,10)           LOAD TO THE NEXT TABLE ENTRY       00266999
+         CR    10,11                 COMPARE THE TABLE TO THE EOT       00267099
+         BC    B'1011',END                                              00267100
+*                                                                       00267200
+         XREAD CARD,80               READ THE CARD                      00267399
+         BC    B'1111',LOOP          LOOP BACK TO THE TOP               00267499
+*                                                                       00267500
+SUN      ZAP   DAYP,=P'0'            PACK DAYZ WITH THE RIGHT           00267699
+         UNPK  DAYZ,DAYP             NUMBER DEPENDING ON THE DAY        00267799
+         BC    B'1111',CON           LOOP TO CON WHEN DONE              00267899
+MON      ZAP   DAYP,=P'1'            0 = SUNDAY                         00267999
+         UNPK  DAYZ,DAYP             1 = MONDAY                         00268099
+         BC    B'1111',CON           2 = TUESDAY                        00268199
+TUES     ZAP   DAYP,=P'2'            3 = WEDNESDAY                      00268299
+         UNPK  DAYZ,DAYP             4 = THURSDAY                       00268399
+         BC    B'1111',CON           5 = FRIDAY                         00268499
+WEDNES   ZAP   DAYP,=P'3'            6 = SATURDAY                       00268599
+         UNPK  DAYZ,DAYP                                                00268600
+         BC    B'1111',CON                                              00268700
+THURS    ZAP   DAYP,=P'4'                                               00268800
+         UNPK  DAYZ,DAYP                                                00268900
+         BC    B'1111',CON                                              00269000
+FRI      ZAP   DAYP,=P'5'                                               00269100
+         UNPK  DAYZ,DAYP                                                00269299
+         BC    B'1111',CON                                              00269399
+SAT      ZAP   DAYP,=P'6'                                               00269499
+         UNPK  DAYZ,DAYP                                                00269599
+         BC    B'1111',CON                                              00269699
+*                                                                       00269700
+END      LA    0,0(0,10)             LOAD EOT INTO R0                   00269899
+         L     13,4(,13)             EXIT LINKAGE                       00269999
+         LM    14,15,12(13)                                             00270000
+         LM    1,12,24(13)                                              00270100
+         BR    14                                                       00270200
+         LTORG                                                          00270300
+TEMPC    DS    CL10                                                     00270500
+DAYZ     DS    ZL2                                                      00270600
+DAYP     DS    PL2                                                      00270700
+TEMP     DS    D                                                        00270800
+TEMPZ    DS    ZL10                                                     00271000
+CARD     DS    0C                                                       00271100
+         DS    CL1                                                      00271299
+CIDNUM   DS    ZL7                                                      00271399
+         DS    CL4                                                      00271499
+CPASSWOR DS    ZL8                                                      00271599
+         DS    CL4                                                      00271699
+CDAY     DS    CL9                                                      00271799
+         DS    CL4                                                      00271899
+CHOUR    DS    ZL2                                                      00271999
+         DS    CL1                                                      00272099
+CMIN     DS    ZL2                                                      00272199
+         DS    CL4                                                      00272299
+CROOMNUM DS    ZL3                                                      00272399
+         DS    CL31                                                     00272400
+         DC    C'*'                                                     00272500
+BUILDSAV DS    18F                                                      00272600
+************************************************                        00272700
+* R5     USED TO GRAB VALUES FROM DTRINFO                               00272899
+* R10    HOLDS TABLE                                                    00272999
+* R11    HOLDS EOT                                                      00273099
+* R12    USED FOR SUB ROUTINE                                           00273199
+* R13    USED FOR CALLING SUB ROUTINE                                   00273299
+* R14    USED FOR CALLING SUB ROUTINE                                   00273399
+************************************************                        00273499
+PRINT    CSECT                                                          00273500
+         STM   14,12,12(13)                                             00273600
+         LR    12,15                                                    00273700
+         USING PRINT,12                                                 00273800
+         USING ENTRY,10             GETS THE DSECT                      00273999
+         LA    14,PRINTSAV                                              00274000
+         ST    13,4(,14)            ENTRY LINKAGE                       00274199
+         ST    14,8(,13)                                                00274200
+         LR    13,14                                                    00274300
+*                                                                       00274400
+         LM    10,11,0(1)           GET THE PARAM LIST INTO R10 AND 11  00274599
+NEXTAREA SR    5,5                  CLEAR R5                            00274699
+         MVC   PTEMP(8),STUDID      MOVE ID INTO PTEMP                  00274799
+         L     2,PTEMP               LOAD PTEMP INTO R2                 00274899
+         CVD   2,PTEMP               CONVERT PTEMP INTO DECIMAL         00274999
+         MVC   PID(9),=X'F020202020202020' USED TO PRINT ID             00275099
+         ED    PID(9),PTEMP+4        STORES ID INTO PID                 00275199
+         MVI   CRG+1,C'R'            ADDS 'R' TO THE ID                 00275299
+         MVI   CRG+9,C' '            ADDS A SPACE                       00275399
+*                                                                       00275400
+         MVC   PASSTEMP(8),PASSWORD  MOVE PASSWORD TO PASSTEMP          00275599
+         XC    PASSTEMP(4),STUDID    DECRYPT FIRST 4 BYTES              00275699
+         XC    PASSTEMP+4(4),STUDID  DECRYPT NEXT 4 BYTES               00275799
+         MVC   PASS(8),PASSTEMP      MOVE PASSTEMP INTO PASS            00275899
+*                                                                       00275900
+         MVC   PDAY(9),=C'         ' CLEAR PDAY                         00276099
+         SR    5,5                   CLEAR R5                           00276199
+         ICM   5,B'0111',DTRINFO     GRAB DTRINFO AND STORE INTO R5     00276299
+         CVD   5,DTRTEMP             CONVERT IT TO DECIMAL              00276399
+         SLL   5,8                   CLEAR THE LEFT SIDE                00276499
+         SRL   5,29                  CLEAR THE RIGHTSIDE                00276599
+         MVC   DAYED(4),=X'40212020' PRINT LINE FOR DAY                 00276699
+         ED    DAYED(4),DTRTEMP+6    DAY IS STORED IN DAYED             00276799
+*                                                                       00276900
+         C     5,=F'00'              IF THE FIRST 3 BTS ARE 0, GO TO    00277099
+         BC    B'1000',PSUN          SUNDAY                             00277199
+*                                                                       00277200
+         C     5,=F'01'              IF THE FIRST 3 BTS ARE 1, GO TO    00277399
+         BC    B'1000',PMON          MONDAY                             00277499
+*                                    COMPARE FIRST 3 BITS TO THE        00277599
+         C     5,=F'02'              NUMBER REPRESENTING THE DAY        00277699
+         BC    B'1000',PTUE          00 = SUN                           00277799
+*                                    01 = MON                           00277899
+         C     5,=F'03'              02 = TUE                           00277999
+         BC    B'1000',PWED          03 = WED                           00278099
+*                                    04 = THU                           00278199
+         C     5,=F'04'              05 = FRI                           00278299
+         BC    B'1000',PTHU          06 = SAT                           00278399
+*                                                                       00278500
+         C     5,=F'05'                                                 00278600
+         BC    B'1000',PFRI                                             00278700
+*                                                                       00278800
+         C     5,=F'06'                                                 00278900
+         BC    B'1000',PSAT                                             00279000
+         B     PCON                                                     00279100
+*                                                                       00279200
+PSUN     MVC   PDAY(6),=C'Sunday'   MOVE THE CHARACTER FORMAT OF THE    00279399
+         BC    B'1111',PCON         DAY INTO PDAY                       00279499
+*                                   BRANCH TO PCON WHEN DONE            00279599
+PMON     MVC   PDAY(6),=C'Monday'                                       00279600
+         BC    B'1111',PCON                                             00279700
+*                                                                       00279800
+PTUE     MVC   PDAY(7),=C'Tuesday'                                      00279900
+         BC    B'1111',PCON                                             00280000
+*                                                                       00280100
+PWED     MVC   PDAY(9),=C'Wednesday'                                    00280200
+         BC    B'1111',PCON                                             00280300
+*                                                                       00280400
+PTHU     MVC   PDAY(8),=C'Thursday'                                     00280500
+         BC    B'1111',PCON                                             00280600
+*                                                                       00280700
+PFRI     MVC   PDAY(6),=C'Friday'                                       00280800
+         BC    B'1111',PCON                                             00280900
+*                                                                       00281000
+PSAT     MVC   PDAY(9),=C'Saturday'                                     00281100
+         BC    B'1111',PCON                                             00281200
+*                                                                       00281300
+PCON     DS    0H                                                       00281400
+         SR    5,5                   CLEAR R5                           00281599
+         ICM   5,B'0111',DTRINFO     GRAB DTRINFO INTO R5               00281699
+         SLL   5,16                  CLEAR LEFT SIDE                    00281799
+         SRL   5,26                  CLEAR RIGHT SIDE                   00281899
+         CVD   5,DTRTEMP             CONVERT IT TO DECIMAL              00281999
+         MVC   OMIN(5),=X'40217A2020'  PRINT LINE FOR MINUTE            00282099
+         ED    OMIN(5),DTRTEMP+6     OMIN HOLDS THE CHARACTER FOR MIN   00282199
+*                                                                       00282400
+         SR    5,5                   CLEAR R5                           00282599
+         ICM   5,B'0111',DTRINFO     GRAB DTRINFO INTO R5               00282699
+         SLL   5,11                  CLEAR LEFT SIDE                    00282799
+         SRL   5,27                  CLEAR RIGHT SIDE                   00282899
+         CVD   5,DTRTEMP             CONVERT IT TO DECIMAL              00282999
+         MVC   OHOUR(4),=X'40212020' PRINT LINE FOR HOUR                00283099
+         ED    OHOUR(4),DTRTEMP+6    OHOUR HOLDS THE HOUR               00283199
+*                                                                       00283200
+         ICM   5,B'0111',DTRINFO     GRAB DTRINFO INTO R5               00283399
+         SLL   5,22                  CLEAR LEFT SIDE                    00283499
+         SRL   5,22                  CLEAR RIGHT SIDE                   00283599
+         CVD   5,DTRTEMP             CONVERT IT TO DECIMAL              00283699
+         MVC   OROOM(4),=X'40212020' PRINT LINE FOR OROOM               00283799
+         ED    OROOM(4),DTRTEMP+6    OROOM HOLDS THE ROOM NUMBER        00283899
+*                                                                       00283900
+         XPRNT CRG,56                PRINT EVERYTHING                   00284099
+         LA    10,15(0,10)           MOVE TO NEXT TABLE ENTRY           00284199
+         CR    10,11                 COMPARE TABLE NETRY TO EOT         00284299
+         BC    B'1010',EXITPRIN      IF SAME/GREATER, QUIT              00284399
+         BC    B'1111',NEXTAREA      ELSE BRANCH UP TO THE TOP          00284499
+*                                                                       00284500
+EXITPRIN L     13,4(,13)             EXIT LINKAGE                       00284699
+         LM    14,12,12(13)                                             00284799
+         BR    14                                                       00284900
+         LTORG                                                          00285000
+CRG      DC    C' '                                                     00285100
+PID      DC    9C' '                                                    00285299
+         DC    4C' '                                                    00285300
+PASS     DC    12C' '                                                   00285400
+         DC    4C' '                                                    00285500
+PDAY     DC    9C' '                                                    00285600
+         DC    4C' '                                                    00285700
+OHOUR    DS    CL2                                                      00285800
+OMIN     DS    CL3                                                      00285999
+         DC    4C' '                                                    00286000
+OROOM    DS    CL3                                                      00286100
+         DC    4C' '                                                    00286200
+DAYED    DS    CL2                                                      00286300
+PHOUR    DS    PL2                                                      00286400
+PMIN     DS    PL2                                                      00286500
+ROOM     DS    PL3                                                      00286600
+PASSTEMP DC    12C' '                                                   00286700
+PTEMP    DS    D                                                        00286800
+DAYPK    DS    PL2                                                      00286900
+*                                                                       00287000
+DTRTEMP  DS    D                                                        00287100
+PRINTSAV DS    18F                                                      00287200
+*****************************************************                   00287399
+* R2     HOLDS THE TEMP FOR USING CVD                                   00287499
+* R9     USED TO HOLD THE TABLE                                         00287599
+* R10    USED TO HOLD THE TABLE                                         00287699
+* R11    USED TO HOLD THE EOT                                           00287799
+* R12    USED TO CALL THE SUB ROUTINE                                   00287899
+* R13    USED FOR SUB ROUTINE                                           00287999
+* R14    USED FOR THE SUB ROUTINE                                       00288099
+*****************************************************                   00288199
+SORT     CSECT                                                          00288299
+         STM   14,12,12(13)                                             00288399
+         LR    12,15                                                    00288499
+         USING SORT,12                                                  00288599
+         USING ENTRY,10          R10 IS USED FOR THE DSECT              00288699
+         LA    14,SORTSAVE                                              00288799
+         ST    13,4(,14)         ENTRY LINKAGE                          00288899
+         ST    14,8(,13)                                                00288999
+         LR    13,14                                                    00289099
+*                                                                       00289199
+         LM    10,11,0(1)            LOAD PLIST INTO R10 AND 11         00289299
+         LA    9,0(0,10)             LOAD THE TABLE INTO R9             00289399
+*                                                                       00289499
+NEXTEN1  CR    9,11                  COMPARE TO EOT                     00289599
+         BC    B'1010',ENDSORT       END IF AT EOT                      00290099
+         MVC   TEMPSTU1(4),STUDID    MOVE ID INTO A TEMPM               00291099
+         MVC   TEMPPAS1(8),PASSWORD  MOVE PASSWORD INTO A TEMP          00291399
+         MVC   TEMPDTR1(3),DTRINFO   MOVE DTRINFO INTO A TEMP           00291699
+         SR    2,2                   CLEAR R2                           00291899
+         MVC   STEMP(8),TEMPSTU1     MOVE TEMP FOR ID INTO STEMP        00291999
+         L     2,STEMP               LOAD R2 WITH STEMP                 00292099
+         CVD   2,STEMP               CONVERT IT TO DECIMAL              00292199
+         MVC   SID2(9),=X'4021202020202020' PRINT LINE FOR SID2         00292299
+         ED    SID2(9),STEMP+4       SID2 HOLDS STEMP                   00292399
+*                                                                       00292499
+NEXTEN2  LA    10,15(0,10)           GO TO THE NEXT TABLE ENTRY         00292899
+         CR    10,11                 COMPARE IF AT EOT                  00293099
+         BC    B'1010',RSIUPS        IF IT IS, GO TO RSIUPS             00293199
+         SR    2,2                   CLEAR R2                           00293699
+         MVC   STEMP(8),STUDID       MOVE TEMP FOR ID INTO STEMP        00293799
+         L     2,STEMP               LOAD R2 WITH STEMP                 00293899
+         CVD   2,STEMP               CONVERT IT TO DECIMAL              00293999
+         MVC   SID(9),=X'4021202020202020' PRINT LINE FOR SID2          00294099
+         ED    SID(9),STEMP+4        SID HOLDS STEMP                    00294199
+*                                                                       00294399
+         SR    2,2                   CLEAR R2                           00294499
+         MVC   STEMP(8),TEMPSTU1     MOVE ID FIR TEMP INTO STEMP        00294599
+         L     2,STEMP               LOAD STEMP INTO R2                 00294699
+         CVD   2,STEMP               CONVERT TO DECIMAL                 00294799
+         MVC   SID2(9),=X'4021202020202020' PRINT LINE FOR SID2         00294899
+         ED    SID2(9),STEMP+4       SID2 HOLDS STEMP                   00294999
+*                                                                       00295199
+         CLC   SID2,SID              COMPARE THE IDs IN CHAR FORMAT     00295399
+         BC    B'0010',SWAP          IF GREATER SWAP                    00295499
+REWIND   B     NEXTEN2               ELSE GO TO NEXTEN2                 00295599
+*                                                                       00295699
+RSIUPS   DS    0H                                                       00295799
+         LA    10,0(0,9)             LOAD 10 WITH THE FIRS TABLE ENTRY  00295899
+         LA    9,15(0,9)             LOAD 9 WITH NEXT TABLE ENTRY       00295999
+         LA    10,15(0,10)           LOAD 10 WITH NEXT TABLE ENTRY      00296099
+         B     NEXTEN1               GO TO NEXTEN1                      00296199
+*                                                                       00296399
+SWAP     DS    0H                                                       00296499
+         MVC   S(4),STUDID           MOVE ID INTO S                     00296899
+         MVC   P(8),PASSWORD         MOVE PASSWORD INTO P               00296999
+         MVC   D(3),DTRINFO          MOVE DTRINFO TO D                  00297099
+         MVC   STUDID(4),TEMPSTU1    MOVE THE TEMP ID INTO STUDID       00297199
+         MVC   PASSWORD(8),TEMPPAS1  MOVE THE PASSWORD TEMP INTO PASSW  00297299
+         MVC   DTRINFO(3),TEMPDTR1   MOVE INFO TEMP INTO DTRINFO        00297399
+         LA    8,0(0,10)             LOAD R10 INTO R8                   00297799
+         LA    10,0(0,9)             LOAD R10 WITH THE TABLE IN R9      00297899
+         MVC   STUDID(4),S           MOVE S INTO STUDID                 00297999
+         MVC   PASSWORD(8),P         MOVE P INTO PASSWORD               00298099
+         MVC   DTRINFO(3),D          MOVE D INTO DTRINFO                00298199
+         MVC   TEMPSTU1(4),S         MOVE TEMPSTU1 INTO S               00298299
+         MVC   TEMPPAS1(8),P         MOVE TEMPPAS1 INTO P               00298399
+         MVC   TEMPDTR1(3),D         MOVE TEMPDTRI INTO D               00298499
+         LA    10,0(0,8)             LOAD R10 WITH R8                   00298599
+         B     REWIND                BRACH UP TO REWIND                 00298699
+*                                                                       00298799
+ENDSORT  L     13,4(,13)                                                00298899
+         LM    14,15,12(13)          EXIT LINKAGE                       00298999
+         LM    1,12,24(13)                                              00299099
+         BR    14                                                       00299199
+*************************************************************           00299299
+         LTORG                                                          00299399
+TEMPSTU1 DS    XL4                                                      00299499
+TEMPPAS1 DS    XL8                                                      00299599
+TEMPDTR1 DS    XL3                                                      00299699
+S        DS    XL4                                                      00299799
+P        DS    XL8                                                      00299899
+D        DS    XL3                                                      00299999
+STEMP    DS    D                                                        00300099
+SID      DS    CL9                                                      00300399
+SID2     DS    CL9                                                      00300699
+SORTSAVE DS    18F                                                      00300799
+*                                                                       00300899
+         END   LAB8                                                     00300900
+*/                                                                      00301000
+//FT05F001  DD  DSN=KC02314.SPRING19.CSCI360.HW8DATA,DISP=SHR           00301100
+//                                                                      00302000
+*                                                                       00310000

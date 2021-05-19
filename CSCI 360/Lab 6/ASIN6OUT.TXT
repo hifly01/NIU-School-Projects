@@ -1,0 +1,372 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 22.50.30 JOB04497 ---- MONDAY,    01 APR 2019 ----
+ 22.50.30 JOB04497  IRR010I  USERID KC03D45  IS ASSIGNED TO THIS JOB.
+ 22.50.30 JOB04497  ICH70001I KC03D45  LAST ACCESS AT 22:09:55 ON MONDAY, APRIL 1, 2019
+ 22.50.30 JOB04497  $HASP373 KCO3D45A STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 22.50.30 JOB04497  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 22.50.30 JOB04497  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 22.50.30 JOB04497  -KCO3D45A                      00     66 ******    .00     .0    205   0      0      0      0     0
+ 22.50.30 JOB04497  -KCO3D45A ENDED.  NAME-CHARLES ALMS         TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 22.50.30 JOB04497  $HASP395 KCO3D45A ENDED
+0------ JES2 JOB STATISTICS ------
+-  01 APR 2019 JOB EXECUTION DATE
+-          280 CARDS READ
+-          372 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           40 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KCO3D45A JOB ,'CHARLES ALMS',MSGCLASS=H                               JOB04497
+         2 //STEP1 EXEC PGM=ASSIST                                                 00020000
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+         4 //SYSPRINT DD SYSOUT=*                                                  00040000
+         5 //SYSIN DD *                                                            00050000
+         6 //FT05F001  DD  DSN=KC02314.SPRING19.CSCI360.HW6DATA,DISP=SHR           00732000
+ ICH70001I KC03D45  LAST ACCESS AT 22:09:55 ON MONDAY, APRIL 1, 2019
+ IEF236I ALLOC. FOR KCO3D45A STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KCO3D45A STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D45.KCO3D45A.JOB04497.D0000102.?         SYSOUT        
+ IEF285I   KC03D45.KCO3D45A.JOB04497.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING19.CSCI360.HW6DATA             RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2019091.2250
+ IEF032I STEP/STEP1   /STOP  2019091.2250 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        4K  SYS:    11580K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KCO3D45A/START 2019091.2250
+ IEF033I  JOB/KCO3D45A/STOP  2019091.2250 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *********************************************************               00060000         
+                                       2 *Example Program                                                        00070000         
+                                       3 *NAME: Charles Alms z1797837, partner Ryan LLamas z1850256              00080000         
+                                       4 *Registers:    1 WILL HOLD PARMLIST                                     00090099         
+                                       5 *                                                                       00100099         
+                                       6 *                                                                       00110000         
+                                       7 *                                                                       00120000         
+                                       8 *                                                                       00130000         
+                                       9 *********************************************************               00140000         
+ 000000                               10 ENTRY    DSECT                        DSECT FOR THE TABLE               00141099         
+ 000000 40                            11 CRG      DC    C' '                   GIVE A SPACE AT THE BEGINING      00142099         
+ 000001                               12 WORDS    DS    CL30                   HOLDS  THE DESCRIPTION            00143099         
+ 00001F                               13 NUMBERS  DS    PL3                    HOLDS THE NUMBERS                 00144099         
+                                      14 *********************************************************               00145043         
+ 000000                               15 ASSIGN6  CSECT                                                          00150000         
+ 000000 90EC D00C            0000C    16          STM   14,12,12(13)                                             00160000         
+ 000004 18CF                          17          LR    12,15                                                    00170000         
+ 000000                               18          USING ASSIGN6,12             ENTRY LINKAGE                     00180099         
+ 000006 41E0 C2FC            002FC    19          LA    14,SAVE                                                  00190000         
+ 00000A 50D0 E004            00004    20          ST    13,4(,14)                                                00200000         
+ 00000E 50E0 D008            00008    21          ST    14,8(,13)                                                00210000         
+ 000012 18DE                          22          LR    13,14                                                    00220000         
+ 000014 E020 C054 001A 00054          23          XPRNT =C' Hermans Business Ventures',26                        00220109         
+                                      24 *                                                                       00221000         
+ 00001A 4110 C2F4            002F4    25          LA    1,PLIST                LOAD PARAMATER LIST               00222099         
+ 00001E 4120 C06E            0006E    26          LA    2,TABLE                LOAD TABLE                        00231099         
+ 000022 58F0 C048            00048    27          L     15,=V(BUILD)                                             00240099         
+ 000026 05EF                          28          BALR  14,15                  CALL BUILD                        00250099         
+                                      29 *                                                                       00260002         
+ 000028 5000 1004            00004    30          ST    0,4(0,1)               STORE EOT INTO THE PLIST          00260199         
+                                      31 *        LA    1,PLIST                                                  00261081         
+                                      32 *        LA    2,TABLE                                                  00262081         
+ 00002C 58F0 C04C            0004C    33          L     15,=V(PRINT)                                             00270076         
+ 000030 05EF                          34          BALR  14,15                  CALL PRINT                        00280099         
+                                      35 *                                                                       00290000         
+                                      36 *        LA    1,PLIST                                                  00300000         
+ 000032 58F0 C050            00050    37          L     15,=V(STATS)                                             00310099         
+ 000036 05EF                          38          BALR  14,15                  CALL STATS                        00320099         
+                                      39 *                                                                       00330000         
+ 000038 58D0 D004            00004    40          L     13,4(,13)                                                00340000         
+ 00003C 98EC D00C            0000C    41          LM    14,12,12(13)           EXIT LINKAGE                      00350099         
+ 000040 07FE                          42          BR    14                                                       00360000         
+                                      43          LTORG                                                          00370000         
+ 000048 00000348                      44                =V(BUILD)                                                                 
+ 00004C 00000430                      45                =V(PRINT)                                                                 
+ 000050 00000528                      46                =V(STATS)                                                                 
+ 000054 40C88599948195A2              47                =C' Hermans Business Ventures'                                            
+ 00006E                               48 TABLE    DS    20CL32                 DECLARE TABLE                     00370199         
+ 0002EE                               49 TABLEEND DS    0H                                                       00370232         
+ 0002F0 0000006E                      50 EOT      DC    A(TABLE)               END OF TABLE                      00370399         
+                                      51 *                                                                       00370432         
+ 0002F4 0000006E                      52 PLIST    DC    A(TABLE)               STORE TABLE                       00370599         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0002F8 000002F0                      53          DC    A(EOT)                 AND EOT IN PLIST                  00370699         
+ 0002FC                               54 SAVE     DS    18F                                                      00370803         
+                                      55 *********************************************************               00440000         
+                                      56 * REG:  1 WILL HOLD PARM LIST                                           00450099         
+                                      57 *       2 WILL HOLD TABLE                                               00460099         
+                                      58 *       3 WILL EVENTUALY HOLD END OF LINE                               00470099         
+                                      59 *       5 WILL BE USED RESTORE TABLE ADDRESS                            00480099         
+                                      60 *       0 WILL HOLD EOT                                                 00490099         
+                                      61 *                                                                       00500000         
+                                      62 *********************************************************               00510000         
+ 000348                               63 BUILD    CSECT                                                          00520005         
+ 000348 90EC D00C            0000C    64          STM   14,12,12(13)                                             00530000         
+ 00034C 18CF                          65          LR    12,15                                                    00540000         
+ 000348                               66          USING BUILD,12                                                 00550000         
+ 000000                               67          USING ENTRY,2                                                  00551008         
+ 00034E 41E0 C0A0            003E8    68          LA    14,BUILDAV                                               00560023         
+ 000352 50D0 E004            00004    69          ST    13,4(,14)                                                00570000         
+ 000356 50E0 D008            00008    70          ST    14,8(,13)                                                00580000         
+ 00035A 18DE                          71          LR    13,14                                                    00590000         
+                                      72 *                                                                       00600000         
+ 00035C 9823 1000            00000    73          LM    2,3,0(1)       LOAD PAPAMETERS FROM 1                    00601099         
+                                      74 *        LR    5,2            PERSERVE REG 2 ADDRESS                    00602099         
+ 000360 E000 C050 0050 00398          75          XREAD CARD,80        READ THE CARD                             00610099         
+ 000366 4740 C03C            00384    76 CHECK    BC    B'0100',END                                              00620000         
+ 00036A D21D 2001 C050 00001 00398    77          MVC   WORDS(30),CARD         MOVE 30 CHARACTERS FROM CARD      00640099         
+ 000370 F224 201F C070 0001F 003B8    78          PACK  NUMBERS(3),CARD+32(5)   ZONE TO PACK                     00651099         
+ 000376 4120 2021            00021    79          LA    2,33(,2)                MOVE TO NEXT TABLE               00652099         
+ 00037A E000 C050 0050 00398          80          XREAD CARD,80                 READ THE CARD                    00660299         
+ 000380 47F0 C01E            00366    81          BC    B'1111',CHECK                                            00660331         
+ 000384 1802                          82 END      LR    0,2                     PUT THE EOT IN 2                 00660499         
+                                      83 *        LR    2,5                     RESTORE REG 2                    00660599         
+ 000386 58D0 D004            00004    84          L     13,4(,13)                                                00661066         
+ 00038A 98EF D00C            0000C    85          LM    14,15,12(13)           EXIT LINKAGE                      00670099         
+ 00038E 981C D018            00018    86          LM    1,12,24(13)                                              00680031         
+ 000392                               87          DROP  2                                                        00690057         
+ 000392 07FE                          88          BR    14                     *End of subroutine                00691099         
+                                      89          LTORG                                                          00700031         
+ 000398                               90 CARD     DS    CL80                                                     00701031         
+ 0003E8                               91 BUILDAV  DS    18F                                                      00702031         
+                                      92 ********************************************************                00710023         
+                                      93 * REG: 1 WILL HOLD TABLE                                                00710199         
+                                      94 *      2 WILL BE TABLE                                                  00710299         
+                                      95 *      3 WILL BE EOT                                                    00710399         
+                                      96 *                                                                       00710499         
+                                      97 *                                                                       00710599         
+                                      98 *                                                                       00710699         
+                                      99 *                                                                       00710799         
+                                     100 ********************************************************                00710899         
+ 000430                              101 PRINT    CSECT                                                          00710933         
+ 000430 90EC D00C            0000C   102          STM   14,12,12(13)                                             00711033         
+ 000434 18CF                         103          LR    12,15                                                    00711133         
+ 000430                              104          USING PRINT,12                                                 00711233         
+ 000000                              105          USING ENTRY,2                                                  00711340         
+ 000436 41E0 C0AC            004DC   106          LA    14,PRINTSAV                                              00711433         
+ 00043A 50D0 E004            00004   107          ST    13,4(,14)                                                00711533         
+ 00043E 50E0 D008            00008   108          ST    14,8(,13)                                                00711633         
+ 000442 18DE                         109          LR    13,14                                                    00711733         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     110 *                                                                       00711833         
+ 000444 9823 1000            00000   111          LM    2,3,0(1)                UNLOAD PARAMETERS                00711999         
+ 000448 D21D C084 2001 004B4 00001   112 PLOOP    MVC   PWORDS,WORDS            MOVE CHARACTERS FROM WORDS       00712099         
+ 00044E D202 C080 201F 004B0 0001F   113          MVC   PNUM,NUMBERS            MOVE NUMBERS TO PNUM             00712199         
+ 000454 D206 C0A2 C076 004D2 004A6   114          MVC   PNUMOUT(7),=X'402021204B2020'  MOVE NUM TO EDIT          00712299         
+ 00045A DF06 C0A2 C080 004D2 004B0   115          EDMK  PNUMOUT(7),PNUM                                          00712399         
+ 000460 4740 C05A            0048A   116          BC    B'0100',CHECK2        SEE IF NEG                         00712499         
+ 000464 5B10 C070            004A0   117 BACK     S     1,=F'1'               PUT THE DOLLAR SIGN IN PLACE       00712599         
+ 000468 925B 1000      00000         118          MVI   0(1),C'$'                                                00712644         
+ 00046C E020 C083 0029 004B3         119          XPRNT CRG2,41                  PRINT THE NUM                   00712799         
+ 000472 5A10 C070            004A0   120          A     1,=F'1'                  RESET THE REG LOCATION          00712899         
+ 000476 D206 C0A9 C074 004D9 004A4   121          MVC   PNUMOUT+7,=C'  '         CLEARING PNUMOUT                00712999         
+ 00047C 4120 2021            00021   122          LA    2,33(0,2)                MOVE UP TABLE                   00713099         
+ 000480 1923                         123          CR    2,3                      CHECK IF AT END                 00713199         
+ 000482 47A0 C064            00494   124          BC    B'1010',END2                                             00713284         
+ 000486 47F0 C018            00448   125          BC    B'1111',PLOOP                                            00713384         
+ 00048A D206 C0A9 C07D 004D9 004AD   126 CHECK2   MVC   PNUMOUT+7,=C' DB'     NEG SO PRINT DB                    00713499         
+ 000490 47F0 C034            00464   127          BC    B'1111',BACK                                             00713599         
+                                     128 *                                                                       00713633         
+ 000494 58D0 D004            00004   129 END2     L     13,4(,13)                                                00713784         
+ 000498 98EC D00C            0000C   130          LM    14,12,12(13)                                             00713899         
+                                     131 *        LM    1,12,24(13)                                              00713999         
+ 00049C                              132          DROP  2                                                        00714067         
+ 00049C 07FE                         133          BR    14                                                       00714133         
+                                     134          LTORG                                                          00714233         
+ 0004A0 00000001                     135                =F'1'                                                                     
+ 0004A4 4040                         136                =C'  '                                                                    
+ 0004A6 402021204B2020               137                =X'402021204B2020'                                                        
+ 0004AD 40C4C2                       138                =C' DB'                                                                   
+ 0004B0                              139 PNUM     DS    PL3    WILL HOLD PACKED VALUE                            00714399         
+ 0004B3 40                           140 CRG2     DC    C' '   PLINE                                             00714499         
+ 0004B4                              141 PWORDS   DS    CL30   WILL HOLD THE DESC                                00714599         
+ 0004D2                              142 PNUMOUT  DS    CL7    HOLD ACTUAL VALUE                                 00714699         
+ 0004DC                              143 PRINTSAV DS    18F                                                      00714733         
+                                     144 ********************************************************                00714899         
+                                     145 *  REG:   1 WILL PARAMETERS                                             00714999         
+                                     146 *         2 WILL BE TABLE                                               00715099         
+                                     147 *         3 IS EOT                                                      00715199         
+                                     148 *                                                                       00715299         
+                                     149 *                                                                       00715399         
+                                     150 *                                                                       00715499         
+                                     151 *                                                                       00715599         
+                                     152 ********************************************************                00715699         
+ 000528                              153 STATS    CSECT                                                          00715799         
+ 000528 90EC D00C            0000C   154          STM   14,12,12(13)                                             00715899         
+ 00052C 18CF                         155          LR    12,15                                                    00715999         
+ 000528                              156          USING STATS,12                                                 00716099         
+ 000000                              157          USING ENTRY,2                                                  00716199         
+ 00052E 41E0 C2E4            0080C   158          LA    14,STATSAV                                               00716299         
+ 000532 50D0 E004            00004   159          ST    13,4(,14)                                                00716399         
+ 000536 50E0 D008            00008   160          ST    14,8(,13)                                                00716499         
+ 00053A 18DE                         161          LR    13,14                                                    00716599         
+                                     162 **************************************                                  00716699         
+ 00053C 9823 1000            00000   163          LM    2,3,0(1)                                                 00716799         
+                                     164 *                                                                       00719399         
+ 000540 D21D C177 2001 0069F 00001   165 SLOOP    MVC   SWORDS(30),WORDS   PUT WORDS IN SWORDS                   00719599         
+ 000546 F822 C162 201F 0068A 0001F   166          ZAP   SNUM,NUMBERS       MAKE SNUM ZERO AND ADD NUM            00719699         
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00054C FA11 C15A C160 00682 00688   167          AP    TOTAL,P1     ADD ONE TO THE TOTAL VENTURES               00719899         
+ 000552 FA42 C165 C162 0068D 0068A   168          AP    PRICE,SNUM   WILL TOTAL ALL NUMS UP, POS OR NEG          00719999         
+ 000558 D206 C195 C148 006BD 00670   169          MVC   SNUMOUT(7),=X'402021204B2020' MOVE SNUM TO PRINT FORM    00720099         
+ 00055E DE06 C195 C162 006BD 0068A   170          ED    SNUMOUT(7),SNUM                                          00720199         
+ 000564 4740 C052            0057A   171          BC    B'0100',NEG   NEG GO HERE                                00720299         
+ 000568 4720 C066            0058E   172          BC    B'0010',POS   POS GO HERE                                00720399         
+                                     173 *                                                                       00720499         
+ 00056C 4120 2021            00021   174 SLOOP2   LA    2,33(0,2)     MOVE TO NEXT TABLE                         00720599         
+ 000570 1923                         175          CR    2,3           SEE IF AT THE END OF TAB                   00720699         
+ 000572 47A0 C09A            005C2   176          BC    B'1010',END3                                             00720799         
+ 000576 47F0 C018            00540   177          BC    B'1111',SLOOP                                            00720899         
+                                     178 *                                                                       00720999         
+ 00057A F922 C170 C162 00698 0068A   179 NEG      CP    LOW,SNUM             IF LOWEST GO TO BRANCH              00721199         
+ 000580 4720 C07A            005A2   180          BC    B'0010',LOWLOOP                                          00721299         
+ 000584 FA11 C15C C160 00684 00688   181 NEG2     AP    NEGNUM,P1            ADD ONE FOR ONE NEG NUM             00721399         
+ 00058A 47F0 C044            0056C   182          BC    B'1111',SLOOP2                                           00721499         
+                                     183 *                                                                       00721599         
+ 00058E F922 C16D C162 00695 0068A   184 POS      CP    HIGH,SNUM            IF HIGHEST GO TO BRANCH             00721699         
+ 000594 4740 C08A            005B2   185          BC    B'0100',HIGHLP                                           00721799         
+ 000598 FA11 C15E C160 00686 00688   186 POS2     AP    POSNUM,P1            ADD ONE TO POS NUM                  00721899         
+ 00059E 47F0 C044            0056C   187          BC    B'1111',SLOOP2                                           00721999         
+                                     188 ***************************                                             00722099         
+ 0005A2 D21D C1B9 C177 006E1 0069F   189 LOWLOOP  MVC   LOWWORD,SWORDS       MOVE THE CHARACTER DESC             00722199         
+ 0005A8 FA22 C170 C162 00698 0068A   190          AP    LOW,SNUM             LOWEST VALUE STORED                 00722299         
+ 0005AE 47F0 C05C            00584   191          BC    B'1111',NEG2                                             00722399         
+                                     192 *                                                                       00722499         
+ 0005B2 D21D C19B C177 006C3 0069F   193 HIGHLP   MVC   HIGHWORD(30),SWORDS  MOVE WORD DESC                      00722599         
+ 0005B8 FA22 C16D C162 00695 0068A   194          AP    HIGH,SNUM            STORE THE HIGHEST VALUE             00722699         
+ 0005BE 47F0 C070            00598   195          BC    B'1111',POS2                                             00722799         
+                                     196 ******************************************************                  00722899         
+ 0005C2 D203 C1EE C140 00716 00668   197 END3     MVC   TOTALO(4),=X'40202020'     IN SHORT, EDIT AND PRINT ALL  00722999         
+ 0005C8 DE03 C1EE C15A 00716 00682   198          ED    TOTALO(4),TOTAL            VALUES                        00723099         
+ 0005CE E020 C1D7 001C 006FF         199          XPRNT PLINE1,28                                                00723199         
+                                     200 *                                                                       00723299         
+ 0005D4 D203 C209 C140 00731 00668   201          MVC   NEGNUMO(4),=X'40202020'                                  00723399         
+ 0005DA DE03 C209 C15C 00731 00684   202          ED    NEGNUMO(4),NEGNUM                                        00723499         
+ 0005E0 E020 C1F2 001C 0071A         203          XPRNT PLINE2,28                                                00723599         
+                                     204 *                                                                       00723699         
+ 0005E6 D203 C224 C140 0074C 00668   205          MVC   POSNUMO(4),=X'40202020'                                  00723799         
+ 0005EC DE03 C224 C15E 0074C 00686   206          ED    POSNUMO(4),POSNUM                                        00723899         
+ 0005F2 E020 C20D 001C 00735         207          XPRNT PLINE3,28                                                00723999         
+                                     208 *                                                                       00724099         
+ 0005F8 D20A C244 C14F 0076C 00677   209          MVC   PRICEOUT(11),=X'40202020202120204B2020'                  00724199         
+ 0005FE DF0A C244 C165 0076C 0068D   210          EDMK  PRICEOUT(11),PRICE                                       00724299         
+ 000604 5B10 C144            0066C   211          S     1,=F'1'                                                  00724399         
+ 000608 925B 1000      00000         212          MVI   0(1),C'$'        USED TO MAKE A DOLLAR SIGN              00724499         
+ 00060C E020 C228 0028 00750         213          XPRNT PLINE4,40                                                00724599         
+                                     214 *                                                                       00724699         
+ 000612 FD41 C165 C15A 0068D 00682   215          DP    PRICE,TOTAL      DIVIDE THE TOTAL BY TOTAL VEN           00724799         
+ 000618 FA22 C16A C165 00692 0068D   216          AP    QOT,PRICE(3)     GET THE QUOTIENT                        00724999         
+ 00061E D207 C26F C148 00797 00670   217          MVC   QOTOUT(8),=X'402021204B2020' EDIT AND PRINT QUO          00725099         
+ 000624 DF07 C26F C16A 00797 00692   218          EDMK  QOTOUT(8),QOT                                            00725199         
+ 00062A 5B10 C144            0066C   219          S     1,=F'1'                                                  00725299         
+ 00062E 925B 1000      00000         220          MVI   0(1),C'$'                    DOLLAR SIGN PRINT           00725399         
+ 000632 E020 C24F 0028 00777         221          XPRNT PLINE5,40                                                00725499         
+                                     222 *                                                                       00725599         
+ 000638 D21D C28D C19B 007B5 006C3   223          MVC   HIGHO(30),HIGHWORD                                       00725699         
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00063E 92D3 C28D      007B5         224          MVI   HIGHO,C'L'                                               00725799         
+ 000642 E020 C277 0037 0079F         225          XPRNT PLINE6,55                                                00725899         
+                                     226 *                                                                       00725999         
+ 000648 D21D C2C5 C1B9 007ED 006E1   227          MVC   LOWO(30),LOWWORD                                         00726099         
+ 00064E E020 C2AB 0038 007D3         228          XPRNT PLINE7,56                                                00726199         
+                                     229 *                                                                       00726299         
+ 000654 58D0 D004            00004   230          L     13,4(,13)                  STANDARD EXIT                 00726399         
+ 000658 98EC D00C            0000C   231          LM    14,12,12(13)                                             00726499         
+ 00065C 981C D018            00018   232          LM    1,12,24(13)                                              00726599         
+ 000660                              233          DROP  2                                                        00726699         
+ 000660 07FE                         234          BR    14                                                       00726799         
+                                     235          LTORG                                                          00726899         
+ 000668 40202020                     236                =X'40202020'                                                              
+ 00066C 00000001                     237                =F'1'                                                                     
+ 000670 402021204B2020               238                =X'402021204B2020'                                                        
+ 000677 4020202020212020             239                =X'40202020202120204B2020'                                                
+                                     240 *                                                                       00726999         
+ 000682 000C                         241 TOTAL    DC    PL2'0'                                                   00727099         
+ 000684 000C                         242 NEGNUM   DC    PL2'0'                                                   00727199         
+ 000686 000C                         243 POSNUM   DC    PL2'0'                                                   00727299         
+ 000688 001C                         244 P1       DC    PL2'1'                                                   00727399         
+ 00068A 00000C                       245 SNUM     DC    PL3'0'                                                   00727499         
+ 00068D 000000000C                   246 PRICE    DC    PL5'0'  HOLDS THE PRICE TOTAL                            00727599         
+ 000692 00000C                       247 QOT      DC    PL3'0'  HOLDS THE QUOTIENT                               00727699         
+ 000695 00000C                       248 HIGH     DC    PL3'0'  HOLDS HIGHEST VALUE                              00727799         
+ 000698 00000C                       249 LOW      DC    PL3'0'  HOLD LOWEST VALUE                                00727899         
+ 00069B D7F0F0D7                     250 CHAR     DC    C'P00P' ...IF ITS NOT BROKENT DONT FIX IT?               00727999         
+ 00069F                              251 SWORDS   DS    CL30    HOLDS THE WORDS FROM EACH TABLE                  00728099         
+ 0006BD                              252 SNUMOUT  DS    CL6     PRNT VERSION OF WORD                             00728199         
+ 0006C3                              253 HIGHWORD DS    CL30    PRINTS HIGHEST WORD                              00728299         
+ 0006E1                              254 LOWWORD  DS    CL30    PRINTS LOWEST WORD                               00728399         
+                                     255 *                                                                       00728499         
+ 0006FF 40                           256 PLINE1   DC    C' '                      ALL OUT PRINT LINES            00728599         
+ 000700 E3C8C540E3D6E3C1             257          DC    CL22'THE TOTAL AMOUNT: '                                 00728699         
+ 000716                              258 TOTALO   DS    CL4                                                      00728799         
+ 00071A 40                           259 PLINE2   DC    C' '                                                     00728899         
+ 00071B E3C8C540E3D6E3C1             260          DC    CL22'THE TOTAL NEGATIVES: '                              00728999         
+ 000731                              261 NEGNUMO  DS    CL4                                                      00729099         
+                                     262 *                                                                       00729199         
+ 000735 40                           263 PLINE3   DC    C' '                                                     00729299         
+ 000736 E3C8C540E3D6E3C1             264          DC    CL22'THE TOTAL POSITIVES: '                              00729399         
+ 00074C                              265 POSNUMO  DS    CL4                                                      00729499         
+                                     266 *                                                                       00729599         
+ 000750 40                           267 PLINE4   DC    C' '                                                     00729699         
+ 000751 E3C8C540E3D6E3C1             268          DC    CL27'THE TOTAL FOR ALL VENTURES:'                        00729799         
+ 00076C                              269 PRICEOUT DS    CL11                                                     00729899         
+                                     270 *                                                                       00729999         
+ 000777 40                           271 PLINE5   DC    C' '                                                     00730099         
+ 000778 E3C8C540C1E5C5D9             272          DC    CL31'THE AVERAGE:'                                       00730199         
+ 000797                              273 QOTOUT   DS    CL8                                                      00730299         
+                                     274 *                                                                       00730399         
+ 00079F 40                           275 PLINE6   DC    C' '                                                     00730499         
+ 0007A0 E3C8C540D4D6E2E3             276          DC    CL21'THE MOST PROFITABLE: '                              00730599         
+ 0007B5                              277 HIGHO    DS    CL30                                                     00730699         
+                                     278 *                                                                       00730799         
+ 0007D3 40                           279 PLINE7   DC    C' '                                                     00730899         
+ 0007D4 E3C8C540D3C5C1E2             280          DC    CL25'THE LEAST PROFITABLE:'                              00730999         
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0007ED                              281 LOWO     DS    CL30                                                     00731099         
+                                     282 *                                                                       00731199         
+ 00080C                              283 STATSAV  DS    18F                                                      00731299         
+                                     284 ********************************************************                00731333         
+                                     285          END   ASSIGN6                                                  00731406         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   15596 HIGH:    1928 LEAVING:  476044 FREE BYTES. AVERAGE:       61 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,   286000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+ Hermans Business Ventures                                                                                                        
+ Cat Sweaters                   $48.00 DB                                                                                         
+ Garlic-scented Perfume         $39.40 DB                                                                                         
+ Lost Glove Replacement         $13.75                                                                                            
+ Chinese food delivery          $47.50                                                                                            
+ Lecture Note Transcription    $116.00                                                                                            
+ Mousetrap Improver             $25.82 DB                                                                                         
+ Deadline Reminder Service      $72.00                                                                                            
+ New Password Supply            $36.00                                                                                            
+ Cell Phone Sanitizer           $14.69 DB                                                                                         
+ Water Bottle Refiller          $ 0.00                                                                                            
+ Iguana Walker                  $ 8.50                                                                                            
+ Burglar Alarm Tester           $12.00                                                                                            
+ Knitting Needle Sharpener      $ 0.00                                                                                            
+ Custom Bookmarks               $ 8.95                                                                                            
+ Nostalgic Ear Trumpets         $34.60 DB                                                                                         
+ THE TOTAL AMOUNT:       15                                                                                                       
+ THE TOTAL NEGATIVES:     5                                                                                                       
+ THE TOTAL POSITIVES:     8                                                                                                       
+ THE TOTAL FOR ALL VENTURES:    $152.19                                                                                           
+ THE AVERAGE:                    $10.14                                                                                           
+ THE MOST PROFITABLE: Lecture Note Transcription     TH                                                                           
+ THE LEAST PROFITABLE:    Cat Sweaters                                                                                            
+0*** EXECUTION TIME =    0.000 SECS.       627 INSTRUCTIONS EXECUTED -   627000 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

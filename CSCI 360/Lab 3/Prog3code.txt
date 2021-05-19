@@ -1,0 +1,125 @@
+//KCO3E59A JOB ,'Ryan Llamas',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+*****************************************************                   00060000
+* Example Program                                                       00070000
+* NAME: Ryan Llamas, Partner Charles Alms z1797837                      00080099
+* Registers:                                                            00090000
+*           2 FOR PRODID                                                00091099
+*           7 FOR ORDERID                                               00092099
+*           5 FOR PRICE EACH , CHANGES TO PRETOTAL OVER TIME            00093099
+*           3 FOR NUM ORDERED                                           00093199
+*           13 FOR OVERALL TOTAL                                        00094099
+*           8 FOR SHIPPING TOTAL                                        00100099
+*           6 FOR DISCOUNT TOTAL                                        00101099
+*****************************************************                   00110000
+PROG3    CSECT                                                          00120000
+         USING PROG3,15                                                 00130000
+*                                                                       00140000
+         SR    2,2                *SUBTRACTING REGISTERS TO 0           00140199
+         SR    3,3                                                      00140266
+         SR    4,4                                                      00140386
+         SR    9,9                                                      00140499
+         SR    10,10                                                    00140599
+         SR    13,13                                                    00140699
+         SR    12,12                                                    00140799
+         XPRNT HEAD,95            *Prints heading                       00140899
+         XREAD BUFFER,80                                                00141001
+CHECKEOF BC    B'0100',EXIT                                             00142002
+*                                                                       00143088
+         SR    6,6                   *RESEST SHIPPING AND DISCOUNT      00143199
+         SR    8,8                                                      00143293
+*                                                                       00143394
+         A     9,=F'1'                                                  00143499
+         XDECI 2,BUFFER              *PRODID                            00143599
+         XDECI 7,0(0,1)              *ORDERID                           00143699
+         XDECI 5,0(0,1)              *NUM ORDERED                       00143899
+         XDECO 5,PRIEACH             *PRINT CAUSE CHANGE WILL HAPPEN    00143999
+         XDECI 3,0(0,1)              *NUM ORDERED                       00144099
+         MR    4,3                   *PRE TOTAL IS 5 NOW                00144199
+         C     5,=F'15000'           *COMPARE PRE TOTAL                 00144299
+         BC    B'1010',TOTALDIS                                         00144388
+BACK1    C     2,=F'566824'          *COMPARE PROD ID                   00144499
+         BC    B'1000',PRODDIS                                          00144589
+BACK2    C     5,=F'5000'            *COMPARE PRE TOTAL                 00144699
+         BC    B'0100',SHIPADD       *ADD IS LESS                       00144799
+         BC    B'1010',SHIPDIS       *ADD 1 IF MORE                     00144899
+BACK3    XDECO 2,PRODID              *PRINT REGISTERS TO LABELS         00144999
+         XDECO 7,ORDERID                                                00145095
+         XDECO 3,NUMORD                                                 00145197
+         AR    5,8                   *GET THE NEW TOTAL                 00145299
+         SR    5,6                                                      00145399
+         AR    13,5                  *ALL TOTALS HERE                   00145499
+         XDECO 5,PRETOT             *REG TO LABELS                      00145599
+         XDECO 6,DISCOUNT                                               00145688
+         XDECO 8,SHIP                                                   00145791
+*                                                                       00145888
+         XPRNT CRG,93                                                   00145999
+         XREAD BUFFER,80                                                00146073
+         BC    B'1111',CHECKEOF                                         00146101
+TOTALDIS A     6,=F'500'          *DISCOUNT                             00146295
+         BC    B'1111',BACK1                                            00147088
+PRODDIS  A     6,=F'1000'         *DISCOUNT                             00148095
+         BC    B'1111',BACK2                                            00149089
+SHIPADD  A     8,=F'600'          *SHIPPING ADDITION TO TOTAL           00149199
+         BC    B'1111',BACK3                                            00149292
+SHIPDIS  A     10,=F'1'           *SHIPPING DISCOUNT COUNT              00149399
+         BC    B'1111',BACK3                                            00149499
+EXIT     XDECO 9,NUMSALE          *PRINT FINAL VALUES                   00149599
+         XPRNT CRG2,39                                                  00149699
+         XDECO 10,FREESHIP                                              00149799
+         XPRNT CRG3,39                                                  00149899
+         XDECO 13,SALEALL                                               00149999
+         XPRNT CRG4,39                                                  00150099
+         DR    12,9                                                     00150199
+         XDECO 13,AVESALE                                               00150299
+         XPRNT CRG5,39                                                  00150399
+         BCR   B'1111',14                                               00150499
+*                                                                       00151004
+BUFFER   DS    80C                                                      00160074
+         DC    C' *'                                                    00160176
+HEAD     DC    C' '                                                     00160299
+         DC    C'   ORDER ID    '                                       00160399
+         DC    C'PRODUCT ID     '                                       00160499
+         DC    C'PRICE EACH   '                                         00160599
+         DC    C'NUMBER ORDERED '                                       00160699
+         DC    C'DISCOUNT       '                                       00160799
+         DC    C'SHIPPING       '                                       00160899
+         DC    C'TOTAL          '                                       00160999
+CRG      DC    C' '                                                     00161075
+ORDERID  DS    CL12                                                     00161181
+         DC    C' '                                                     00161275
+PRODID   DS    CL12                                                     00161381
+         DC    C' '                                                     00161475
+PRIEACH  DS    CL12                                                     00161581
+         DC    C' '                                                     00161681
+NUMORD   DS    CL12                                                     00161784
+         DC    C' '                                                     00161883
+DISCOUNT DS    CL12                                                     00161989
+         DC    C' '                                                     00162085
+SHIP     DS    CL12                                                     00162191
+         DC    C' '                                                     00162291
+PRETOT   DS    CL12                                                     00162389
+         DC    C' '                                                     00162488
+CRG2     DC    C' '                                                     00162599
+         DC    C'TOTAL NUMBER OF SALES:    '                            00162699
+NUMSALE  DS    CL12                                                     00162799
+         DC    C' '                                                     00162899
+CRG3     DC    C' '                                                     00162999
+         DC    C'NUMBER WITH FREE SHIPPING:'                            00163099
+FREESHIP DS    CL12                                                     00163299
+         DC    C' '                                                     00163399
+CRG4     DC    C' '                                                     00163499
+         DC    C'SUM OF ALL SALES:         '                            00163599
+SALEALL  DS    CL12                                                     00163699
+         DC    C' '                                                     00163799
+CRG5     DC    C' '                                                     00163899
+         DC    C'AVERAGE SALE TOTAL:       '                            00163999
+AVESALE  DS    CL12                                                     00164099
+         DC    C' '                                                     00164199
+         END   PROG3                                                    00164202
+/*                                                                      00165005
+//FT05F001  DD  DSN=KC02314.SPRING19.CSCI360.HW3DATA,DISP=SHR           00170005
+//                                                                      00180005

@@ -1,0 +1,403 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 16.02.24 JOB00900 ---- FRIDAY,    26 APR 2019 ----
+ 16.02.24 JOB00900  IRR010I  USERID KC03D45  IS ASSIGNED TO THIS JOB.
+ 16.02.24 JOB00900  ICH70001I KC03D45  LAST ACCESS AT 16:00:38 ON FRIDAY, APRIL 26, 2019
+ 16.02.24 JOB00900  $HASP373 KC03D45A STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 16.02.24 JOB00900  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 16.02.24 JOB00900  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 16.02.24 JOB00900  -KC03D45A                      00    214 ******    .00     .0    249   0      0      0      0     0
+ 16.02.24 JOB00900  -KC03D45A ENDED.  NAME-CHARLES ALMS         TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 16.02.24 JOB00900  $HASP395 KC03D45A ENDED
+0------ JES2 JOB STATISTICS ------
+-  26 APR 2019 JOB EXECUTION DATE
+-           42 CARDS READ
+-          403 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           35 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D45A JOB ,'CHARLES ALMS',MSGCLASS=H                               JOB00900
+         2 //STEP1   EXEC  PGM=ASSIST,PARM='MACRO=H'                               00020000
+         3 //STEPLIB   DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                     00030000
+         4 //SYSPRINT  DD  SYSOUT=*                                                00040000
+         5 //SYSIN     DD  *                                                       00050000
+         6 //          DD DSN=KC02314.SPRING19.CSCI360.HW9.DRIVER,DISP=SHR         00100011
+         7 //FT05F001  DD DUMMY                                                    00110000
+         8 //FT06F001  DD SYSOUT=*                                                 00120000
+ ICH70001I KC03D45  LAST ACCESS AT 16:00:38 ON FRIDAY, APRIL 26, 2019
+ IEF236I ALLOC. FOR KC03D45A STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME
+ IEF237I DMY  ALLOCATED TO FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF142I KC03D45A STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D45.KC03D45A.JOB00900.D0000102.?         SYSOUT        
+ IEF285I   KC03D45.KC03D45A.JOB00900.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING19.CSCI360.HW9.DRIVER          RETAINED,  DDNAME=        
+ IEF285I   KC03D45.KC03D45A.JOB00900.D0000103.?         SYSOUT        
+ IEF373I STEP/STEP1   /START 2019116.1602
+ IEF032I STEP/STEP1   /STOP  2019116.1602 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        4K  SYS:    11388K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03D45A/START 2019116.1602
+ IEF033I  JOB/KC03D45A/STOP  2019116.1602 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0MACRO=H                                                                                                                          
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ****************************************************************        00060000         
+                                       2 * PARTNER: RYAN LLAMS Z1850256                                          00070000         
+                                       3 *                                                                       00080000         
+                                       4 * R2     HOLDS THE FIRST STRING                                         00081002         
+                                       5 * R3     HOLDS THE SECOND STRING                                        00082002         
+                                       6 *                                                                       00083002         
+                                       7 * CONDITION CODE = 0 IF THE TWO STRINGS ARE EQUAL.                      00085002         
+                                       8 * CONDITION CODE = 1 IF &FIRST < &SECOND.                               00086002         
+                                       9 * CONDITION CODE = 2 IF &FIRST > &SECOND.                               00087002         
+                                      10 ****************************************************************        00090000         
+                                      11          MACRO                                                          00091001         
+                                      12          STRCMP &FIRST,&SECOND                                          00091101         
+                                      13          AIF   ('&FIRST' EQ '').ERROR    CHECK IF FIRST IS EMPTY        00091205         
+                                      14          AIF   ('&SECOND' EQ '').ERROR   CHECK IF SECOND IS EMPTY       00091305         
+                                      15          STM   2,3,S&SYSNDX     STORE FIRST/SECOND AND SAVE AREA        00091406         
+                                      16          B     T&SYSNDX                                                 00091501         
+                                      17 S&SYSNDX DS    2F               SAVE AREA                               00091604         
+                                      18 T&SYSNDX LA    2,&FIRST         LOAD &FIRST INTO R2                     00091704         
+                                      19          LA    3,&SECOND        LOAD &SECOND INTO R3                    00091804         
+                                      20 L&SYSNDX CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND   00091901         
+                                      21          BC    B'0111',E&SYSNDX IF SO GO TO END                         00092005         
+                                      22          CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS         00092101         
+                                      23          BC    B'1000',E&SYSNDX IF SO GO TO END                         00092205         
+                                      24          CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS       00092307         
+                                      25          BC    B'1000',E&SYSNDX IF SO GO TO END                         00092407         
+                                      26          LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST            00092501         
+                                      27          LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND           00092601         
+                                      28          BC    B'1111',L&SYSNDX BRANCH BACK TO THE TOP LOOP             00092705         
+                                      29 E&SYSNDX LM    2,3,S&SYSNDX     LOAD THE SAVE AREA                      00092806         
+                                      30          MEXIT                  EXIT                                    00092908         
+                                      31 .ERROR   MNOTE 'MISSING ARGUMENT'   ERROR OUTPUT FOR MISSING VALUE      00093008         
+                                      32          MEND                   END OF MACRO                            00093108         
+                                      33 ****************************************************************        00094000         
+                                      34 *                                                                       00095003         
+                                      35 **********************************************************************                   
+                                      36 *                                                                    *                   
+                                      37 *  Name:  DRIVER.                                                    *                   
+                                      38 *                                                                    *                   
+                                      39 *  Function:  Test platform for macros.                              *                   
+                                      40 *                                                                    *                   
+                                      41 *  Input:  None.                                                     *                   
+                                      42 *                                                                    *                   
+                                      43 *  Output:  Results of the tests.                                    *                   
+                                      44 *                                                                    *                   
+                                      45 *  Register Usage:                                                   *                   
+                                      46 *        8       Used in calling macros                              *                   
+                                      47 *        9       Used in calling macros                              *                   
+                                      48 *       10       Used in calling macros                              *                   
+                                      49 *       11       Used in calling internal subroutines                *                   
+                                      50 *       12       Base register                                       *                   
+                                      51 *       14       Return address                                      *                   
+                                      52 *                                                                    *                   
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                      53 **********************************************************************                   
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                                                                                                                  
+                                                                                                                                  
+                                      55 **********************************************************************                   
+                                      56 *               The DRIVER program begins here.                      *                   
+                                      57 **********************************************************************                   
+                                      58 *                                                                                        
+ 000000                               59 DRIVER   CSECT                         Beginning of the program.                         
+                                      60 *                                                                                        
+                                      62 *                                                                                        
+                                      63 *  Standard entry linkage.                                                               
+                                      64 *                                                                                        
+ 000000 90EC D00C            0000C    65          STM   14,12,12(13)            Store the registers in the save                   
+                                      66 *                                      area of the calling routine.                      
+                                      67 *                                                                                        
+ 000004 18CF                          68          LR    12,15                   Point register 12 at DRIVER.                      
+ 000000                               69          USING DRIVER,12               The base register is 12.                          
+                                      70 *                                                                                        
+ 000006 41E0 C2C8            002C8    71          LA    14,DRIVSAV              Point register 14 at DRIVER's                     
+                                      72 *                                      save area.                                        
+ 00000A 50DE 0004            00004    73          ST    13,4(14)                Store the backward pointer.                       
+ 00000E 50ED 0008            00008    74          ST    14,8(13)                Store the forward pointer.                        
+ 000012 18DE                          75          LR    13,14                   Point register 13 at DRIVER's                     
+                                      76 *                                      save area.                                        
+                                      77 *                                                                                        
+ 000014 E020 C284 001E 00284          78          XPRNT  =CL30'-We will test the STRCMP macro',30                                 
+                                      79 *                                      Print a heading.                                  
+                                      80 *                                                                                        
+ 00001A 4110 C310            00310    81          LA    1,SLIST                                                                   
+                                      82 *                                                                                        
+                                      83 * These first three calls to STRCMP have problems which should                           
+                                      84 * result in MNOTEs.                                                                      
+                                      85 *                                                                                        
+                                      86          STRCMP S1                                                                       
+ ----->AS***MNOTE***    1,MISSING ARGUMENT                                                                        <-ERROR         
+                                      88 *                                                                                        
+                                      89          STRCMP ,S2                                                                      
+ ----->AS***MNOTE***    1,MISSING ARGUMENT                                                                        <-ERROR         
+                                      91 *                                                                                        
+                                      92          STRCMP                                                                          
+ ----->AS***MNOTE***    1,MISSING ARGUMENT                                                                        <-ERROR         
+                                      94 *                                                                                        
+                                      95 * The next group of calls should all work.                                               
+                                      96 *                                                                                        
+                                      97          STRCMP S1,S1                  Compare "" and ""                                 
+ 00001E 9023 C028            00028    98+         STM   2,3,S0004        STORE FIRST/SECOND AND SAVE AREA                         
+ 000022 47F0 C030            00030    99+         B     T0004                                                                     
+ 000028                              100+S0004    DS    2F               SAVE AREA                                                
+ 000030 4120 C320            00320   101+T0004    LA    2,S1             LOAD &FIRST INTO R2                                      
+ 000034 4130 C320            00320   102+         LA    3,S1             LOAD &SECOND INTO R3                                     
+ 000038 D500 2000 3000 00000 00000   103+L0004    CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND                    
+ 00003E 4770 C05E            0005E   104+         BC    B'0111',E0004    IF SO GO TO END                                          
+ 000042 9500 2000      00000         105+         CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS                          
+ 000046 4780 C05E            0005E   106+         BC    B'1000',E0004    IF SO GO TO END                                          
+ 00004A 9500 3000      00000         107+         CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS                        
+ 00004E 4780 C05E            0005E   108+         BC    B'1000',E0004    IF SO GO TO END                                          
+ 000052 4120 2001            00001   109+         LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST                             
+ 000056 4130 3001            00001   110+         LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND                            
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00005A 47F0 C038            00038   111+         BC    B'1111',L0004    BRANCH BACK TO THE TOP LOOP                              
+ 00005E 9823 C028            00028   112+E0004    LM    2,3,S0004        LOAD THE SAVE AREA                                       
+ 000062 D201 C33A C2A2 0033A 002A2   113          MVC    SVALUE1(2),=CL2'00'                                                      
+ 000068 D201 C34A C2A2 0034A 002A2   114          MVC    SVALUE2(2),=CL2'00'                                                      
+ 00006E 45B0 C376            00376   115          BAL    11,SOUT                                                                  
+                                     116 *                                                                                        
+                                     117          STRCMP S1,S2                                                                    
+ 000072 9023 C07C            0007C   118+         STM   2,3,S0005        STORE FIRST/SECOND AND SAVE AREA                         
+ 000076 47F0 C084            00084   119+         B     T0005                                                                     
+ 00007C                              120+S0005    DS    2F               SAVE AREA                                                
+ 000084 4120 C320            00320   121+T0005    LA    2,S1             LOAD &FIRST INTO R2                                      
+ 000088 4130 C321            00321   122+         LA    3,S2             LOAD &SECOND INTO R3                                     
+ 00008C D500 2000 3000 00000 00000   123+L0005    CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND                    
+ 000092 4770 C0B2            000B2   124+         BC    B'0111',E0005    IF SO GO TO END                                          
+ 000096 9500 2000      00000         125+         CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS                          
+ 00009A 4780 C0B2            000B2   126+         BC    B'1000',E0005    IF SO GO TO END                                          
+ 00009E 9500 3000      00000         127+         CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS                        
+ 0000A2 4780 C0B2            000B2   128+         BC    B'1000',E0005    IF SO GO TO END                                          
+ 0000A6 4120 2001            00001   129+         LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST                             
+ 0000AA 4130 3001            00001   130+         LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND                            
+ 0000AE 47F0 C08C            0008C   131+         BC    B'1111',L0005    BRANCH BACK TO THE TOP LOOP                              
+ 0000B2 9823 C07C            0007C   132+E0005    LM    2,3,S0005        LOAD THE SAVE AREA                                       
+ 0000B6 D201 C33A C2A2 0033A 002A2   133          MVC    SVALUE1(2),=CL2'00'    Compare "" and "BUMP"                             
+ 0000BC D209 C34A C2A4 0034A 002A4   134          MVC    SVALUE2(10),=CL10'C2E4D4D700'                                            
+ 0000C2 45B0 C376            00376   135          BAL    11,SOUT                                                                  
+                                     136 *                                                                                        
+                                     137          STRCMP S3,S2                  Compare "BUMPY" and "BUMP"                        
+ 0000C6 9023 C0D0            000D0   138+         STM   2,3,S0006        STORE FIRST/SECOND AND SAVE AREA                         
+ 0000CA 47F0 C0D8            000D8   139+         B     T0006                                                                     
+ 0000D0                              140+S0006    DS    2F               SAVE AREA                                                
+ 0000D8 4120 C326            00326   141+T0006    LA    2,S3             LOAD &FIRST INTO R2                                      
+ 0000DC 4130 C321            00321   142+         LA    3,S2             LOAD &SECOND INTO R3                                     
+ 0000E0 D500 2000 3000 00000 00000   143+L0006    CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND                    
+ 0000E6 4770 C106            00106   144+         BC    B'0111',E0006    IF SO GO TO END                                          
+ 0000EA 9500 2000      00000         145+         CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS                          
+ 0000EE 4780 C106            00106   146+         BC    B'1000',E0006    IF SO GO TO END                                          
+ 0000F2 9500 3000      00000         147+         CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS                        
+ 0000F6 4780 C106            00106   148+         BC    B'1000',E0006    IF SO GO TO END                                          
+ 0000FA 4120 2001            00001   149+         LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST                             
+ 0000FE 4130 3001            00001   150+         LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND                            
+ 000102 47F0 C0E0            000E0   151+         BC    B'1111',L0006    BRANCH BACK TO THE TOP LOOP                              
+ 000106 9823 C0D0            000D0   152+E0006    LM    2,3,S0006        LOAD THE SAVE AREA                                       
+ 00010A D20B C33A C278 0033A 00278   153          MVC    SVALUE1(12),=CL12'C2E4D4D7E800'                                          
+ 000110 D209 C34A C2A4 0034A 002A4   154          MVC    SVALUE2(10),=CL10'C2E4D4D700'                                            
+ 000116 45B0 C376            00376   155          BAL    11,SOUT                                                                  
+                                     156 *                                                                                        
+                                     157          STRCMP S2,S4                  Compare "BUMP" and "BOMP"                         
+ 00011A 9023 C124            00124   158+         STM   2,3,S0007        STORE FIRST/SECOND AND SAVE AREA                         
+ 00011E 47F0 C12C            0012C   159+         B     T0007                                                                     
+ 000124                              160+S0007    DS    2F               SAVE AREA                                                
+ 00012C 4120 C321            00321   161+T0007    LA    2,S2             LOAD &FIRST INTO R2                                      
+ 000130 4130 C32C            0032C   162+         LA    3,S4             LOAD &SECOND INTO R3                                     
+ 000134 D500 2000 3000 00000 00000   163+L0007    CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND                    
+ 00013A 4770 C15A            0015A   164+         BC    B'0111',E0007    IF SO GO TO END                                          
+ 00013E 9500 2000      00000         165+         CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS                          
+ 000142 4780 C15A            0015A   166+         BC    B'1000',E0007    IF SO GO TO END                                          
+ 000146 9500 3000      00000         167+         CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS                        
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00014A 4780 C15A            0015A   168+         BC    B'1000',E0007    IF SO GO TO END                                          
+ 00014E 4120 2001            00001   169+         LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST                             
+ 000152 4130 3001            00001   170+         LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND                            
+ 000156 47F0 C134            00134   171+         BC    B'1111',L0007    BRANCH BACK TO THE TOP LOOP                              
+ 00015A 9823 C124            00124   172+E0007    LM    2,3,S0007        LOAD THE SAVE AREA                                       
+ 00015E D209 C33A C2A4 0033A 002A4   173          MVC    SVALUE1(10),=CL10'C2E4D4D700'                                            
+ 000164 D209 C34A C2AE 0034A 002AE   174          MVC    SVALUE2(10),=CL10'C2D6D4D700'                                            
+ 00016A 45B0 C376            00376   175          BAL    11,SOUT                                                                  
+                                     176 *                                                                                        
+                                     177          STRCMP =XL5'C2D6D4C200',S4    Compare "BOMB" and "BOMP"                         
+ 00016E 9023 C178            00178   178+         STM   2,3,S0008        STORE FIRST/SECOND AND SAVE AREA                         
+ 000172 47F0 C180            00180   179+         B     T0008                                                                     
+ 000178                              180+S0008    DS    2F               SAVE AREA                                                
+ 000180 4120 C2C2            002C2   181+T0008    LA    2,=XL5'C2D6D4C200' LOAD &FIRST INTO R2                                    
+ 000184 4130 C32C            0032C   182+         LA    3,S4             LOAD &SECOND INTO R3                                     
+ 000188 D500 2000 3000 00000 00000   183+L0008    CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND                    
+ 00018E 4770 C1AE            001AE   184+         BC    B'0111',E0008    IF SO GO TO END                                          
+ 000192 9500 2000      00000         185+         CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS                          
+ 000196 4780 C1AE            001AE   186+         BC    B'1000',E0008    IF SO GO TO END                                          
+ 00019A 9500 3000      00000         187+         CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS                        
+ 00019E 4780 C1AE            001AE   188+         BC    B'1000',E0008    IF SO GO TO END                                          
+ 0001A2 4120 2001            00001   189+         LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST                             
+ 0001A6 4130 3001            00001   190+         LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND                            
+ 0001AA 47F0 C188            00188   191+         BC    B'1111',L0008    BRANCH BACK TO THE TOP LOOP                              
+ 0001AE 9823 C178            00178   192+E0008    LM    2,3,S0008        LOAD THE SAVE AREA                                       
+ 0001B2 D209 C33A C2B8 0033A 002B8   193          MVC    SVALUE1(10),=CL10'C2D6D4C200'                                            
+ 0001B8 D209 C34A C2AE 0034A 002AE   194          MVC    SVALUE2(10),=CL10'C2D6D4D700'                                            
+ 0001BE 45B0 C376            00376   195          BAL    11,SOUT                                                                  
+                                     196 *                                                                                        
+ 0001C2 4180 C320            00320   197          LA     8,S1                                                                     
+                                     198          STRCMP S2,0(8)                Compare "BUMP" and ""                             
+ 0001C6 9023 C1D0            001D0   199+         STM   2,3,S0009        STORE FIRST/SECOND AND SAVE AREA                         
+ 0001CA 47F0 C1D8            001D8   200+         B     T0009                                                                     
+ 0001D0                              201+S0009    DS    2F               SAVE AREA                                                
+ 0001D8 4120 C321            00321   202+T0009    LA    2,S2             LOAD &FIRST INTO R2                                      
+ 0001DC 4138 0000            00000   203+         LA    3,0(8)           LOAD &SECOND INTO R3                                     
+ 0001E0 D500 2000 3000 00000 00000   204+L0009    CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND                    
+ 0001E6 4770 C206            00206   205+         BC    B'0111',E0009    IF SO GO TO END                                          
+ 0001EA 9500 2000      00000         206+         CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS                          
+ 0001EE 4780 C206            00206   207+         BC    B'1000',E0009    IF SO GO TO END                                          
+ 0001F2 9500 3000      00000         208+         CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS                        
+ 0001F6 4780 C206            00206   209+         BC    B'1000',E0009    IF SO GO TO END                                          
+ 0001FA 4120 2001            00001   210+         LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST                             
+ 0001FE 4130 3001            00001   211+         LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND                            
+ 000202 47F0 C1E0            001E0   212+         BC    B'1111',L0009    BRANCH BACK TO THE TOP LOOP                              
+ 000206 9823 C1D0            001D0   213+E0009    LM    2,3,S0009        LOAD THE SAVE AREA                                       
+ 00020A D209 C33A C2A4 0033A 002A4   214          MVC    SVALUE1(10),=CL10'C2E4D4D700'                                            
+ 000210 D201 C34A C2A2 0034A 002A2   215          MVC    SVALUE2(2),=CL2'00'                                                      
+ 000216 45B0 C376            00376   216          BAL    11,SOUT                                                                  
+                                     217 *                                                                                        
+                                     218          STRCMP S3,S3                  Compare "BUMPY" and "BUMPY"                       
+ 00021A 9023 C224            00224   219+         STM   2,3,S0010        STORE FIRST/SECOND AND SAVE AREA                         
+ 00021E 47F0 C22C            0022C   220+         B     T0010                                                                     
+ 000224                              221+S0010    DS    2F               SAVE AREA                                                
+ 00022C 4120 C326            00326   222+T0010    LA    2,S3             LOAD &FIRST INTO R2                                      
+ 000230 4130 C326            00326   223+         LA    3,S3             LOAD &SECOND INTO R3                                     
+ 000234 D500 2000 3000 00000 00000   224+L0010    CLC   0(1,2),0(3)      COMPARE THE FIST LETTER TO THE SECOND                    
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00023A 4770 C25A            0025A   225+         BC    B'0111',E0010    IF SO GO TO END                                          
+ 00023E 9500 2000      00000         226+         CLI   0(2),X'00'       CHECK IF FIST IS OUT OF LETTERS                          
+ 000242 4780 C25A            0025A   227+         BC    B'1000',E0010    IF SO GO TO END                                          
+ 000246 9500 3000      00000         228+         CLI   0(3),X'00'       CHECK IF SECOND IS OUT OF LETTERS                        
+ 00024A 4780 C25A            0025A   229+         BC    B'1000',E0010    IF SO GO TO END                                          
+ 00024E 4120 2001            00001   230+         LA    2,1(0,2)         MOVE TO NEXT LETTER IN FIRST                             
+ 000252 4130 3001            00001   231+         LA    3,1(0,3)         MOVE TO NEXT LETTER IN SECOND                            
+ 000256 47F0 C234            00234   232+         BC    B'1111',L0010    BRANCH BACK TO THE TOP LOOP                              
+ 00025A 9823 C224            00224   233+E0010    LM    2,3,S0010        LOAD THE SAVE AREA                                       
+ 00025E D20B C33A C278 0033A 00278   234          MVC    SVALUE1(12),=CL12'C2E4D4D7E800'                                          
+ 000264 D20B C34A C278 0034A 00278   235          MVC    SVALUE2(12),=CL12'C2E4D4D7E800'                                          
+ 00026A 45B0 C376            00376   236          BAL    11,SOUT                                                                  
+                                     237 *                                                                                        
+                                     238 *  Standard exit linkage.                                                                
+                                     239 *                                                                                        
+ 00026E 58DD 0004            00004   240          L     13,4(13)                Point register 13 at the calling                  
+                                     241 *                                      program's save area.                              
+ 000272 98EC D00C            0000C   242          LM    14,12,12(13)            Restore all registers.                            
+ 000276 07FE                         243          BR    14                      Return to the calling program.                    
+                                     244 *                                                                                        
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                                                                                                                  
+                                                                                                                                  
+                                     246 **********************************************************************                   
+                                     247 *          The storage section for DRIVER starts here.               *                   
+                                     248 **********************************************************************                   
+                                     249 *                                                                                        
+                                     250          LTORG                                                                           
+ 000278 C3F2C5F4C4F4C4F7             251                =CL12'C2E4D4D7E800'                                                       
+ 000284 60E68540A6899393             252                =CL30'-We will test the STRCMP macro'                                     
+ 0002A2 F0F0                         253                =CL2'00'                                                                  
+ 0002A4 C3F2C5F4C4F4C4F7             254                =CL10'C2E4D4D700'                                                         
+ 0002AE C3F2C4F6C4F4C4F7             255                =CL10'C2D6D4D700'                                                         
+ 0002B8 C3F2C4F6C4F4C3F2             256                =CL10'C2D6D4C200'                                                         
+ 0002C2 C2D6D4C200                   257                =XL5'C2D6D4C200'                                                          
+ 0002C8 FFFFFFFFFFFFFFFF             258 DRIVSAV  DC    18F'-1'                 Save area for linkage.                            
+                                     259 *                                                                                        
+ 000310 0000033A0000034A             260 SLIST    DC    A(SVALUE1,SVALUE2,SRESULT,SLINE)                                          
+                                     261 *                                                                                        
+                                     262 * Storage for testing STRCMP                                                             
+ 000320 00                           263 S1       DC    X'00'                                                                     
+ 000321 C2E4D4D700                   264 S2       DC    XL5'C2E4D4D700'         "BUMP"                                            
+ 000326 C2E4D4D7E800                 265 S3       DC    XL6'C2E4D4D7E800'       "BUMPY"                                           
+ 00032C C2D6D4D700                   266 S4       DC    XL5'C2D6D4D700'         "BOMP"                                            
+                                     267 *                                                                                        
+ 000331 F0                           268 SLINE    DC    C'0'                                                                      
+ 000332 C396949781998540             269          DC    CL8'Compare '                                                             
+ 00033A 4040404040404040             270 SVALUE1  DC    12C' '                                                                    
+ 000346 40A39640                     271          DC    CL4' to '                                                                 
+ 00034A 4040404040404040             272 SVALUE2  DC    12C' '                                                                    
+ 000356 4081958440A38885             273          DC    CL19' and the result is '                                                 
+ 000369 4040404040404040             274 SRESULT  DC    12C' '                                                                    
+                                     275 *                                                                                        
+1                                                                                                               PAGE    8         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                                                                                                                  
+                                                                                                                                  
+                                     277 **********************************************************************                   
+                                     278 *                                                                                        
+                                     279 * SOUT is an internal subroutine to help print the results of STRCMP.                    
+                                     280 *                                                                                        
+                                     281 * Register 1 : address of the parameter list                                             
+                                     282 *          2 : address of SVALUE1, from 0(1)                                             
+                                     283 *          3 : address of SVALUE2, from 4(1)                                             
+                                     284 *          4 : address of SRESULT, from 8(1)                                             
+                                     285 *          5 : address of SLINE, from 12(1)                                              
+                                     286 *         11 : return address                                                            
+                                     287 *                                                                                        
+                                     288 **********************************************************************                   
+ 000376                              289 SOUT     DS    0H                                                                        
+ 000376 9025 C3C0            003C0   290          STM   2,5,SSAVE               Save registers                                    
+ 00037A 9825 1000            00000   291          LM    2,5,0(1)                Unload parameter list                             
+ 00037E 4720 C390            00390   292          BC    B'0010',GTHAN                                                             
+ 000382 4740 C39A            0039A   293          BC    B'0100',LTHAN                                                             
+ 000386 D20B 4000 C3D0 00000 003D0   294 EQUAL    MVC   0(12,4),=CL12'EQUAL      '                                                
+ 00038C 47F0 C3A0            003A0   295          B     SPRINT                                                                    
+ 000390 D20B 4000 C3DC 00000 003DC   296 GTHAN    MVC   0(12,4),=CL12'GREATER THAN'                                               
+ 000396 47F0 C3A0            003A0   297          B     SPRINT                                                                    
+ 00039A D20B 4000 C3E8 00000 003E8   298 LTHAN    MVC   0(12,4),=CL12'LESS THAN   '                                               
+ 0003A0 E025 0000 0044 00000         299 SPRINT   XPRNT 0(5),68                 Print the results                                 
+ 0003A6 D20B 2000 C3F4 00000 003F4   300          MVC   0(12,2),=12C' '         Reset the line                                    
+ 0003AC D20B 3000 C3F4 00000 003F4   301          MVC   0(12,3),=12C' '                                                           
+ 0003B2 D20B 4000 C3F4 00000 003F4   302          MVC   0(12,4),=12C' '                                                           
+ 0003B8 9825 C3C0            003C0   303          LM    2,5,SSAVE               Restore registers                                 
+ 0003BC 07FB                         304          BR    11                      Return to caller                                  
+ 0003C0                              305 SSAVE    DS    4F                                                                        
+1                                                                                                               PAGE    9         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                                                                                                                  
+                                                                                                                                  
+                                     307 *                                                                                        
+                                     308 **********************************************************************                   
+                                     309 *                 The DRIVER program ends here.                      *                   
+                                     310 **********************************************************************                   
+                                     311 *                                                                                        
+                                     312          END   DRIVER                  End of the overall program.                       
+ 0003D0 C5D8E4C1D3404040             313                =CL12'EQUAL      '                                                        
+ 0003DC C7D9C5C1E3C5D940             314                =CL12'GREATER THAN'                                                       
+ 0003E8 D3C5E2E240E3C8C1             315                =CL12'LESS THAN   '                                                       
+ 0003F4 4040404040404040             316                =12C' '                                                                   
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   17620 HIGH:    1576 LEAVING:  474372 FREE BYTES. AVERAGE:       60 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.001 SECS,   317000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+-We will test the STRCMP macro                                                                                                    
+0Compare 00           to 00           and the result is EQUAL                                                                     
+0Compare 00           to C2E4D4D700   and the result is LESS THAN                                                                 
+0Compare C2E4D4D7E800 to C2E4D4D700   and the result is GREATER THAN                                                              
+0Compare C2E4D4D700   to C2D6D4D700   and the result is GREATER THAN                                                              
+0Compare C2D6D4C200   to C2D6D4D700   and the result is LESS THAN                                                                 
+0Compare C2E4D4D700   to 00           and the result is GREATER THAN                                                              
+0Compare C2E4D4D7E800 to C2E4D4D7E800 and the result is EQUAL                                                                     
+0*** EXECUTION TIME =    0.000 SECS.       282 INSTRUCTIONS EXECUTED -   282000 INSTRUCTIONS/SEC ***                              
+0*** FIRST CARD NOT READ: NO CARDS READ:FILE UNOPENED                                                                             
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

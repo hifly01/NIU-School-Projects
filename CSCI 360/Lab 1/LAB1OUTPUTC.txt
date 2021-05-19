@@ -1,0 +1,94 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 21.26.33 JOB06115 ---- MONDAY,    11 FEB 2019 ----
+ 21.26.33 JOB06115  IRR010I  USERID KC03E59  IS ASSIGNED TO THIS JOB.
+ 21.26.33 JOB06115  ICH70001I KC03E59  LAST ACCESS AT 21:24:35 ON MONDAY, FEBRUARY 11, 2019
+ 21.26.33 JOB06115  $HASP373 KC03E59A STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 21.26.33 JOB06115  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 21.26.33 JOB06115  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 21.26.33 JOB06115  -KC03E59A                      00     37 ******    .00     .0     86   0      0      0      0     0
+ 21.26.33 JOB06115  -KC03E59A ENDED.  NAME-Ryan Llamas          TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 21.26.33 JOB06115  $HASP395 KC03E59A ENDED
+0------ JES2 JOB STATISTICS ------
+-  11 FEB 2019 JOB EXECUTION DATE
+-           35 CARDS READ
+-           94 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-            8 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03E59A JOB ,'Ryan Llamas',MSGCLASS=H                                JOB06115
+         2 //STEP1 EXEC PGM=ASSIST                                                 00010100
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00010200
+         4 //SYSPRINT DD SYSOUT=*                                                  00010300
+         5 //SYSIN DD *                                                            00010400
+ ICH70001I KC03E59  LAST ACCESS AT 21:24:35 ON MONDAY, FEBRUARY 11, 2019
+ IEF236I ALLOC. FOR KC03E59A STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF142I KC03E59A STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03E59.KC03E59A.JOB06115.D0000102.?         SYSOUT        
+ IEF285I   KC03E59.KC03E59A.JOB06115.D0000101.?         SYSIN         
+ IEF373I STEP/STEP1   /START 2019042.2126
+ IEF032I STEP/STEP1   /STOP  2019042.2126 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        0K  SYS:    11504K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03E59A/START 2019042.2126
+ IEF033I  JOB/KC03E59A/STOP  2019042.2126 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ********************************************************                00010500         
+                                       2 *                                                                       00010600         
+                                       3 * PROGRAM 1                                                             00011000         
+                                       4 * NAME: RYAN LLAMAS                                                     00020000         
+                                       5 * FUNCTION: To learn the ropes of adding and subtracting registers      00021023         
+                                       6 *           and learning the uses of addresses. While doing so,         00022023         
+                                       7 *           learn how to use explicit and implicit addressing           00030023         
+                                       8 * NOTES: None                                                           00031023         
+                                       9 *********************************************************               00040000         
+ 000000                               10 PROG1    CSECT                                                          00050000         
+ 000000                               11          USING PROG1,15                                                 00060000         
+ 000000 5810 0030            00030    12          L     1,48 *Load the register1 from position                   00060323         
+ 000004 5820 0034            00034    13          L     2,52 *Load register2 from position                       00060423         
+ 000008 1B12                          14          SR    1,2  *Subtract register 1 and 2                          00060523         
+ 00000A 5830 0030            00030    15          L     3,48 *Load register3 from position                       00060623         
+ 00000E 5840 0034            00034    16          L     4,52 *Load register4 from position                       00060723         
+ 000012 1A34                          17          AR    3,4  *Add register 3 and 4 into 3                        00060823         
+ 000014 E160 0000 0000 00000          18          XDUMP                                                          00060924         
+ 00001A 5030 0038            00038    19          ST    3,56 *Store register 3 into address                      00061023         
+ 00001E 5010 0040            00040    20          ST    1,64 *Store register 1 into address                      00061123         
+ 000022 E060 0038 0008 00038          21          XDUMP 56,8                                                     00061224         
+ 000028 E060 0040 0008 00040          22          XDUMP 64,8                                                     00061324         
+                                      23 *                                                                       00061400         
+ 00002E 07FE                          24          BCR   B'1111',14                                               00061500         
+                                      25 *                                                                       00062000         
+ 000030 0000007F                      26 LEFT     DC    F'127' *Store 127 into label LEFT                        00070023         
+ 000034 0000003B                      27 RIGHT    DC    F'59'  *Store 59 into label RIGHT                        00080023         
+ 000038                               28 SUM      DS    2F     *Create a label with 2 fullwords of storage       00081023         
+ 000040                               29 DIFF     DS    2F     *Create a label with 2 fullwords of storage       00082023         
+                                      30          END   PROG1                                                    00090000         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:    1352 HIGH:     392 LEAVING:  491824 FREE BYTES. AVERAGE:       56 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,    31000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+0BEGIN XSNAP - CALL     1 AT E000001A USER REGISTERS                                                                              
+0 REGS 0-7      F4F4F4F4    00000044    0000003B    000000BA    0000003B    F4F4F4F4    F4F4F4F4    F4F4F4F4                      
+  REGS 8-15     F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    00000048    FFFE7960    00000000                      
+0                                                                                                                                 
+0BEGIN XSNAP - CALL     2 AT E0000028 USER STORAGE                                                                                
+0                             CORE ADDRESSES SPECIFIED-     000038 TO 000040                                                      
+ 000020   0040E060 00380008 E0600040 000807FE    0000007F 0000003B 000000BA F5F5F5F5   *. ......... ................5555*         
+0                                                                                                                                 
+0BEGIN XSNAP - CALL     3 AT E000002E USER STORAGE                                                                                
+0                             CORE ADDRESSES SPECIFIED-     000040 TO 000048                                                      
+1000040   00000044 F5F5F5F5 F5F5F5F5 00000000    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *....55555555....5555555555555555*         
+0                                                                                                                                 
+0*** EXECUTION TIME =    0.000 SECS.        12 INSTRUCTIONS EXECUTED -    12000 INSTRUCTIONS/SEC ***                              
+0*** FIRST CARD NOT READ: NO CARDS READ:FILE UNOPENED                                                                             
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

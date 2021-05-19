@@ -1,0 +1,72 @@
+//KC03E59A JOB ,'Ryan Llam',MSGCLASS=H                                  00010000
+//STEP1    EXEC  PGM=ASSIST                                             00020000
+//STEPLIB    DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                    00030000
+//SYSPRINT   DD  SYSOUT=*                                               00040000
+//SYSIN      DD  *                                                      00041042
+************************************************************            00050000
+*                                                                       00060000
+*  Program:     LAB2                                                    00070000
+*  Programmer:  Ryan Llamas                                             00080000
+*                                                                       00090000
+*  Register usage:  R2 - TOTAL                                          00100000
+*                   R3 - COUNTER                                        00110000
+************************************************************            00120000
+LAB2      CSECT                                                         00130000
+          USING LAB2,15                                                 00131002
+          XREAD DATA,80       READ THE DATA, 80 BYTES TOTAL             00132999
+CHECKOF   BC    B'0100',EXIT  CHECK IF EOF IS REACHED, IF SO EXIT       00133299
+*                                                                       00133539
+          XDECI 2,DATA        PUT BINARY REPERSENTAION IN R4            00133699
+          XDECO 2,DATAW       gonna change output to outputw            00133799
+*                                                                       00133917
+          XDECI 2,0(0,1)      4 to 5                                    00134099
+          XDECO 2,DATAX       gonna change output to outputx            00134199
+*                                                                       00134371
+          XDECI 2,0(0,1)                                                00134499
+          XDECO 2,DATAY                                                 00134599
+*                                                                       00134771
+          XDECI 2,0(0,1)                                                00134899
+          XDECO 2,DATAZ                                                 00134999
+          XPRNT CRG1,133      change 4 to 12                            00135099
+*                                                                       00135171
+          XREAD DATA,80                                                 00135201
+          BC    B'1111',CHECKOF     LOOP BACK TO CONDITON               00135399
+*                                                                       00135406
+EXIT      BCR   B'1111',14                                              00135500
+*                                                                       00135600
+DATA      DS    CL80                ill be used to read                 00135799
+          DC    C' '                                                    00135899
+DATAW     DS    CL3                 Change 4 to 10                      00136099
+          DC    10C' '                                                  00136199
+DATAX     DS    CL3                 get rid of this in no work          00136399
+          DC    10C' '                                                  00136499
+DATAY     DS    CL3                                                     00136599
+          DC    10C' '                                                  00136699
+DATAZ     DS    CL3                                                     00136799
+          DC    10C' '                                                  00136899
+CRG1      DC    C' '                chanmge from none to 0              00137099
+          DC    C' '                                                    00137199
+          END   LAB2                                                    00138000
+/*                                                                      00140000
+//FT05F001   DD  *                                                      00150000
+   005   005   005   005                                                00160000
+   006   001   002   004                                                00170000
+     0    +7     2   -45                                                00180000
+   100   088   035    10                                                00190000
+     0     0     0     0                                                00200000
+    10   -10    10   -10                                                00210000
+   500   230     9    58                                                00220000
+   516   853     0    17                                                00230000
+   020     0   245   316                                                00240000
+   529   977   681     0                                                00250000
+   013   250    85   831                                                00260000
+     0   364   275     0                                                00270000
+   887   100   293   993                                                00280000
+   234   447   591    13                                                00290000
+   -89    -7    23   104                                                00300000
+   001   002   003   004                                                00310000
+   008   007   006   005                                                00320000
+   999   998   997   996                                                00330000
+/*                                                                      00340000
+//FT06F001   DD SYSOUT=*                                                00350000
+//                                                                      00360000
