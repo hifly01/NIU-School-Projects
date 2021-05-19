@@ -7,7 +7,7 @@
 * EXAMPLE PROGRAM                                                       00070000
 *                                                                       00071000
 *                                                                       00072000
-* NAME: Ryan Llamas                                                     00080000
+* NAME: Charles Alms                                                    00080000
 *                                                                       00090000
 * Register Usage                                                        00100000
 *                                                                       00110000
