@@ -1,5 +1,5 @@
 # NIU-School-Projects - Please read first
-Here are some of my school coding assignments that I have done at Northern Illinois University from 2016-2020
+Here are some of my school coding assignments that I have done at Northern Illinois University from 2016-2020. C++ was a main focus as well as using a UINUX based operating system to submit most assignments throughtout our classes. 
 
 This repository is for showing companies some of the assignments I have done. The classes I have taken are:
 
@@ -8,7 +8,7 @@ This repository is for showing companies some of the assignments I have done. Th
 *CSCI 330 UNIX and Networking Programming - Linux 
 *CSCI 340 Data Structures and Algorithm Analysis - C++ 
 *CSCI 360 Computer Programming in Assembler Language - Assembly 
-*CSCI 463 Computer Architecture and Systems Organization - C++ and LINUX 
+*CSCI 463 Computer Architecture and Systems Organization - C++ and UINUX/Shell scripting 
 *CSCI 465 Enterprise Application Enviornments - COBOL 
 *CSCI 466 Databases - MySQL and HMTL 
 *CSCI 467 Introduction to Software Engineering - CSS 
