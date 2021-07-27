@@ -9,7 +9,7 @@ This repository is for showing companies some of the assignments I have done. Th
 *CSCI 340 Data Structures and Algorithm Analysis - C++ 
 *CSCI 360 Computer Programming in Assembler Language - Assembly 
 *CSCI 463 Computer Architecture and Systems Organization - C++ and UINUX/Shell scripting 
-*CSCI 465 Enterprise Application Enviornments - COBOL 
+*CSCI 465 Enterprise Application Environments  - COBOL 
 *CSCI 466 Databases - MySQL and HMTL 
 *CSCI 467 Introduction to Software Engineering - CSS 
 *CSCI 470 Programming in Java - Java 
